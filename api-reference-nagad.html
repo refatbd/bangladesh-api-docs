@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Nagad Direct Payment Gateway API Reference — By Refat Rahman</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Interactive REST API Reference and Playground for Nagad Direct Online Payment Gateway (API v3.3). Maintained by Refat Rahman (refat.ovh)." />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ea580c'><path d='M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4'/></svg>" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      .top-banner-hub {
+        background-color: #0c0d0e;
+        border-bottom: 1px solid #1f2022;
+        color: #e5e7eb;
+        padding: 0.65rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-size: 0.8125rem;
+      }
+      .top-banner-hub a {
+        color: #38bdf8;
+        text-decoration: none;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      .top-banner-hub a:hover {
+        text-decoration: underline;
+      }
+      .nav-pill {
+        padding: 0.2rem 0.55rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .nav-pill-active {
+        background-color: #ea580c;
+        color: #ffffff !important;
+      }
+      .nav-pill-inactive {
+        background-color: #1f2022;
+        color: #9ca3af !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Hub Navigation -->
+    <div class="top-banner-hub">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <a href="index.html" style="color: #ffffff; font-weight: 700;">&larr; Documentation Hub</a>
+        <span style="color: #4b5563;">|</span>
+        <span style="color: #9ca3af; margin-right: 0.25rem;">Switch API:</span>
+        <a href="api-reference.html" class="nav-pill nav-pill-inactive">Steadfast</a>
+        <a href="api-reference-redx.html" class="nav-pill nav-pill-inactive">RedX</a>
+        <a href="api-reference-pathao.html" class="nav-pill nav-pill-inactive">Pathao</a>
+        <a href="api-reference-paperfly.html" class="nav-pill nav-pill-inactive">Paperfly</a>
+        <a href="api-reference-carrybee.html" class="nav-pill nav-pill-inactive">Carrybee</a>
+        <a href="api-reference-ecourier.html" class="nav-pill nav-pill-inactive">eCourier</a>
+        <a href="api-reference-nagad.html" class="nav-pill nav-pill-active">Nagad</a>
+      </div>
+      <div>
+        <span style="color: #6b7280; margin-right: 0.75rem;">Maintained by <strong style="color: #f3f4f6;">Refat Rahman</strong></span>
+        <a href="https://github.com/refatbd" target="_blank" rel="noopener noreferrer">GitHub @refatbd &rarr;</a>
+      </div>
+    </div>
+
+    <!-- Scalar API Reference -->
+    <script
+      id="api-reference"
+      data-url="openapi/nagad-openapi.yaml"
+      data-configuration='{
+        "theme": "kepler",
+        "layout": "modern",
+        "showSidebar": true,
+        "searchHotKey": "k",
+        "defaultHttpClient": {
+          "targetKey": "shell",
+          "clientKey": "curl"
+        }
+      }'
+      src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+  </body>
+</html>

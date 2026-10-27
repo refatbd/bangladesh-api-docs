@@ -1,0 +1,270 @@
+openapi: 3.0.3
+info:
+  title: Nagad Direct Online Payment Gateway API v3.3
+  version: 3.3.0
+  description: |
+    Official OpenAPI 3.0 specification for Nagad Direct Online Payment Gateway (Third Wave Technologies Ltd. / Bangladesh Post Office).
+    Enforces dual-key asymmetric RSA 2048-bit encryption, SHA-256 digital signatures, hosted payment redirects,
+    and server-to-server transaction verification.
+
+    **Developer & Maintainer**: Refat Rahman  
+    **Website**: [refat.ovh](https://refat.ovh)  
+    **GitHub**: [@refatbd](https://github.com/refatbd)
+  contact:
+    name: Refat Rahman
+    url: https://refat.ovh
+    email: refatbd.dev@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://sandbox.mynagad.com:10080/remote-payment-gateway-1.0/api/dfs
+    description: Sandbox Staging Environment (Testing & QA)
+  - url: https://api.mynagad.com/api/dfs
+    description: Production Environment (Live Payments)
+
+tags:
+  - name: Checkout Lifecycle
+    description: Handshake initialization and payment completion.
+  - name: Payment Verification
+    description: Server-to-server transaction status and ledger verification.
+
+components:
+  securitySchemes:
+    KmIpV4:
+      type: apiKey
+      in: header
+      name: X-KM-IP-V4
+      description: Whitelisted Server Public IPv4 address.
+    KmApiVersion:
+      type: apiKey
+      in: header
+      name: X-KM-Api-Version
+      description: API version header (Must be `v-0.2.0`).
+    KmClientType:
+      type: apiKey
+      in: header
+      name: X-KM-Client-Type
+      description: Client device type (`PC_WEB` or `MOBILE_APP`).
+
+  schemas:
+    InitializeRequest:
+      type: object
+      required:
+        - dateTime
+        - sensitiveData
+        - signature
+      properties:
+        accountNumber:
+          type: string
+          example: "017XXXXXXXX"
+          description: Optional merchant wallet mobile number.
+        dateTime:
+          type: string
+          example: "20261027133000"
+          description: Strict timestamp formatted as YYYYMMDDHHmmss in Asia/Dhaka.
+        sensitiveData:
+          type: string
+          example: "BASE64_RSA_ENCRYPTED_PAYLOAD_WITH_NAGAD_PUBLIC_KEY"
+          description: Encrypted sensitive JSON payload containing merchantId, datetime, orderId, challenge.
+        signature:
+          type: string
+          example: "BASE64_RSA_SHA256_SIGNATURE_USING_MERCHANT_PRIVATE_KEY"
+          description: Digital signature of the plain sensitive JSON.
+
+    InitializeResponse:
+      type: object
+      properties:
+        sensitiveData:
+          type: string
+          example: "ENCRYPTED_PAYMENT_REF_ID_PAYLOAD"
+          description: Encrypted payload containing paymentReferenceId and challenge.
+        signature:
+          type: string
+          example: "NAGAD_PG_DIGITAL_SIGNATURE"
+
+    CompleteCheckoutRequest:
+      type: object
+      required:
+        - sensitiveData
+        - signature
+        - merchantCallbackURL
+      properties:
+        sensitiveData:
+          type: string
+          example: "BASE64_ENCRYPTED_ORDER_PAYLOAD"
+          description: Encrypted order JSON containing merchantId, orderId, currencyCode (050), amount, and challenge.
+        signature:
+          type: string
+          example: "BASE64_RSA_SHA256_SIGNATURE"
+          description: Digital signature of the plain order JSON.
+        merchantCallbackURL:
+          type: string
+          example: "https://merchant.example.com/payment/nagad/callback"
+          description: Pre-whitelisted merchant callback URL.
+
+    CompleteCheckoutResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "Success"
+        callBackUrl:
+          type: string
+          example: "http://sandbox.mynagad.com:10060/check-out/MDYyODAwNTcy..."
+
+    VerifyPaymentResponse:
+      type: object
+      properties:
+        merchantId:
+          type: string
+          example: "683002007104225"
+        orderId:
+          type: string
+          example: "INV-2026-NAGAD-001"
+        paymentRefId:
+          type: string
+          example: "MDYyODAwNTcyNTYxNi42ODMwMDIwMDcxMDQyMjUuOU5PTEFVNkVaWkdUWVRBLmJiZGMyNTE3MTVmZTNiNjIzN2Zk"
+        amount:
+          type: string
+          example: "1500.00"
+        clientMobileNo:
+          type: string
+          example: "017****2300"
+        merchantMobileNo:
+          type: string
+          example: "01700000000"
+        orderDateTime:
+          type: string
+          example: "2026-10-27 13:30:00.0"
+        issuerPaymentDateTime:
+          type: string
+          example: "2026-10-27 13:35:08.0"
+        issuerPaymentRefNo:
+          type: string
+          example: "000XXXW"
+        status:
+          type: string
+          example: "Success"
+        statusCode:
+          type: string
+          example: "000"
+
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: "Failed"
+        reason:
+          type: string
+          example: "1002"
+        message:
+          type: string
+          example: "Decryption failed or invalid public key"
+
+security:
+  - KmIpV4: []
+    KmApiVersion: []
+    KmClientType: []
+
+paths:
+  /check-out/initialize/{merchantId}/{orderId}:
+    post:
+      tags:
+        - Checkout Lifecycle
+      summary: 1. Initialize Checkout Handshake
+      description: Establishes a cryptographic challenge handshake and returns an encrypted temporary paymentReferenceId.
+      parameters:
+        - name: merchantId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "6800000025"
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "INV-2026-NAGAD-001"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InitializeRequest'
+      responses:
+        '200':
+          description: Initialization handshake successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InitializeResponse'
+        '400':
+          description: Cryptographic error or invalid merchant parameters.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /check-out/complete/{paymentReferenceId}:
+    post:
+      tags:
+        - Checkout Lifecycle
+      summary: 2. Complete Checkout & Get Hosted Redirect URL
+      description: Submits order amount, currency code (050 BDT), and callback URL to generate the hosted customer payment URL.
+      parameters:
+        - name: paymentReferenceId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "MDYyODAwNTcyNTYxNi42ODMwMDIwMDcxMDQyMjUuOU5PTEFVNkVaWkdUWVRBLmJiZGMyNTE3MTVmZTNiNjIzN2Zk"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompleteCheckoutRequest'
+      responses:
+        '200':
+          description: Checkout completed. Customer should be redirected to callBackUrl.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompleteCheckoutResponse'
+        '400':
+          description: Order validation error or currency mismatch.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /verify/payment/{paymentRefId}:
+    get:
+      tags:
+        - Payment Verification
+      summary: 3. Verify Payment Status
+      description: Authoritatively confirms transaction settlement directly with Nagad's core banking ledger to eliminate callback spoofing.
+      parameters:
+        - name: paymentRefId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: "MDYyODAwNTcyNTYxNi42ODMwMDIwMDcxMDQyMjUuOU5PTEFVNkVaWkdUWVRBLmJiZGMyNTE3MTVmZTNiNjIzN2Zk"
+      responses:
+        '200':
+          description: Authoritative payment record returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VerifyPaymentResponse'
+        '400':
+          description: Payment reference ID not found or expired.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
