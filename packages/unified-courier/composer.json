@@ -1,0 +1,22 @@
+{
+  "name": "refatbd/bangladesh-courier",
+  "description": "Universal Multi-Courier and Logistics Adapter Engine for Bangladesh (Steadfast, RedX, Pathao, Paperfly, Carrybee, eCourier)",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Refat Rahman",
+      "email": "contact@refat.ovh",
+      "homepage": "https://refat.ovh"
+    }
+  ],
+  "require": {
+    "php": ">=7.4|^8.0|^8.1|^8.2|^8.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "Refatbd\\Courier\\": "src/"
+    }
+  },
+  "minimum-stability": "stable"
+}

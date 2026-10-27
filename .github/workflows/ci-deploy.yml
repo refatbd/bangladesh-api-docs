@@ -1,0 +1,106 @@
+name: CI & GitHub Pages Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # 1. OpenAPI 3.0 Spectral Linting
+  # ---------------------------------------------------------------------------
+  lint-openapi:
+    name: Lint OpenAPI Specifications
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Spectral CLI
+        run: npm install -g @stoplight/spectral-cli
+
+      - name: Lint Steadfast OpenAPI Spec
+        run: spectral lint docs/steadfast/openapi.yaml --ruleset .spectral.yaml
+
+      - name: Lint RedX OpenAPI Spec
+        run: spectral lint docs/redx/openapi.yaml --ruleset .spectral.yaml
+
+      - name: Lint Pathao OpenAPI Spec
+        run: spectral lint docs/pathao/openapi.yaml --ruleset .spectral.yaml
+
+      - name: Lint Paperfly OpenAPI Spec
+        run: spectral lint docs/paperfly/openapi.yaml --ruleset .spectral.yaml
+
+      - name: Lint Carrybee OpenAPI Spec
+        run: spectral lint docs/carrybee/openapi.yaml --ruleset .spectral.yaml
+
+      - name: Lint eCourier OpenAPI Spec
+        run: spectral lint docs/ecourier/openapi.yaml --ruleset .spectral.yaml
+
+      - name: Lint Nagad OpenAPI Spec
+        run: spectral lint docs/nagad/openapi.yaml --ruleset .spectral.yaml
+
+  # ---------------------------------------------------------------------------
+  # 2. SDK Syntax & Unified Engine Test Suite
+  # ---------------------------------------------------------------------------
+  test-sdks:
+    name: Validate SDKs & Unified Engine
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: curl, json, openssl
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate PHP SDK Syntax
+        run: |
+          find sdks-and-examples packages -name "*.php" -exec php -l {} +
+
+      - name: Run Unified Courier Engine Test Suite
+        run: php packages/unified-courier/tests/test-unified.php
+
+      - name: Validate Node.js Syntax
+        run: |
+          find sdks-and-examples packages -name "*.js" -exec node --check {} +
+
+  # ---------------------------------------------------------------------------
+  # 3. GitHub Pages Deployment
+  # ---------------------------------------------------------------------------
+  deploy-pages:
+    name: Deploy to GitHub Pages
+    needs: [lint-openapi, test-sdks]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Deploy to GitHub Pages Branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
+          keep_files: false
+          exclude_assets: '.git,.github'

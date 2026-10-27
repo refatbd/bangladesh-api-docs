@@ -1,0 +1,7 @@
+extends: [[spectral:oas, off]]
+
+rules:
+  openapi-tags: true
+  operation-description: warn
+  info-contact: warn
+  info-description: warn
