@@ -1,0 +1,16 @@
+{
+  "name": "pathao-courier-client",
+  "version": "1.0.0",
+  "description": "Production Node.js client for Pathao Courier Aladdin API v1",
+  "main": "pathao.js",
+  "keywords": [
+    "pathao",
+    "courier",
+    "bangladesh",
+    "logistics",
+    "delivery",
+    "cod"
+  ],
+  "author": "Refat Rahman <https://refat.ovh>",
+  "license": "MIT"
+}

@@ -352,7 +352,8 @@
           <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">Live</span>
         </a>
         <a href="#/docs/steadfast/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Steadfast</a>
-        <a href="#/docs/redx/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">RedX Delivery</a>
+        <a href="#/docs/redx/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">RedX</a>
+        <a href="#/docs/pathao/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Pathao</a>
         <a href="#/CONTRIBUTING.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Contributing</a>
       </nav>
 
@@ -433,21 +434,44 @@
           </div>
         </div>
 
+        <!-- Group: Pathao Courier API -->
+        <div>
+          <div class="flex items-center justify-between px-3 mb-1.5">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Pathao Courier</span>
+            <span class="text-[9px] font-mono px-1 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">10 Endpoints</span>
+          </div>
+          <div class="space-y-0.5">
+            <a href="#/docs/pathao/README.md" class="sidebar-link">Quickstart & Index</a>
+            <a href="#/docs/pathao/01-getting-started-and-oauth.md" class="sidebar-link">01. OAuth 2.0 Auth</a>
+            <a href="#/docs/pathao/02-stores-and-warehouses.md" class="sidebar-link">02. Stores & Warehouses</a>
+            <a href="#/docs/pathao/03-city-zone-area-hierarchy.md" class="sidebar-link">03. City, Zone & Area</a>
+            <a href="#/docs/pathao/04-creating-orders.md" class="sidebar-link">04. Creating Orders</a>
+            <a href="#/docs/pathao/05-bulk-orders.md" class="sidebar-link">05. Bulk Consignments</a>
+            <a href="#/docs/pathao/06-order-tracking-and-status.md" class="sidebar-link">06. Tracking & Status</a>
+            <a href="#/docs/pathao/07-price-calculation-plan.md" class="sidebar-link">07. Price Calculation</a>
+            <a href="#/docs/pathao/08-status-lifecycle-and-webhooks.md" class="sidebar-link">08. Status & Errors</a>
+          </div>
+        </div>
+
         <!-- Group: SDKs & Reference -->
         <div>
           <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-3 mb-1.5">API & SDK Tools</div>
           <div class="space-y-0.5">
             <a href="api-reference.html" class="sidebar-link flex items-center justify-between">
-              <span>Scalar Console (Steadfast)</span>
+              <span>Scalar (Steadfast)</span>
               <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
             </a>
             <a href="api-reference-redx.html" class="sidebar-link flex items-center justify-between">
-              <span>Scalar Console (RedX)</span>
+              <span>Scalar (RedX)</span>
               <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
             </a>
-            <a href="#/sdks-and-examples/redx/php/RedxClient.php" class="sidebar-link">RedX PHP Client</a>
-            <a href="#/sdks-and-examples/redx/nodejs/redx.js" class="sidebar-link">RedX Node.js Client</a>
-            <a href="#/sdks-and-examples/redx/python/redx.py" class="sidebar-link">RedX Python Client</a>
+            <a href="api-reference-pathao.html" class="sidebar-link flex items-center justify-between">
+              <span>Scalar (Pathao)</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
+            </a>
+            <a href="#/sdks-and-examples/pathao/php/PathaoClient.php" class="sidebar-link">Pathao PHP Client</a>
+            <a href="#/sdks-and-examples/pathao/nodejs/pathao.js" class="sidebar-link">Pathao Node Client</a>
+            <a href="#/sdks-and-examples/pathao/python/pathao.py" class="sidebar-link">Pathao Python Client</a>
           </div>
         </div>
       </div>
@@ -534,6 +558,15 @@
       { path: 'docs/redx/06-charge-calculator.md', title: 'RedX: 06. Charge Calculator' },
       { path: 'docs/redx/07-webhooks-and-callbacks.md', title: 'RedX: 07. Webhooks & Callbacks' },
       { path: 'docs/redx/08-status-and-error-codes.md', title: 'RedX: 08. Status Codes & Errors' },
+      { path: 'docs/pathao/README.md', title: 'Pathao Quickstart' },
+      { path: 'docs/pathao/01-getting-started-and-oauth.md', title: 'Pathao: 01. OAuth 2.0 Auth' },
+      { path: 'docs/pathao/02-stores-and-warehouses.md', title: 'Pathao: 02. Stores & Warehouses' },
+      { path: 'docs/pathao/03-city-zone-area-hierarchy.md', title: 'Pathao: 03. City, Zone & Area' },
+      { path: 'docs/pathao/04-creating-orders.md', title: 'Pathao: 04. Creating Orders' },
+      { path: 'docs/pathao/05-bulk-orders.md', title: 'Pathao: 05. Bulk Consignments' },
+      { path: 'docs/pathao/06-order-tracking-and-status.md', title: 'Pathao: 06. Tracking & Status' },
+      { path: 'docs/pathao/07-price-calculation-plan.md', title: 'Pathao: 07. Price Calculation' },
+      { path: 'docs/pathao/08-status-lifecycle-and-webhooks.md', title: 'Pathao: 08. Status Lifecycle' },
       { path: 'CONTRIBUTING.md', title: 'Contributing Guide' },
       { path: 'LICENSE', title: 'MIT License' },
     ];
