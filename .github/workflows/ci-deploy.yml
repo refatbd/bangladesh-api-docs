@@ -33,25 +33,25 @@ jobs:
         run: npm install -g @stoplight/spectral-cli
 
       - name: Lint Steadfast OpenAPI Spec
-        run: spectral lint docs/steadfast/openapi.yaml --ruleset .spectral.yaml
+        run: spectral lint openapi/steadfast-openapi.yaml --ruleset .spectral.yaml
 
       - name: Lint RedX OpenAPI Spec
-        run: spectral lint docs/redx/openapi.yaml --ruleset .spectral.yaml
+        run: spectral lint openapi/redx-openapi.yaml --ruleset .spectral.yaml
 
       - name: Lint Pathao OpenAPI Spec
-        run: spectral lint docs/pathao/openapi.yaml --ruleset .spectral.yaml
+        run: spectral lint openapi/pathao-openapi.yaml --ruleset .spectral.yaml
 
       - name: Lint Paperfly OpenAPI Spec
-        run: spectral lint docs/paperfly/openapi.yaml --ruleset .spectral.yaml
+        run: spectral lint openapi/paperfly-openapi.yaml --ruleset .spectral.yaml
 
       - name: Lint Carrybee OpenAPI Spec
-        run: spectral lint docs/carrybee/openapi.yaml --ruleset .spectral.yaml
+        run: spectral lint openapi/carrybee-openapi.yaml --ruleset .spectral.yaml
 
       - name: Lint eCourier OpenAPI Spec
-        run: spectral lint docs/ecourier/openapi.yaml --ruleset .spectral.yaml
+        run: spectral lint openapi/ecourier-openapi.yaml --ruleset .spectral.yaml
 
       - name: Lint Nagad OpenAPI Spec
-        run: spectral lint docs/nagad/openapi.yaml --ruleset .spectral.yaml
+        run: spectral lint openapi/nagad-openapi.yaml --ruleset .spectral.yaml
 
   # ---------------------------------------------------------------------------
   # 2. SDK Syntax & Unified Engine Test Suite
