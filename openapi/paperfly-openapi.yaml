@@ -1,0 +1,285 @@
+openapi: 3.0.3
+info:
+  title: Paperfly Courier Developer API
+  version: 2.0.0
+  description: |
+    Production OpenAPI 3.0 specification for Paperfly Courier API (v2), Bangladesh.
+    Provides nationwide doorstep parcel fulfillment, native exchange delivery workflows,
+    milestone tracking, and 14 real-time webhook event notifications.
+
+    **Developer & Maintainer**: Refat Rahman  
+    **Website**: [refat.ovh](https://refat.ovh)  
+    **GitHub**: [@refatbd](https://github.com/refatbd)
+  contact:
+    name: Refat Rahman
+    url: https://refat.ovh
+    email: refatbd.dev@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.paperfly.com.bd
+    description: Production Environment
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: Merchant panel username and password.
+    PaperflyKey:
+      type: apiKey
+      in: header
+      name: paperflykey
+      description: Mandatory custom Paperfly API key (e.g. `Paperfly_~La?Rj73FcLm`).
+
+  schemas:
+    CreateOrderRequest:
+      type: object
+      required:
+        - merchantOrderReference
+        - storeName
+        - productBrief
+        - packagePrice
+        - max_weight
+        - customerName
+        - customerAddress
+        - customerPhone
+      properties:
+        merchantOrderReference:
+          type: string
+          example: INV-2026-9041
+        storeName:
+          type: string
+          example: Main Outlet
+        productBrief:
+          type: string
+          example: Leather Loafers
+        packagePrice:
+          type: string
+          example: "2500"
+        max_weight:
+          type: string
+          example: "1.0"
+        customerName:
+          type: string
+          example: Liton Ovi
+        customerAddress:
+          type: string
+          example: House 12, Road 4, Banani, Dhaka
+        customerPhone:
+          type: string
+          example: "01610202717"
+        orderType:
+          type: string
+          enum: [Standard, Exchange]
+          default: Standard
+          example: Standard
+        exchangeDescription:
+          type: string
+          example: Return Old Size 42 Shoes
+        exchangePrice:
+          type: string
+          example: "100"
+        exchangeWeight:
+          type: string
+          example: "1.0"
+
+    OrderResponse:
+      type: object
+      properties:
+        success:
+          type: object
+          properties:
+            message:
+              type: string
+              example: successfully inserted
+            tracking_number:
+              type: string
+              example: Z-051125-63821-A3-A1
+            tracking_barcode:
+              type: string
+              example: "751820115459"
+        response_code:
+          type: integer
+          example: 200
+
+    TrackingRequest:
+      type: object
+      required:
+        - ReferenceNumber
+      properties:
+        ReferenceNumber:
+          type: string
+          example: INV-2026-9041
+
+    TrackingMilestone:
+      type: object
+      properties:
+        invNum:
+          type: string
+          example: INV-2026-9041
+        receivedAmount:
+          type: string
+          example: "2500"
+        Pick:
+          type: string
+          nullable: true
+          example: Y
+        PickTime:
+          type: string
+          nullable: true
+          example: '2026-04-10 11:30:00'
+        inTransit:
+          type: string
+          example: Y
+        inTransitTime:
+          type: string
+          example: '2026-04-10 16:45:00'
+        ReceivedAtPoint:
+          type: string
+          example: Y
+        ReceivedAtPointTime:
+          type: string
+          example: '2026-04-11 08:20:00'
+        PickedForDelivery:
+          type: string
+          example: Y
+        PickedForDeliveryTime:
+          type: string
+          example: '2026-04-11 10:15:00'
+        Delivered:
+          type: string
+          example: Y
+        DeliveredTime:
+          type: string
+          example: '2026-04-11 14:05:30'
+        Returned:
+          type: string
+          example: ""
+        ReturnedTime:
+          type: string
+          example: ""
+        Partial:
+          type: string
+          example: ""
+        PartialTime:
+          type: string
+          example: ""
+        onHoldSchedule:
+          type: string
+          example: ""
+        close:
+          type: string
+          example: Y
+        closeTime:
+          type: string
+          example: '2026-04-11 18:00:00'
+
+    TrackingResponse:
+      type: object
+      properties:
+        success:
+          type: object
+          properties:
+            message:
+              type: string
+              example: success
+            trackingStatus:
+              type: array
+              items:
+                $ref: '#/components/schemas/TrackingMilestone'
+        response_code:
+          type: integer
+          example: 200
+
+    CancelOrderRequest:
+      type: object
+      required:
+        - order_id
+      properties:
+        order_id:
+          type: string
+          example: INV-2026-9041
+
+    CancelOrderResponse:
+      type: object
+      properties:
+        success:
+          type: object
+          properties:
+            message:
+              type: string
+              example: succesfully canceled
+            response_code:
+              type: integer
+              example: 200
+
+security:
+  - BasicAuth: []
+    PaperflyKey: []
+
+paths:
+  /merchant/api/service/new_order_v2.php:
+    post:
+      summary: Create Order (Standard or Exchange)
+      description: Books a consignment with doorstep delivery or replacement exchange pickup.
+      operationId: createOrder
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '200':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+
+  /API-Order-Tracking:
+    post:
+      summary: Track Order Milestones
+      description: Returns milestone progression including pickup, transit, local branch arrival, and delivery timestamp.
+      operationId: trackOrder
+      tags:
+        - Tracking
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrackingRequest'
+      responses:
+        '200':
+          description: Tracking status list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackingResponse'
+
+  /api/v1/cancel-order:
+    post:
+      summary: Cancel Order
+      description: Aborts an active parcel prior to physical pickup by rider.
+      operationId: cancelOrder
+      tags:
+        - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CancelOrderRequest'
+      responses:
+        '200':
+          description: Order cancelled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancelOrderResponse'
