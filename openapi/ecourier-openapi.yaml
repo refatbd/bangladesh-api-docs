@@ -1,0 +1,775 @@
+openapi: 3.0.3
+info:
+  title: eCourier Courier API v5.5
+  version: 5.5.0
+  description: |
+    Official OpenAPI 3.0 specification for eCourier Courier Platform (a dotlines initiative), Bangladesh.
+    Provides nationwide parcel delivery, multi-vendor reseller order splitting, AI fraud detection,
+    dynamic barcode label PDF generation, COD financial reconciliation, and Booster telecommunication VAS.
+
+    **Developer & Maintainer**: Refat Rahman  
+    **Website**: [refat.ovh](https://refat.ovh)  
+    **GitHub**: [@refatbd](https://github.com/refatbd)
+  contact:
+    name: Refat Rahman
+    url: https://refat.ovh
+    email: refatbd.dev@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://staging.ecourier.com.bd/api
+    description: Sandbox Staging Environment (Testing & QA)
+  - url: https://backoffice.ecourier.com.bd/api
+    description: Production Environment (Live Deliveries)
+
+tags:
+  - name: Coverage & Geography
+    description: Cities, thanas, postal zones, district area mappings, and delivery branch hubs.
+  - name: Packages
+    description: Merchant contracted package codes, rates, and SLA windows.
+  - name: Orders & Booking
+    description: Standard parcel creation, exchange orders, and pre-pickup cancellation.
+  - name: Reseller & Multi-Vendor
+    description: Child vendor pickup registration and direct bank/bKash profit disbursement.
+  - name: Tracking & Finance
+    description: Milestone status timelines, thermal barcode invoice PDFs, and COD reconciliation.
+  - name: Fraud & Booster VAS
+    description: Customer fraud risk assessment, bulk SMS broadcasts, airtime top-ups, and OTPs.
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: API-KEY
+      description: Your merchant public API key.
+    ApiSecretAuth:
+      type: apiKey
+      in: header
+      name: API-SECRET
+      description: Your merchant private API secret.
+    UserIdAuth:
+      type: apiKey
+      in: header
+      name: USER-ID
+      description: Your backoffice login ID / username.
+
+  schemas:
+    CityItem:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Dhaka
+        value:
+          type: string
+          example: Dhaka
+
+    ThanaItem:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Agailjhara
+        value:
+          type: string
+          example: Agailjhara
+
+    PackageItem:
+      type: object
+      properties:
+        package_name:
+          type: string
+          example: NEXTDAY_Inside_60tk
+        package_code:
+          type: string
+          example: "#2431"
+        shipping_charge:
+          type: string
+          example: "60"
+        weight:
+          type: string
+          example: Up To 1kg
+        delivery_time:
+          type: string
+          example: Next Day(24hr)
+        coverage_id:
+          type: string
+          example: "1"
+        coverage:
+          type: string
+          example: Inside Dhaka
+
+    OrderPlaceRequest:
+      type: object
+      required:
+        - recipient_name
+        - recipient_mobile
+        - recipient_city
+        - recipient_thana
+        - recipient_area
+        - recipient_address
+        - recipient_zip
+        - package_code
+        - product_price
+        - payment_method
+      properties:
+        recipient_name:
+          type: string
+          example: Tanvir Ahmed
+        recipient_mobile:
+          type: string
+          example: "01811223344"
+        recipient_city:
+          type: string
+          example: Dhaka
+        recipient_thana:
+          type: string
+          example: Badda
+        recipient_area:
+          type: string
+          example: Middle Badda
+        recipient_address:
+          type: string
+          example: House 14, Road 3, Block D
+        recipient_zip:
+          type: string
+          example: "1212"
+        package_code:
+          type: string
+          example: "#2431"
+        product_price:
+          type: integer
+          example: 1850
+        payment_method:
+          type: string
+          enum: [COD, POS, MPAY, CCRD]
+          example: COD
+        parcel_type:
+          type: string
+          enum: [BOX, DOC]
+          example: BOX
+        product_id:
+          type: string
+          example: INV-2026-EC-001
+        pick_address:
+          type: string
+          example: Warehouse 3, Tejgaon
+        pick_hub:
+          type: integer
+          example: 18490
+        comments:
+          type: string
+          example: Fragile item please handle carefully
+        number_of_item:
+          type: integer
+          example: 1
+        actual_product_price:
+          type: integer
+          example: 1850
+        is_fragile:
+          type: integer
+          enum: [0, 1]
+          example: 1
+        sending_type:
+          type: integer
+          enum: [1, 2]
+          example: 1
+        is_ipay:
+          type: integer
+          enum: [0, 1]
+          example: 0
+
+    OrderPlaceResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+        response_code:
+          type: integer
+          example: 200
+        message:
+          type: string
+          example: Order Submitted
+        ID:
+          type: string
+          example: ECR1030102170392
+
+    GenericErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+          example: ["Invalid Request", "recipient_name Parameter either missing"]
+        response_code:
+          type: integer
+          example: 400
+
+security:
+  - ApiKeyAuth: []
+    ApiSecretAuth: []
+    UserIdAuth: []
+
+paths:
+  /city-list:
+    post:
+      tags:
+        - Coverage & Geography
+      summary: Get City List
+      description: Retrieve list of all serviceable cities in Bangladesh.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: List of cities returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CityItem'
+
+  /thana-list:
+    post:
+      tags:
+        - Coverage & Geography
+      summary: Get Thana List
+      description: Retrieve all thanas under a specific city name.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - city
+              properties:
+                city:
+                  type: string
+                  example: Barishal
+      responses:
+        '200':
+          description: List of thanas returned.
+
+  /area-list:
+    post:
+      tags:
+        - Coverage & Geography
+      summary: Get Area List by Postcode
+      description: Retrieve neighborhood areas under a 4-digit postal code.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - postcode
+              properties:
+                postcode:
+                  type: string
+                  example: "1212"
+      responses:
+        '200':
+          description: Areas returned.
+
+  /postcode-list:
+    post:
+      tags:
+        - Coverage & Geography
+      summary: Get Postcode List
+      description: Query available postal codes by city and thana.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - city
+                - thana
+              properties:
+                city:
+                  type: string
+                  example: Barishal
+                thana:
+                  type: string
+                  example: Babuganj
+      responses:
+        '200':
+          description: Postcodes returned.
+
+  /area-by-district:
+    post:
+      tags:
+        - Coverage & Geography
+      summary: Get Area by District
+      description: Fetch all localized areas and corresponding hub IDs under a district.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - district
+              properties:
+                district:
+                  type: string
+                  example: Dhaka
+      responses:
+        '200':
+          description: District areas returned.
+
+  /branch-list:
+    post:
+      tags:
+        - Coverage & Geography
+      summary: Get Branch List
+      description: Fetch all operational branch delivery hubs across Bangladesh.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Branch offices returned.
+
+  /hub-info-by-area:
+    post:
+      tags:
+        - Coverage & Geography
+      summary: Get Hub Info by Area Name
+      description: Resolve delivery hub name, ID, phone number, and coordinates by recipient area.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - area
+              properties:
+                area:
+                  type: string
+                  example: Gulshan-2
+      responses:
+        '200':
+          description: Hub details returned.
+
+  /packages:
+    post:
+      tags:
+        - Packages
+      summary: Get Assigned Packages
+      description: Fetch active contracted package codes and rate tiers assigned to merchant.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Active merchant packages returned.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PackageItem'
+
+  /order-place:
+    post:
+      tags:
+        - Orders & Booking
+      summary: Place Order (Standard / Exchange)
+      description: Book a single parcel delivery consignment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderPlaceRequest'
+      responses:
+        '200':
+          description: Consignment successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderPlaceResponse'
+        '400':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorResponse'
+
+  /order-place-reseller:
+    post:
+      tags:
+        - Reseller & Multi-Vendor
+      summary: Place Reseller Order (Child Profit Split)
+      description: Book an order with child vendor pickup and automated bank/bKash profit disbursement.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - ep_id
+                - pick_district
+                - pick_thana
+                - pick_address
+                - pick_mobile
+                - pick_hub
+                - recipient_name
+                - recipient_mobile
+                - recipient_city
+                - package_code
+                - product_price
+              properties:
+                ep_name:
+                  type: string
+                  example: Artisan Studio
+                ep_id:
+                  type: integer
+                  example: 48201
+                pick_contact_person:
+                  type: string
+                  example: Mahbubur Rahman
+                pick_district:
+                  type: string
+                  example: Dhaka
+                pick_thana:
+                  type: string
+                  example: Badda
+                pick_union:
+                  type: string
+                  example: "1212"
+                pick_address:
+                  type: string
+                  example: House 12, Road 5, Middle Badda
+                pick_mobile:
+                  type: string
+                  example: "01711223344"
+                pick_hub:
+                  type: integer
+                  example: 18490
+                payment_to_child:
+                  type: integer
+                  enum: [1, 2]
+                  example: 1
+                child_payment_method:
+                  type: string
+                  enum: [Bank, EFTN, Bkash, Rocket]
+                  example: Bkash
+                child_bkash:
+                  type: string
+                  example: "01711223344"
+                child_bkash_type:
+                  type: string
+                  enum: [Personal, Agent]
+                  example: Personal
+      responses:
+        '200':
+          description: Reseller order booked.
+
+  /cancel-order:
+    post:
+      tags:
+        - Orders & Booking
+      summary: Cancel Order
+      description: Void an uncollected consignment while in Initiated state.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tracking
+                - comment
+              properties:
+                tracking:
+                  type: string
+                  example: ECR1030102170392
+                comment:
+                  type: string
+                  example: Customer cancelled shipment
+      responses:
+        '200':
+          description: Cancellation processed.
+
+  /cancel-order-child:
+    post:
+      tags:
+        - Reseller & Multi-Vendor
+      summary: Cancel Child Parcel
+      description: Cancel a child vendor consignment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tracking
+                - comment
+              properties:
+                tracking:
+                  type: string
+                  example: ECR1030102170392
+                comment:
+                  type: string
+                  example: Vendor out of stock
+      responses:
+        '200':
+          description: Child order cancelled.
+
+  /track:
+    post:
+      tags:
+        - Tracking & Finance
+      summary: Track Parcel
+      description: Query full milestone timeline by eCourier ID or merchant product invoice ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ecr:
+                  type: string
+                  example: ECR1030102170392
+                product_id:
+                  type: string
+                  example: INV-2026-EC-001
+      responses:
+        '200':
+          description: Milestone timeline data returned.
+
+  /track-child:
+    post:
+      tags:
+        - Reseller & Multi-Vendor
+      summary: Track Child Parcel
+      description: Query timeline history for child vendor orders.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - ecr
+              properties:
+                ecr:
+                  type: string
+                  example: ECR1030102170392
+      responses:
+        '200':
+          description: Child parcel status returned.
+
+  /label-print:
+    post:
+      tags:
+        - Tracking & Finance
+      summary: Generate Shipping Label PDF URL
+      description: Get direct link to downloadable thermal shipping label and barcode invoice PDF.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tracking
+              properties:
+                tracking:
+                  type: string
+                  example: ECR1030102170392
+      responses:
+        '200':
+          description: PDF link returned.
+
+  /payment-status:
+    post:
+      tags:
+        - Tracking & Finance
+      summary: Get Payment Reconciliation Status
+      description: Query COD collected amount and itemized fee deductions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - tracking
+              properties:
+                tracking:
+                  type: string
+                  example: ECR1030102170392
+      responses:
+        '200':
+          description: Payment details returned.
+
+  /fraud-status-check:
+    post:
+      tags:
+        - Fraud & Booster VAS
+      summary: Fraud Alert Status Check
+      description: Assess parcel return probability and past buyer fraud history by mobile phone number.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - number
+              properties:
+                number:
+                  type: string
+                  example: "01811223344"
+      responses:
+        '200':
+          description: Customer risk profile returned.
+
+  /bs-sms:
+    post:
+      tags:
+        - Fraud & Booster VAS
+      summary: Send Booster Broadcast SMS
+      description: Send promotional or operational SMS notifications deducted from COD balance.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - number
+                - op_body
+              properties:
+                number:
+                  type: array
+                  items:
+                    type: string
+                  example: ["01811223344"]
+                op_title:
+                  type: string
+                  example: booster
+                text_type:
+                  type: string
+                  example: text
+                op_body:
+                  type: string
+                  example: Your order has been dispatched.
+                service_type:
+                  type: string
+                  enum: [mask, nonmask]
+                  example: mask
+      responses:
+        '200':
+          description: SMS broadcast status returned.
+
+  /bs-top:
+    post:
+      tags:
+        - Fraud & Booster VAS
+      summary: Booster Mobile Airtime Top-Up
+      description: Recharge mobile balance funded directly from pending merchant COD balance.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - number
+                - amount
+              properties:
+                number:
+                  type: string
+                  example: "01811223344"
+                amount:
+                  type: integer
+                  example: 50
+                operator_type:
+                  type: integer
+                  enum: [1, 2]
+                  example: 1
+      responses:
+        '200':
+          description: Recharge request accepted.
+
+  /bs-top-status:
+    post:
+      tags:
+        - Fraud & Booster VAS
+      summary: Get Booster Top-Up Status
+      description: Query airtime recharge transaction status.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - transaction_id
+              properties:
+                transaction_id:
+                  type: string
+                  example: "10_1590903041_38811"
+      responses:
+        '200':
+          description: Top-up status returned.
+
+  /bs-top-otp:
+    post:
+      tags:
+        - Fraud & Booster VAS
+      summary: Send Booster OTP SMS
+      description: High-speed transactional OTP SMS delivery.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - number
+                - op_body
+              properties:
+                number:
+                  type: string
+                  example: "01811223344"
+                op_title:
+                  type: string
+                  example: booster
+                text_type:
+                  type: string
+                  example: text
+                op_body:
+                  type: string
+                  example: Your verification code is 849201
+                service_type:
+                  type: string
+                  enum: [mask, nonmask]
+                  example: mask
+      responses:
+        '200':
+          description: OTP dispatched.

@@ -356,6 +356,7 @@
         <a href="#/docs/pathao/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Pathao</a>
         <a href="#/docs/paperfly/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Paperfly</a>
         <a href="#/docs/carrybee/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Carrybee</a>
+        <a href="#/docs/ecourier/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">eCourier</a>
         <a href="#/CONTRIBUTING.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Contributing</a>
       </nav>
 
@@ -494,6 +495,28 @@
           </div>
         </div>
 
+        <!-- Group: eCourier Delivery (v5.5) -->
+        <div>
+          <button class="nav-collapsible w-full flex items-center justify-between px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-purple-600"></span>
+              <span>eCourier Delivery</span>
+            </span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 transform transition-transform duration-200"></i>
+          </button>
+          <div class="mt-1 pl-3 space-y-0.5">
+            <a href="#/docs/ecourier/README.md" class="sidebar-link">Overview & Setup</a>
+            <a href="#/docs/ecourier/01-getting-started.md" class="sidebar-link">01. Getting Started & Auth</a>
+            <a href="#/docs/ecourier/02-coverage-and-geography.md" class="sidebar-link">02. Coverage & Geography</a>
+            <a href="#/docs/ecourier/03-package-selection.md" class="sidebar-link">03. Package Codes & Pricing</a>
+            <a href="#/docs/ecourier/04-order-placement.md" class="sidebar-link">04. Order Placement (COD & Exchange)</a>
+            <a href="#/docs/ecourier/05-reseller-and-child-orders.md" class="sidebar-link">05. Reseller & Child Payouts</a>
+            <a href="#/docs/ecourier/06-tracking-labels-and-finance.md" class="sidebar-link">06. Tracking, Labels & Finance</a>
+            <a href="#/docs/ecourier/07-fraud-check-and-booster-sms.md" class="sidebar-link">07. AI Fraud Check & Booster VAS</a>
+            <a href="#/docs/ecourier/08-status-and-error-reference.md" class="sidebar-link">08. Status Codes & Error Reference</a>
+          </div>
+        </div>
+
         <!-- Group: SDKs & Reference -->
         <div>
           <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-3 mb-1.5">API & SDK Tools</div>
@@ -518,6 +541,13 @@
               <span>Scalar (Carrybee)</span>
               <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
             </a>
+            <a href="api-reference-ecourier.html" class="sidebar-link flex items-center justify-between">
+              <span>Scalar (eCourier)</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
+            </a>
+            <a href="#/sdks-and-examples/ecourier/php/EcourierClient.php" class="sidebar-link">eCourier PHP Client</a>
+            <a href="#/sdks-and-examples/ecourier/nodejs/ecourier.js" class="sidebar-link">eCourier Node Client</a>
+            <a href="#/sdks-and-examples/ecourier/python/ecourier.py" class="sidebar-link">eCourier Python Client</a>
             <a href="#/sdks-and-examples/carrybee/php/CarrybeeClient.php" class="sidebar-link">Carrybee PHP Client</a>
             <a href="#/sdks-and-examples/carrybee/nodejs/carrybee.js" class="sidebar-link">Carrybee Node Client</a>
             <a href="#/sdks-and-examples/carrybee/python/carrybee.py" class="sidebar-link">Carrybee Python Client</a>
@@ -635,6 +665,15 @@
       { path: 'docs/carrybee/05-reverse-pickup-and-exchange.md', title: 'Carrybee: 05. Reverse & Exchange' },
       { path: 'docs/carrybee/06-webhooks-and-handshake.md', title: 'Carrybee: 06. Webhook Handshake & 24 Events' },
       { path: 'docs/carrybee/07-status-reference.md', title: 'Carrybee: 07. Status & Error Reference' },
+      { path: 'docs/ecourier/README.md', title: 'eCourier Quickstart' },
+      { path: 'docs/ecourier/01-getting-started.md', title: 'eCourier: 01. Getting Started & Auth' },
+      { path: 'docs/ecourier/02-coverage-and-geography.md', title: 'eCourier: 02. Coverage & Geography' },
+      { path: 'docs/ecourier/03-package-selection.md', title: 'eCourier: 03. Package Codes & Pricing' },
+      { path: 'docs/ecourier/04-order-placement.md', title: 'eCourier: 04. Order Placement (COD & Exchange)' },
+      { path: 'docs/ecourier/05-reseller-and-child-orders.md', title: 'eCourier: 05. Reseller & Child Payouts' },
+      { path: 'docs/ecourier/06-tracking-labels-and-finance.md', title: 'eCourier: 06. Tracking, Labels & Finance' },
+      { path: 'docs/ecourier/07-fraud-check-and-booster-sms.md', title: 'eCourier: 07. AI Fraud Check & Booster VAS' },
+      { path: 'docs/ecourier/08-status-and-error-reference.md', title: 'eCourier: 08. Status Codes & Error Reference' },
       { path: 'CONTRIBUTING.md', title: 'Contributing Guide' },
       { path: 'LICENSE', title: 'MIT License' },
     ];

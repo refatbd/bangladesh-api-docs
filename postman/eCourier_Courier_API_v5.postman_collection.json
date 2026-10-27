@@ -1,0 +1,439 @@
+{
+  "info": {
+    "_postman_id": "ecourier-v5-refatbd-102938",
+    "name": "eCourier Courier API v5.5",
+    "description": "Production-grade Postman Collection for eCourier Courier API v5.5.\nMaintained by Refat Rahman (https://refat.ovh | @refatbd).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://staging.ecourier.com.bd/api",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "YOUR_API_KEY",
+      "type": "string"
+    },
+    {
+      "key": "api_secret",
+      "value": "YOUR_API_SECRET",
+      "type": "string"
+    },
+    {
+      "key": "user_id",
+      "value": "YOUR_USER_ID",
+      "type": "string"
+    },
+    {
+      "key": "tracking_id",
+      "value": "ECR1030102170392",
+      "type": "string"
+    },
+    {
+      "key": "product_id",
+      "value": "INV-2026-EC-001",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Coverage & Geographic Engine",
+      "item": [
+        {
+          "name": "Get City List",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{base_url}}/city-list", "host": ["{{base_url}}"], "path": ["city-list"] }
+          }
+        },
+        {
+          "name": "Get Thana List",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"city\": \"Dhaka\"\n}" },
+            "url": { "raw": "{{base_url}}/thana-list", "host": ["{{base_url}}"], "path": ["thana-list"] }
+          }
+        },
+        {
+          "name": "Get Area List by Postcode",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"postcode\": \"1212\"\n}" },
+            "url": { "raw": "{{base_url}}/area-list", "host": ["{{base_url}}"], "path": ["area-list"] }
+          }
+        },
+        {
+          "name": "Get Postcode List",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"city\": \"Barishal\",\n  \"thana\": \"Babuganj\"\n}" },
+            "url": { "raw": "{{base_url}}/postcode-list", "host": ["{{base_url}}"], "path": ["postcode-list"] }
+          }
+        },
+        {
+          "name": "Get Area by District",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"district\": \"Dhaka\"\n}" },
+            "url": { "raw": "{{base_url}}/area-by-district", "host": ["{{base_url}}"], "path": ["area-by-district"] }
+          }
+        },
+        {
+          "name": "Get Branch List",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{base_url}}/branch-list", "host": ["{{base_url}}"], "path": ["branch-list"] }
+          }
+        },
+        {
+          "name": "Get Hub Info by Area Name",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"area\": \"Gulshan-2\"\n}" },
+            "url": { "raw": "{{base_url}}/hub-info-by-area", "host": ["{{base_url}}"], "path": ["hub-info-by-area"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Package Management",
+      "item": [
+        {
+          "name": "Get Assigned Packages",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{base_url}}/packages", "host": ["{{base_url}}"], "path": ["packages"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Orders & Booking",
+      "item": [
+        {
+          "name": "Place Order (General / COD)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recipient_name\": \"Tanvir Ahmed\",\n  \"recipient_mobile\": \"01811223344\",\n  \"recipient_city\": \"Dhaka\",\n  \"recipient_thana\": \"Badda\",\n  \"recipient_area\": \"Middle Badda\",\n  \"recipient_address\": \"House 14, Road 3, Block D\",\n  \"recipient_zip\": \"1212\",\n  \"package_code\": \"#2431\",\n  \"product_price\": 1850,\n  \"payment_method\": \"COD\",\n  \"parcel_type\": \"BOX\",\n  \"product_id\": \"INV-2026-EC-001\",\n  \"comments\": \"Handle with care\",\n  \"is_fragile\": 0,\n  \"sending_type\": 1,\n  \"is_ipay\": 0\n}"
+            },
+            "url": { "raw": "{{base_url}}/order-place", "host": ["{{base_url}}"], "path": ["order-place"] }
+          }
+        },
+        {
+          "name": "Place Exchange Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"recipient_name\": \"Rafiqul Islam\",\n  \"recipient_mobile\": \"01700112233\",\n  \"recipient_city\": \"Dhaka\",\n  \"recipient_thana\": \"Dhanmondi\",\n  \"recipient_area\": \"Dhanmondi 27\",\n  \"recipient_address\": \"House 45, Road 27\",\n  \"recipient_zip\": \"1209\",\n  \"package_code\": \"#2431\",\n  \"product_price\": 100,\n  \"payment_method\": \"COD\",\n  \"sending_type\": 2,\n  \"comments\": \"Size replacement: hand over XL, collect M\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/order-place", "host": ["{{base_url}}"], "path": ["order-place"] }
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tracking\": \"{{tracking_id}}\",\n  \"comment\": \"Customer cancelled order\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/cancel-order", "host": ["{{base_url}}"], "path": ["cancel-order"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Reseller & Child Vendors",
+      "item": [
+        {
+          "name": "Place Reseller Order (Child Split)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": \"RS-2026-881\",\n  \"ep_name\": \"Artisan Craft Studio\",\n  \"ep_id\": 48201,\n  \"pick_contact_person\": \"Mahbubur Rahman\",\n  \"pick_division\": \"Dhaka\",\n  \"pick_district\": \"Dhaka\",\n  \"pick_thana\": \"Badda\",\n  \"pick_hub\": 18490,\n  \"pick_union\": \"1212\",\n  \"pick_address\": \"House 12, Road 5, Middle Badda, Dhaka\",\n  \"pick_mobile\": \"01711223344\",\n  \"recipient_name\": \"Farhana Yasmin\",\n  \"recipient_mobile\": \"01822334455\",\n  \"recipient_city\": \"Chattogram\",\n  \"recipient_thana\": \"Panchlaish\",\n  \"recipient_area\": \"Muradpur\",\n  \"recipient_address\": \"House 45, Road 2, Nasirabad Housing\",\n  \"recipient_zip\": \"4000\",\n  \"package_code\": \"#1755\",\n  \"product_price\": 2450,\n  \"payment_method\": \"COD\",\n  \"payment_to_child\": 1,\n  \"child_payment_method\": \"Bkash\",\n  \"child_bkash\": \"01711223344\",\n  \"child_bkash_type\": \"Personal\",\n  \"parcel_detail\": \"[{\\\"product_name\\\":\\\"Clay Pot\\\",\\\"quantity\\\":2}]\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/order-place-reseller", "host": ["{{base_url}}"], "path": ["order-place-reseller"] }
+          }
+        },
+        {
+          "name": "Track Child Parcel",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ecr\": \"{{tracking_id}}\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/track-child", "host": ["{{base_url}}"], "path": ["track-child"] }
+          }
+        },
+        {
+          "name": "Cancel Child Parcel",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tracking\": \"{{tracking_id}}\",\n  \"comment\": \"Child merchant out of stock\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/cancel-order-child", "host": ["{{base_url}}"], "path": ["cancel-order-child"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Tracking, Labels & Finance",
+      "item": [
+        {
+          "name": "Track Parcel by eCourier ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ecr\": \"{{tracking_id}}\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/track", "host": ["{{base_url}}"], "path": ["track"] }
+          }
+        },
+        {
+          "name": "Track Parcel by Product ID",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"product_id\": \"{{product_id}}\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/track", "host": ["{{base_url}}"], "path": ["track"] }
+          }
+        },
+        {
+          "name": "Generate Thermal Label PDF",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tracking\": \"{{tracking_id}}\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/label-print", "host": ["{{base_url}}"], "path": ["label-print"] }
+          }
+        },
+        {
+          "name": "Get Payment Reconciliation Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tracking\": \"{{tracking_id}}\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/payment-status", "host": ["{{base_url}}"], "path": ["payment-status"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Fraud Alert & Booster VAS",
+      "item": [
+        {
+          "name": "Fraud Alert Status Check",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"01811223344\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/fraud-status-check", "host": ["{{base_url}}"], "path": ["fraud-status-check"] }
+          }
+        },
+        {
+          "name": "Send Booster Broadcast SMS",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": [\"01811223344\"],\n  \"op_title\": \"booster\",\n  \"text_type\": \"text\",\n  \"op_body\": \"Your parcel is out for delivery with eCourier.\",\n  \"service_type\": \"mask\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/bs-sms", "host": ["{{base_url}}"], "path": ["bs-sms"] }
+          }
+        },
+        {
+          "name": "Send Booster Mobile Airtime Top-Up",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"01811223344\",\n  \"amount\": 50,\n  \"operator_type\": 1\n}"
+            },
+            "url": { "raw": "{{base_url}}/bs-top", "host": ["{{base_url}}"], "path": ["bs-top"] }
+          }
+        },
+        {
+          "name": "Get Booster Top-Up Status",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transaction_id\": \"10_1590903041_38811\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/bs-top-status", "host": ["{{base_url}}"], "path": ["bs-top-status"] }
+          }
+        },
+        {
+          "name": "Send Booster OTP SMS",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "API-KEY", "value": "{{api_key}}" },
+              { "key": "API-SECRET", "value": "{{api_secret}}" },
+              { "key": "USER-ID", "value": "{{user_id}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"number\": \"01811223344\",\n  \"op_title\": \"booster\",\n  \"text_type\": \"text\",\n  \"op_body\": \"Your confirmation code is 849201\",\n  \"service_type\": \"mask\"\n}"
+            },
+            "url": { "raw": "{{base_url}}/bs-top-otp", "host": ["{{base_url}}"], "path": ["bs-top-otp"] }
+          }
+        }
+      ]
+    }
+  ]
+}
