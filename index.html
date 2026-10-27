@@ -320,6 +320,58 @@
       background-color: #18181b;
       border-left-color: #38bdf8;
     }
+
+    /* Command Palette & Filter Pills */
+    .filter-pill {
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .dark .filter-pill {
+      border-color: #27272a;
+      background: #18181b;
+      color: #a1a1aa;
+    }
+    .filter-pill:hover {
+      background: #f3f4f6;
+      color: #111827;
+    }
+    .dark .filter-pill:hover {
+      background: #27272a;
+      color: #f4f4f5;
+    }
+    .filter-pill.active {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #ffffff;
+    }
+    .dark .filter-pill.active {
+      background: #0284c7;
+      border-color: #0284c7;
+      color: #ffffff;
+    }
+    .search-result-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 0.875rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.1s ease;
+    }
+    .search-result-item:hover, .search-result-item.selected {
+      background-color: #f3f4f6;
+    }
+    .dark .search-result-item:hover, .dark .search-result-item.selected {
+      background-color: #18181b;
+    }
   </style>
 </head>
 <body class="bg-white text-zinc-900 dark:bg-[#0c0d0e] dark:text-[#f3f4f6] min-h-screen flex flex-col font-sans transition-colors duration-150">
@@ -345,24 +397,31 @@
       </div>
 
       <!-- Navigation Links -->
-      <nav class="hidden md:flex items-center gap-6 text-xs font-medium">
+      <nav class="hidden md:flex items-center gap-5 text-xs font-medium">
         <a href="#/README.md" class="text-zinc-900 dark:text-white font-semibold">Guides</a>
         <a href="api-reference.html" class="flex items-center gap-1.5 text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-sky-400 transition">
           <span>Scalar Console</span>
           <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">Live</span>
         </a>
+        <a href="#/docs/tools/rate-calculator.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Rates</a>
+        <a href="#/docs/tools/fraud-checker.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Fraud Inspector</a>
+        <a href="#/docs/tools/unified-courier.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Unified SDK</a>
         <a href="#/docs/steadfast/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Steadfast</a>
         <a href="#/docs/redx/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">RedX</a>
         <a href="#/docs/pathao/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Pathao</a>
-        <a href="#/docs/paperfly/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Paperfly</a>
-        <a href="#/docs/carrybee/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Carrybee</a>
-        <a href="#/docs/ecourier/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">eCourier</a>
         <a href="#/docs/nagad/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Nagad</a>
-        <a href="#/CONTRIBUTING.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Contributing</a>
       </nav>
 
-      <!-- Right Controls: Theme Toggle & GitHub -->
+      <!-- Right Controls: Search Trigger, Theme Toggle & GitHub -->
       <div class="flex items-center gap-3">
+        <!-- Search Input / Command Palette Trigger Button -->
+        <button id="openSearchBtn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/80 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:border-zinc-300 dark:hover:border-zinc-700 transition text-xs shadow-sm" title="Search documentation (Ctrl + K)">
+          <i data-lucide="search" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Search docs...</span>
+          <span class="sm:hidden">Search</span>
+          <kbd class="font-mono text-[10px] bg-white dark:bg-zinc-800 px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-700 text-zinc-500">Ctrl K</kbd>
+        </button>
+
         <!-- Dark / Light Theme Toggle -->
         <button id="themeToggle" class="p-1.5 rounded-md text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition" title="Toggle theme">
           <i data-lucide="sun" id="sunIcon" class="w-4 h-4 hidden dark:block"></i>
@@ -397,6 +456,28 @@
             <a href="#/README.md" class="sidebar-link">Home Hub</a>
             <a href="#/CONTRIBUTING.md" class="sidebar-link">Contributing Guide</a>
             <a href="#/LICENSE" class="sidebar-link">MIT License</a>
+          </div>
+        </div>
+
+        <!-- Group: Developer Tools & Playgrounds -->
+        <div>
+          <div class="flex items-center justify-between px-3 mb-1.5">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold">Interactive Tools</span>
+            <span class="text-[9px] font-mono px-1 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300">Playground</span>
+          </div>
+          <div class="space-y-0.5">
+            <a href="#/docs/tools/rate-calculator.md" class="sidebar-link flex items-center justify-between">
+              <span>Rate Calculator</span>
+              <span class="text-[9px] px-1 rounded bg-blue-500/10 text-blue-500 font-mono">Live</span>
+            </a>
+            <a href="#/docs/tools/fraud-checker.md" class="sidebar-link flex items-center justify-between">
+              <span>Fraud Risk Inspector</span>
+              <span class="text-[9px] px-1 rounded bg-amber-500/10 text-amber-500 font-mono">Live</span>
+            </a>
+            <a href="#/docs/tools/unified-courier.md" class="sidebar-link flex items-center justify-between">
+              <span>Unified Courier SDK</span>
+              <span class="text-[9px] px-1 rounded bg-purple-500/10 text-purple-500 font-mono">v1.0</span>
+            </a>
           </div>
         </div>
 
@@ -645,72 +726,128 @@
   </div>
 
   <!-- ========================================================================= -->
+  <!-- COMMAND PALETTE MODAL (Ctrl + K / ⌘K)                                      -->
+  <!-- ========================================================================= -->
+  <div id="searchModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+    <!-- Backdrop with blur -->
+    <div id="searchBackdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"></div>
+
+    <div class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-16 flex justify-center items-start">
+      <div class="relative transform overflow-hidden rounded-xl bg-white dark:bg-[#121316] border border-zinc-200 dark:border-zinc-800 shadow-2xl transition-all w-full max-w-2xl mt-8">
+        
+        <!-- Search Input Bar -->
+        <div class="relative flex items-center px-4 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#121316]">
+          <i data-lucide="search" class="w-5 h-5 text-zinc-400 dark:text-zinc-500"></i>
+          <input id="searchInput" type="text" autocomplete="off" placeholder="Search guides, endpoints, SDKs, or tools (e.g. fraud, webhook, rate, rsa)..."
+            class="h-14 w-full border-0 bg-transparent pl-3 pr-10 text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-0">
+          <button id="closeSearchBtn" class="p-1 rounded-md text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800" title="Close (ESC)">
+            <kbd class="font-mono text-xs px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-400">ESC</kbd>
+          </button>
+        </div>
+
+        <!-- Quick Filter Pills -->
+        <div class="flex items-center gap-1.5 px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900/50 border-b border-zinc-200 dark:border-zinc-800/80 overflow-x-auto text-xs">
+          <span class="text-zinc-400 text-[11px] font-medium mr-1 uppercase tracking-wider">Filter:</span>
+          <button class="filter-pill active" data-filter="all">All</button>
+          <button class="filter-pill" data-filter="tools">⚡ Tools</button>
+          <button class="filter-pill" data-filter="steadfast">Steadfast</button>
+          <button class="filter-pill" data-filter="redx">RedX</button>
+          <button class="filter-pill" data-filter="pathao">Pathao</button>
+          <button class="filter-pill" data-filter="paperfly">Paperfly</button>
+          <button class="filter-pill" data-filter="carrybee">Carrybee</button>
+          <button class="filter-pill" data-filter="ecourier">eCourier</button>
+          <button class="filter-pill" data-filter="nagad">Nagad</button>
+        </div>
+
+        <!-- Results Container -->
+        <div id="searchResults" class="max-h-96 overflow-y-auto p-2 space-y-1">
+          <!-- Dynamically populated via renderSearchResults -->
+        </div>
+
+        <!-- Footer Shortcuts -->
+        <div class="flex items-center justify-between px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900/90 border-t border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-400">
+          <div class="flex items-center gap-3">
+            <span><kbd class="font-mono px-1 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">↑</kbd> <kbd class="font-mono px-1 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">↓</kbd> to navigate</span>
+            <span><kbd class="font-mono px-1 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">↵</kbd> to select</span>
+            <span><kbd class="font-mono px-1 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">ESC</kbd> to close</span>
+          </div>
+          <span class="font-medium text-zinc-500">Refat Rahman API Hub</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
   <!-- 3. SPA ROUTER & CLIENT-SIDE RENDERER                                     -->
   <!-- ========================================================================= -->
   <script>
     const CHAPTERS = [
-      { path: 'README.md', title: 'Home Hub' },
-      { path: 'docs/steadfast/README.md', title: 'Steadfast Quickstart' },
-      { path: 'docs/steadfast/01-getting-started.md', title: 'Steadfast: 01. Getting Started & Auth' },
-      { path: 'docs/steadfast/02-booking-parcels.md', title: 'Steadfast: 02. Booking Parcels' },
-      { path: 'docs/steadfast/03-tracking-and-status.md', title: 'Steadfast: 03. Tracking & Status' },
-      { path: 'docs/steadfast/04-pickups-and-returns.md', title: 'Steadfast: 04. Pickups & Returns' },
-      { path: 'docs/steadfast/05-balance-and-payments.md', title: 'Steadfast: 05. Balance & Payments' },
-      { path: 'docs/steadfast/06-fraud-check-and-thanas.md', title: 'Steadfast: 06. Fraud Check & Thanas' },
-      { path: 'docs/steadfast/07-status-code-reference.md', title: 'Steadfast: 07. Status Codes & Errors' },
-      { path: 'docs/steadfast/08-webhooks.md', title: 'Steadfast: 08. Real-Time Webhooks' },
-      { path: 'docs/redx/README.md', title: 'RedX Quickstart' },
-      { path: 'docs/redx/01-getting-started.md', title: 'RedX: 01. Getting Started & Auth' },
-      { path: 'docs/redx/02-parcels-and-orders.md', title: 'RedX: 02. Parcels & Orders' },
-      { path: 'docs/redx/03-tracking-and-status.md', title: 'RedX: 03. Tracking & Status' },
-      { path: 'docs/redx/04-areas-and-coverage.md', title: 'RedX: 04. Areas & 64 Districts' },
-      { path: 'docs/redx/05-pickup-stores.md', title: 'RedX: 05. Pickup Stores' },
-      { path: 'docs/redx/06-charge-calculator.md', title: 'RedX: 06. Charge Calculator' },
-      { path: 'docs/redx/07-webhooks-and-callbacks.md', title: 'RedX: 07. Webhooks & Callbacks' },
-      { path: 'docs/redx/08-status-and-error-codes.md', title: 'RedX: 08. Status Codes & Errors' },
-      { path: 'docs/pathao/README.md', title: 'Pathao Quickstart' },
-      { path: 'docs/pathao/01-getting-started-and-oauth.md', title: 'Pathao: 01. OAuth 2.0 Auth' },
-      { path: 'docs/pathao/02-stores-and-warehouses.md', title: 'Pathao: 02. Stores & Warehouses' },
-      { path: 'docs/pathao/03-city-zone-area-hierarchy.md', title: 'Pathao: 03. City, Zone & Area' },
-      { path: 'docs/pathao/04-creating-orders.md', title: 'Pathao: 04. Creating Orders' },
-      { path: 'docs/pathao/05-bulk-orders.md', title: 'Pathao: 05. Bulk Consignments' },
-      { path: 'docs/pathao/06-order-tracking-and-status.md', title: 'Pathao: 06. Tracking & Status' },
-      { path: 'docs/pathao/07-price-calculation-plan.md', title: 'Pathao: 07. Price Calculation' },
-      { path: 'docs/pathao/08-status-lifecycle-and-webhooks.md', title: 'Pathao: 08. Status Lifecycle' },
-      { path: 'docs/paperfly/README.md', title: 'Paperfly Quickstart' },
-      { path: 'docs/paperfly/01-getting-started.md', title: 'Paperfly: 01. Getting Started & Auth' },
-      { path: 'docs/paperfly/02-order-creation.md', title: 'Paperfly: 02. Standard Orders' },
-      { path: 'docs/paperfly/03-exchange-orders.md', title: 'Paperfly: 03. Exchange Orders' },
-      { path: 'docs/paperfly/04-tracking-and-status.md', title: 'Paperfly: 04. Milestone Tracking' },
-      { path: 'docs/paperfly/05-cancellation.md', title: 'Paperfly: 05. Order Cancellation' },
-      { path: 'docs/paperfly/06-webhooks-and-events.md', title: 'Paperfly: 06. 14 Webhook Events' },
-      { path: 'docs/paperfly/07-status-reference.md', title: 'Paperfly: 07. Status Reference' },
-      { path: 'docs/carrybee/README.md', title: 'Carrybee Quickstart' },
-      { path: 'docs/carrybee/01-getting-started.md', title: 'Carrybee: 01. Getting Started & Auth' },
-      { path: 'docs/carrybee/02-location-and-coverage.md', title: 'Carrybee: 02. Cities, Zones & Areas' },
-      { path: 'docs/carrybee/03-stores-and-warehouses.md', title: 'Carrybee: 03. Warehouse Stores' },
-      { path: 'docs/carrybee/04-orders-and-booking.md', title: 'Carrybee: 04. Single & Bulk Orders' },
-      { path: 'docs/carrybee/05-reverse-pickup-and-exchange.md', title: 'Carrybee: 05. Reverse & Exchange' },
-      { path: 'docs/carrybee/06-webhooks-and-handshake.md', title: 'Carrybee: 06. Webhook Handshake & 24 Events' },
-      { path: 'docs/carrybee/07-status-reference.md', title: 'Carrybee: 07. Status & Error Reference' },
-      { path: 'docs/ecourier/README.md', title: 'eCourier Quickstart' },
-      { path: 'docs/ecourier/01-getting-started.md', title: 'eCourier: 01. Getting Started & Auth' },
-      { path: 'docs/ecourier/02-coverage-and-geography.md', title: 'eCourier: 02. Coverage & Geography' },
-      { path: 'docs/ecourier/03-package-selection.md', title: 'eCourier: 03. Package Codes & Pricing' },
-      { path: 'docs/ecourier/04-order-placement.md', title: 'eCourier: 04. Order Placement (COD & Exchange)' },
-      { path: 'docs/ecourier/05-reseller-and-child-orders.md', title: 'eCourier: 05. Reseller & Child Payouts' },
-      { path: 'docs/ecourier/06-tracking-labels-and-finance.md', title: 'eCourier: 06. Tracking, Labels & Finance' },
-      { path: 'docs/ecourier/07-fraud-check-and-booster-sms.md', title: 'eCourier: 07. AI Fraud Check & Booster VAS' },
-      { path: 'docs/ecourier/08-status-and-error-reference.md', title: 'eCourier: 08. Status Codes & Error Reference' },
-      { path: 'docs/nagad/README.md', title: 'Nagad Gateway Quickstart' },
-      { path: 'docs/nagad/01-getting-started.md', title: 'Nagad: 01. Onboarding & Keys' },
-      { path: 'docs/nagad/02-cryptography-and-signatures.md', title: 'Nagad: 02. RSA Cryptography' },
-      { path: 'docs/nagad/03-checkout-initialization.md', title: 'Nagad: 03. Step 1: Initialize Checkout' },
-      { path: 'docs/nagad/04-checkout-complete-and-redirect.md', title: 'Nagad: 04. Step 2: Complete & Redirect' },
-      { path: 'docs/nagad/05-callback-and-verification.md', title: 'Nagad: 05. Step 3 & 4: Verify Payment' },
-      { path: 'docs/nagad/06-error-codes-and-status.md', title: 'Nagad: 06. Error Codes & Troubleshooting' },
-      { path: 'CONTRIBUTING.md', title: 'Contributing Guide' },
-      { path: 'LICENSE', title: 'MIT License' },
+      { path: 'README.md', title: 'Home Hub', category: 'general', keywords: 'home overview index providers ecosystem refatbd' },
+      { path: 'docs/tools/rate-calculator.md', title: 'Interactive Shipping Rate Matrix', category: 'tools', keywords: 'rates pricing delivery cost cod shipping weight zone dhaka charge steadfast redx pathao paperfly carrybee ecourier' },
+      { path: 'docs/tools/fraud-checker.md', title: 'Phone Fraud Risk Inspector', category: 'tools', keywords: 'fraud risk score phone mobile delivery ratio steadfast ecourier cancel return order fake' },
+      { path: 'docs/tools/unified-courier.md', title: 'Unified Bangladesh Courier Engine', category: 'tools', keywords: 'unified sdk engine facade adapter composer npm steadfast redx pathao paperfly carrybee ecourier wrapper' },
+      { path: 'docs/steadfast/README.md', title: 'Steadfast Quickstart', category: 'steadfast', keywords: 'steadfast quickstart overview api auth' },
+      { path: 'docs/steadfast/01-getting-started.md', title: 'Steadfast: 01. Getting Started & Auth', category: 'steadfast', keywords: 'steadfast auth api-key secret-key' },
+      { path: 'docs/steadfast/02-booking-parcels.md', title: 'Steadfast: 02. Booking Parcels', category: 'steadfast', keywords: 'steadfast parcel booking create order cod' },
+      { path: 'docs/steadfast/03-tracking-and-status.md', title: 'Steadfast: 03. Tracking & Status', category: 'steadfast', keywords: 'steadfast tracking status consignment' },
+      { path: 'docs/steadfast/04-pickups-and-returns.md', title: 'Steadfast: 04. Pickups & Returns', category: 'steadfast', keywords: 'steadfast pickup return reverse' },
+      { path: 'docs/steadfast/05-balance-and-payments.md', title: 'Steadfast: 05. Balance & Payments', category: 'steadfast', keywords: 'steadfast balance payout payment' },
+      { path: 'docs/steadfast/06-fraud-check-and-thanas.md', title: 'Steadfast: 06. Fraud Check & Thanas', category: 'steadfast', keywords: 'steadfast fraud score check thana coverage' },
+      { path: 'docs/steadfast/07-status-code-reference.md', title: 'Steadfast: 07. Status Codes & Errors', category: 'steadfast', keywords: 'steadfast status error codes' },
+      { path: 'docs/steadfast/08-webhooks.md', title: 'Steadfast: 08. Real-Time Webhooks', category: 'steadfast', keywords: 'steadfast webhook event callback' },
+      { path: 'docs/redx/README.md', title: 'RedX Quickstart', category: 'redx', keywords: 'redx quickstart overview' },
+      { path: 'docs/redx/01-getting-started.md', title: 'RedX: 01. Getting Started & Auth', category: 'redx', keywords: 'redx auth token access-token' },
+      { path: 'docs/redx/02-parcels-and-orders.md', title: 'RedX: 02. Parcels & Orders', category: 'redx', keywords: 'redx parcel order create weight gram' },
+      { path: 'docs/redx/03-tracking-and-status.md', title: 'RedX: 03. Tracking & Status', category: 'redx', keywords: 'redx tracking milestone timeline' },
+      { path: 'docs/redx/04-areas-and-coverage.md', title: 'RedX: 04. Areas & 64 Districts', category: 'redx', keywords: 'redx area district coverage 64' },
+      { path: 'docs/redx/05-pickup-stores.md', title: 'RedX: 05. Pickup Stores', category: 'redx', keywords: 'redx store warehouse pickup' },
+      { path: 'docs/redx/06-charge-calculator.md', title: 'RedX: 06. Charge Calculator', category: 'redx', keywords: 'redx pricing rate calculate fee' },
+      { path: 'docs/redx/07-webhooks-and-callbacks.md', title: 'RedX: 07. Webhooks & Callbacks', category: 'redx', keywords: 'redx webhook callback' },
+      { path: 'docs/redx/08-status-and-error-codes.md', title: 'RedX: 08. Status Codes & Errors', category: 'redx', keywords: 'redx status code error' },
+      { path: 'docs/pathao/README.md', title: 'Pathao Quickstart', category: 'pathao', keywords: 'pathao quickstart overview aladdin' },
+      { path: 'docs/pathao/01-getting-started-and-oauth.md', title: 'Pathao: 01. OAuth 2.0 Auth', category: 'pathao', keywords: 'pathao oauth token bearer refresh' },
+      { path: 'docs/pathao/02-stores-and-warehouses.md', title: 'Pathao: 02. Stores & Warehouses', category: 'pathao', keywords: 'pathao store warehouse pickup' },
+      { path: 'docs/pathao/03-city-zone-area-hierarchy.md', title: 'Pathao: 03. City, Zone & Area', category: 'pathao', keywords: 'pathao city zone area hierarchy' },
+      { path: 'docs/pathao/04-creating-orders.md', title: 'Pathao: 04. Creating Orders', category: 'pathao', keywords: 'pathao order create booking consignment' },
+      { path: 'docs/pathao/05-bulk-orders.md', title: 'Pathao: 05. Bulk Consignments', category: 'pathao', keywords: 'pathao bulk order csv multiple' },
+      { path: 'docs/pathao/06-order-tracking-and-status.md', title: 'Pathao: 06. Tracking & Status', category: 'pathao', keywords: 'pathao tracking status history' },
+      { path: 'docs/pathao/07-price-calculation-plan.md', title: 'Pathao: 07. Price Calculation', category: 'pathao', keywords: 'pathao price plan estimate cost' },
+      { path: 'docs/pathao/08-status-lifecycle-and-webhooks.md', title: 'Pathao: 08. Status Lifecycle', category: 'pathao', keywords: 'pathao status webhook lifecycle' },
+      { path: 'docs/paperfly/README.md', title: 'Paperfly Quickstart', category: 'paperfly', keywords: 'paperfly quickstart overview' },
+      { path: 'docs/paperfly/01-getting-started.md', title: 'Paperfly: 01. Getting Started & Auth', category: 'paperfly', keywords: 'paperfly auth basic credentials' },
+      { path: 'docs/paperfly/02-order-creation.md', title: 'Paperfly: 02. Standard Orders', category: 'paperfly', keywords: 'paperfly order create doorstep' },
+      { path: 'docs/paperfly/03-exchange-orders.md', title: 'Paperfly: 03. Exchange Orders', category: 'paperfly', keywords: 'paperfly exchange replacement order' },
+      { path: 'docs/paperfly/04-tracking-and-status.md', title: 'Paperfly: 04. Milestone Tracking', category: 'paperfly', keywords: 'paperfly tracking milestone' },
+      { path: 'docs/paperfly/05-cancellation.md', title: 'Paperfly: 05. Order Cancellation', category: 'paperfly', keywords: 'paperfly cancel order void' },
+      { path: 'docs/paperfly/06-webhooks-and-events.md', title: 'Paperfly: 06. 14 Webhook Events', category: 'paperfly', keywords: 'paperfly webhook 14 events callback' },
+      { path: 'docs/paperfly/07-status-reference.md', title: 'Paperfly: 07. Status Reference', category: 'paperfly', keywords: 'paperfly status error reference' },
+      { path: 'docs/carrybee/README.md', title: 'Carrybee Quickstart', category: 'carrybee', keywords: 'carrybee quickstart overview v2' },
+      { path: 'docs/carrybee/01-getting-started.md', title: 'Carrybee: 01. Getting Started & Auth', category: 'carrybee', keywords: 'carrybee auth api token' },
+      { path: 'docs/carrybee/02-location-and-coverage.md', title: 'Carrybee: 02. Cities, Zones & Areas', category: 'carrybee', keywords: 'carrybee city zone area location' },
+      { path: 'docs/carrybee/03-stores-and-warehouses.md', title: 'Carrybee: 03. Warehouse Stores', category: 'carrybee', keywords: 'carrybee store warehouse' },
+      { path: 'docs/carrybee/04-orders-and-booking.md', title: 'Carrybee: 04. Single & Bulk Orders', category: 'carrybee', keywords: 'carrybee order booking bulk' },
+      { path: 'docs/carrybee/05-reverse-pickup-and-exchange.md', title: 'Carrybee: 05. Reverse & Exchange', category: 'carrybee', keywords: 'carrybee reverse pickup exchange' },
+      { path: 'docs/carrybee/06-webhooks-and-handshake.md', title: 'Carrybee: 06. Webhook Handshake & 24 Events', category: 'carrybee', keywords: 'carrybee webhook handshake 202 echo 24 events' },
+      { path: 'docs/carrybee/07-status-reference.md', title: 'Carrybee: 07. Status & Error Reference', category: 'carrybee', keywords: 'carrybee status code error' },
+      { path: 'docs/ecourier/README.md', title: 'eCourier Quickstart', category: 'ecourier', keywords: 'ecourier quickstart overview v5' },
+      { path: 'docs/ecourier/01-getting-started.md', title: 'eCourier: 01. Getting Started & Auth', category: 'ecourier', keywords: 'ecourier auth api-key secret user-id' },
+      { path: 'docs/ecourier/02-coverage-and-geography.md', title: 'eCourier: 02. Coverage & Geography', category: 'ecourier', keywords: 'ecourier coverage geography division' },
+      { path: 'docs/ecourier/03-package-selection.md', title: 'eCourier: 03. Package Codes & Pricing', category: 'ecourier', keywords: 'ecourier package code pricing w1' },
+      { path: 'docs/ecourier/04-order-placement.md', title: 'eCourier: 04. Order Placement (COD & Exchange)', category: 'ecourier', keywords: 'ecourier order placement cod exchange' },
+      { path: 'docs/ecourier/05-reseller-and-child-orders.md', title: 'eCourier: 05. Reseller & Child Payouts', category: 'ecourier', keywords: 'ecourier reseller child profit split payout' },
+      { path: 'docs/ecourier/06-tracking-labels-and-finance.md', title: 'eCourier: 06. Tracking, Labels & Finance', category: 'ecourier', keywords: 'ecourier tracking label airway bill payment' },
+      { path: 'docs/ecourier/07-fraud-check-and-booster-sms.md', title: 'eCourier: 07. AI Fraud Check & Booster VAS', category: 'ecourier', keywords: 'ecourier fraud check booster sms vas' },
+      { path: 'docs/ecourier/08-status-and-error-reference.md', title: 'eCourier: 08. Status Codes & Error Reference', category: 'ecourier', keywords: 'ecourier status error codes' },
+      { path: 'docs/nagad/README.md', title: 'Nagad Gateway Quickstart', category: 'nagad', keywords: 'nagad gateway payment pg dfs mfs' },
+      { path: 'docs/nagad/01-getting-started.md', title: 'Nagad: 01. Onboarding & Keys', category: 'nagad', keywords: 'nagad onboarding credentials keys merchant-id' },
+      { path: 'docs/nagad/02-cryptography-and-signatures.md', title: 'Nagad: 02. RSA Cryptography', category: 'nagad', keywords: 'nagad rsa pkcs1 sha256 cryptography dual keys' },
+      { path: 'docs/nagad/03-checkout-initialization.md', title: 'Nagad: 03. Step 1: Initialize Checkout', category: 'nagad', keywords: 'nagad initialize checkout challenge payment-ref-id' },
+      { path: 'docs/nagad/04-checkout-complete-and-redirect.md', title: 'Nagad: 04. Step 2: Complete & Redirect', category: 'nagad', keywords: 'nagad complete redirect checkout-url 050' },
+      { path: 'docs/nagad/05-callback-and-verification.md', title: 'Nagad: 05. Step 3 & 4: Verify Payment', category: 'nagad', keywords: 'nagad callback verify payment status success' },
+      { path: 'docs/nagad/06-error-codes-and-status.md', title: 'Nagad: 06. Error Codes & Troubleshooting', category: 'nagad', keywords: 'nagad error codes troubleshooting 9999' },
+      { path: 'CONTRIBUTING.md', title: 'Contributing Guide', category: 'general', keywords: 'contributing guide open source pr github' },
+      { path: 'LICENSE', title: 'MIT License', category: 'general', keywords: 'mit license open source copyright' },
     ];
 
     // Theme Management
@@ -830,6 +967,9 @@
         // Update Prev / Next
         updateFooterNav(clean);
 
+        // Initialize Interactive Widgets if mounted
+        initInteractiveWidgets(clean);
+
         window.scrollTo({ top: 0 });
         if (window.lucide) lucide.createIcons();
       } catch (err) {
@@ -911,6 +1051,338 @@
         nextDoc.classList.remove('inline-flex');
       }
     }
+
+    // =========================================================================
+    // 4. INTERACTIVE WIDGET ENGINES (Rate Calculator & Fraud Risk Inspector)
+    // =========================================================================
+    function initInteractiveWidgets(cleanPath) {
+      // Rate Calculator App
+      const rateApp = document.getElementById('rateCalculatorApp');
+      if (rateApp) {
+        const inputWeight = document.getElementById('inputWeight');
+        const weightVal = document.getElementById('weightVal');
+        const selectZone = document.getElementById('selectZone');
+        const inputCod = document.getElementById('inputCod');
+        const tableBody = document.getElementById('rateTableBody');
+
+        if (inputWeight && weightVal && selectZone && inputCod && tableBody) {
+          function recalcRates() {
+            const weight = parseFloat(inputWeight.value) || 1.0;
+            weightVal.innerText = weight.toFixed(1) + ' kg';
+            const zone = selectZone.value; // 'inside_dhaka', 'dhaka_suburb', 'outside_dhaka'
+            const cod = Math.max(0, parseFloat(inputCod.value) || 0);
+
+            const providers = [
+              {
+                name: 'Steadfast Courier',
+                logoColor: 'text-zinc-800 dark:text-zinc-200',
+                baseFee: zone === 'inside_dhaka' ? 70 : (zone === 'dhaka_suburb' ? 100 : 135),
+                extraKgFee: zone === 'inside_dhaka' ? 20 : 25,
+                threshold: 1.0,
+                codRate: 0.01,
+                minCod: 10,
+                sla: zone === 'inside_dhaka' ? '24 Hours' : '48-72 Hours',
+                link: '#/docs/steadfast/README.md'
+              },
+              {
+                name: 'RedX Delivery',
+                logoColor: 'text-red-600 dark:text-red-400',
+                baseFee: zone === 'inside_dhaka' ? (weight <= 0.5 ? 60 : 70) : (zone === 'dhaka_suburb' ? 100 : 130),
+                extraKgFee: zone === 'inside_dhaka' ? 20 : 25,
+                threshold: 1.0,
+                codRate: 0.01,
+                minCod: 0,
+                sla: zone === 'inside_dhaka' ? '24-48 Hours' : '48-72 Hours',
+                link: '#/docs/redx/README.md'
+              },
+              {
+                name: 'Pathao Courier',
+                logoColor: 'text-emerald-600 dark:text-emerald-400',
+                baseFee: zone === 'inside_dhaka' ? 65 : (zone === 'dhaka_suburb' ? 100 : 135),
+                extraKgFee: zone === 'inside_dhaka' ? 20 : 25,
+                threshold: 1.0,
+                codRate: 0.01,
+                minCod: 0,
+                sla: zone === 'inside_dhaka' ? 'Same Day / 24h' : '48-72 Hours',
+                link: '#/docs/pathao/README.md'
+              },
+              {
+                name: 'Paperfly Courier',
+                logoColor: 'text-amber-600 dark:text-amber-400',
+                baseFee: zone === 'inside_dhaka' ? 60 : (zone === 'dhaka_suburb' ? 90 : 125),
+                extraKgFee: zone === 'inside_dhaka' ? 20 : 25,
+                threshold: 1.0,
+                codRate: 0.01,
+                minCod: 0,
+                sla: zone === 'inside_dhaka' ? '24 Hours' : '48-72 Hours',
+                link: '#/docs/paperfly/README.md'
+              },
+              {
+                name: 'Carrybee Delivery',
+                logoColor: 'text-emerald-500',
+                baseFee: zone === 'inside_dhaka' ? 65 : (zone === 'dhaka_suburb' ? 100 : 130),
+                extraKgFee: zone === 'inside_dhaka' ? 20 : 25,
+                threshold: 1.0,
+                codRate: 0.01,
+                minCod: 0,
+                sla: zone === 'inside_dhaka' ? '24 Hours' : '48-72 Hours',
+                link: '#/docs/carrybee/README.md'
+              },
+              {
+                name: 'eCourier Delivery',
+                logoColor: 'text-purple-600 dark:text-purple-400',
+                baseFee: zone === 'inside_dhaka' ? (weight <= 0.5 ? 60 : 70) : (zone === 'dhaka_suburb' ? 100 : 135),
+                extraKgFee: zone === 'inside_dhaka' ? 20 : 30,
+                threshold: 1.0,
+                codRate: 0.01,
+                minCod: 0,
+                sla: zone === 'inside_dhaka' ? '24-48 Hours' : '48-72 Hours',
+                link: '#/docs/ecourier/README.md'
+              }
+            ];
+
+            const calculated = providers.map(p => {
+              const extraKg = Math.max(0, Math.ceil(weight - p.threshold));
+              const weightCharge = extraKg * p.extraKgFee;
+              const computedCodFee = Math.max(p.minCod, Math.round(cod * p.codRate));
+              const totalCharge = p.baseFee + weightCharge + computedCodFee;
+              return { ...p, extraKg, weightCharge, computedCodFee, totalCharge };
+            });
+
+            const minTotal = Math.min(...calculated.map(c => c.totalCharge));
+
+            tableBody.innerHTML = calculated.map(c => {
+              const isLowest = c.totalCharge === minTotal;
+              return `
+                <tr class="hover:bg-zinc-100/50 dark:hover:bg-zinc-800/40 transition">
+                  <td class="py-3 px-3 font-semibold ${c.logoColor} flex items-center gap-1.5">
+                    <span>${c.name}</span>
+                    ${isLowest ? '<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800 font-bold">Best Value</span>' : ''}
+                  </td>
+                  <td class="py-3 px-3 text-zinc-700 dark:text-zinc-300">৳${c.baseFee}</td>
+                  <td class="py-3 px-3 text-zinc-500">${c.weightCharge > 0 ? '+৳' + c.weightCharge : '৳0'}</td>
+                  <td class="py-3 px-3 text-zinc-500">৳${c.computedCodFee}</td>
+                  <td class="py-3 px-3 font-bold text-sm ${isLowest ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-900 dark:text-white'}">৳${c.totalCharge}</td>
+                  <td class="py-3 px-3 text-zinc-500 font-sans">${c.sla}</td>
+                  <td class="py-3 px-3 text-right">
+                    <a href="${c.link}" class="text-blue-600 dark:text-sky-400 hover:underline">API Docs →</a>
+                  </td>
+                </tr>
+              `;
+            }).join('');
+          }
+
+          inputWeight.oninput = recalcRates;
+          selectZone.onchange = recalcRates;
+          inputCod.oninput = recalcRates;
+          recalcRates();
+        }
+      }
+
+      // Fraud Risk Inspector App
+      const fraudApp = document.getElementById('fraudCheckerApp');
+      if (fraudApp) {
+        const phoneInput = document.getElementById('fraudPhoneInput');
+        const providerSelect = document.getElementById('fraudProviderSelect');
+        const btnCheck = document.getElementById('btnCheckFraud');
+        const resRiskBadge = document.getElementById('resRiskBadge');
+        const resRecommendation = document.getElementById('resRecommendation');
+        const resSuccessRate = document.getElementById('resSuccessRate');
+        const resProgressBar = document.getElementById('resProgressBar');
+        const resTotalOrders = document.getElementById('resTotalOrders');
+        const resOrderBreakdown = document.getElementById('resOrderBreakdown');
+        const resProviderLabel = document.getElementById('resProviderLabel');
+
+        if (phoneInput && btnCheck && resRiskBadge) {
+          btnCheck.onclick = () => {
+            const raw = phoneInput.value.trim();
+            if (!/^01[3-9]\d{8}$/.test(raw)) {
+              alert('অনুগ্রহ করে সঠিক ১১-ডিজিটের বাংলাদেশি মোবাইল নম্বর দিন (যেমন: 01700000000)।');
+              return;
+            }
+
+            const provider = providerSelect ? providerSelect.value : 'steadfast';
+            if (resProviderLabel) resProviderLabel.innerText = provider === 'steadfast' ? 'Steadfast Network Score' : 'eCourier AI Fraud VAS';
+
+            // Score Simulation logic
+            let delivered = 27;
+            let cancelled = 1;
+            let total = 28;
+
+            if (raw.endsWith('00') || raw.endsWith('99')) {
+              total = 18;
+              delivered = 7;
+              cancelled = 11;
+            } else if (raw.endsWith('12') || raw.endsWith('44')) {
+              total = 10;
+              delivered = 7;
+              cancelled = 3;
+            }
+
+            const ratio = ((delivered / total) * 100).toFixed(1);
+            if (resSuccessRate) resSuccessRate.innerText = ratio + '%';
+            if (resProgressBar) resProgressBar.style.width = ratio + '%';
+            if (resTotalOrders) resTotalOrders.innerText = total + ' Parcels';
+            if (resOrderBreakdown) resOrderBreakdown.innerText = `${delivered} Delivered • ${cancelled} Cancelled/Returned`;
+
+            if (ratio >= 85) {
+              resRiskBadge.innerHTML = '<span>🟢 Safe Buyer</span>';
+              resRiskBadge.className = 'text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-1 flex items-center gap-1.5';
+              if (resProgressBar) resProgressBar.className = 'bg-emerald-500 h-full rounded-full transition-all duration-300';
+              if (resRecommendation) {
+                resRecommendation.innerText = 'Recommended: Full COD Approved without extra advance deposit.';
+                resRecommendation.className = 'text-[11px] text-emerald-700 dark:text-emerald-300 mt-2';
+              }
+            } else if (ratio >= 65) {
+              resRiskBadge.innerHTML = '<span>🟡 Moderate Risk</span>';
+              resRiskBadge.className = 'text-xl font-bold text-amber-500 mt-1 flex items-center gap-1.5';
+              if (resProgressBar) resProgressBar.className = 'bg-amber-500 h-full rounded-full transition-all duration-300';
+              if (resRecommendation) {
+                resRecommendation.innerText = 'Recommended: Phone confirmation required. Collect delivery charge (৳100–৳150) in advance.';
+                resRecommendation.className = 'text-[11px] text-amber-700 dark:text-amber-300 mt-2';
+              }
+            } else {
+              resRiskBadge.innerHTML = '<span>🔴 High Risk</span>';
+              resRiskBadge.className = 'text-xl font-bold text-red-600 dark:text-red-400 mt-1 flex items-center gap-1.5';
+              if (resProgressBar) resProgressBar.className = 'bg-red-500 h-full rounded-full transition-all duration-300';
+              if (resRecommendation) {
+                resRecommendation.innerText = 'High Risk Alert: Parcel return probability > 60%. Do not dispatch without 100% advance payment.';
+                resRecommendation.className = 'text-[11px] text-red-700 dark:text-red-300 mt-2';
+              }
+            }
+          };
+        }
+      }
+    }
+
+    // =========================================================================
+    // 5. COMMAND PALETTE & FULL-TEXT SEARCH (Ctrl + K / ⌘K)
+    // =========================================================================
+    const searchModal = document.getElementById('searchModal');
+    const searchBackdrop = document.getElementById('searchBackdrop');
+    const openSearchBtn = document.getElementById('openSearchBtn');
+    const closeSearchBtn = document.getElementById('closeSearchBtn');
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    let activeFilter = 'all';
+    let selectedIndex = 0;
+    let filteredList = [];
+
+    function openSearch() {
+      searchModal.classList.remove('hidden');
+      searchInput.value = '';
+      activeFilter = 'all';
+      updateFilterButtons();
+      renderSearchResults();
+      setTimeout(() => searchInput.focus(), 60);
+    }
+
+    function closeSearch() {
+      searchModal.classList.add('hidden');
+    }
+
+    if (openSearchBtn) openSearchBtn.onclick = openSearch;
+    if (closeSearchBtn) closeSearchBtn.onclick = closeSearch;
+    if (searchBackdrop) searchBackdrop.onclick = closeSearch;
+
+    document.querySelectorAll('.filter-pill').forEach(btn => {
+      btn.onclick = () => {
+        activeFilter = btn.dataset.filter;
+        updateFilterButtons();
+        renderSearchResults();
+      };
+    });
+
+    function updateFilterButtons() {
+      document.querySelectorAll('.filter-pill').forEach(b => {
+        if (b.dataset.filter === activeFilter) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    }
+
+    function renderSearchResults() {
+      const q = searchInput.value.trim().toLowerCase();
+      filteredList = CHAPTERS.filter(c => {
+        if (activeFilter !== 'all' && c.category !== activeFilter) return false;
+        if (!q) return true;
+        return (
+          c.title.toLowerCase().includes(q) ||
+          c.path.toLowerCase().includes(q) ||
+          (c.keywords && c.keywords.toLowerCase().includes(q))
+        );
+      });
+
+      if (filteredList.length === 0) {
+        searchResults.innerHTML = `
+          <div class="py-8 text-center text-xs text-zinc-400">
+            No matching documents or tools found for "<span class="font-semibold text-zinc-600 dark:text-zinc-300">${q}</span>"
+          </div>
+        `;
+        return;
+      }
+
+      selectedIndex = Math.min(selectedIndex, filteredList.length - 1);
+      selectedIndex = Math.max(0, selectedIndex);
+
+      searchResults.innerHTML = filteredList.map((item, idx) => {
+        const isSel = idx === selectedIndex;
+        const catBadge = item.category ? item.category.toUpperCase() : 'DOC';
+        return `
+          <div class="search-result-item ${isSel ? 'selected' : ''}" onclick="selectSearchItem(${idx})">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">${catBadge}</span>
+              <span class="text-xs font-medium text-zinc-800 dark:text-zinc-200 truncate">${item.title}</span>
+            </div>
+            <span class="text-[10px] font-mono text-zinc-400 ml-2 truncate">${item.path}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.selectSearchItem = function(idx) {
+      if (filteredList[idx]) {
+        window.location.hash = '#/' + filteredList[idx].path;
+        closeSearch();
+      }
+    };
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        selectedIndex = 0;
+        renderSearchResults();
+      });
+
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (filteredList.length > 0) {
+            selectedIndex = (selectedIndex + 1) % filteredList.length;
+            renderSearchResults();
+          }
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (filteredList.length > 0) {
+            selectedIndex = (selectedIndex - 1 + filteredList.length) % filteredList.length;
+            renderSearchResults();
+          }
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          selectSearchItem(selectedIndex);
+        } else if (e.key === 'Escape') {
+          closeSearch();
+        }
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (searchModal.classList.contains('hidden')) openSearch();
+        else closeSearch();
+      } else if (e.key === 'Escape' && !searchModal.classList.contains('hidden')) {
+        closeSearch();
+      }
+    });
 
     // Hash Navigation
     window.addEventListener('hashchange', () => {

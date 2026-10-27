@@ -1,0 +1,24 @@
+{
+  "name": "@refatbd/bd-courier",
+  "version": "1.0.0",
+  "description": "Unified Multi-Courier Logistics SDK for Bangladesh (Steadfast, RedX, Pathao, Paperfly, Carrybee, eCourier)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "node tests/test.js"
+  },
+  "keywords": [
+    "courier",
+    "logistics",
+    "bangladesh",
+    "steadfast",
+    "redx",
+    "pathao",
+    "paperfly",
+    "carrybee",
+    "ecourier",
+    "refatbd"
+  ],
+  "author": "Refat Rahman <contact@refat.ovh> (https://refat.ovh)",
+  "license": "MIT"
+}

@@ -1,11 +1,12 @@
-# 🇧🇩 Bangladesh API Hub & Developer Documentation
+# 🇧🇩 Bangladesh API Hub & Developer Ecosystem
 
+[![CI & GitHub Pages Deployment](https://github.com/refatbd/bangladesh-api-docs/actions/workflows/ci-deploy.yml/badge.svg)](https://github.com/refatbd/bangladesh-api-docs/actions/workflows/ci-deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Maintained by Refat Rahman](https://img.shields.io/badge/Author-Refat%20Rahman-orange?style=flat&logo=github)](https://github.com/refatbd)
 [![Website](https://img.shields.io/badge/Website-refat.ovh-green)](https://refat.ovh)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
-An open-source, production-grade API documentation repository, SDK collection, Postman suite, and OpenAPI specifications for Bangladeshi Couriers, FinTech Gateways, and Logistics Providers.
+An open-source, production-grade API documentation repository, SDK collection, Postman suite, OpenAPI specifications, and universal logistics facade for Bangladeshi Couriers, FinTech Gateways, and E-Commerce Services.
 
 ---
 
@@ -19,6 +20,53 @@ An open-source, production-grade API documentation repository, SDK collection, P
 | **Facebook** | [fb.com/rjrefat](https://www.facebook.com/rjrefat/) |
 | **Instagram** | [@refat_official](https://www.instagram.com/refat_official) |
 | **Telegram** | [@refatbd](https://t.me/refatbd) |
+
+---
+
+## 🛠️ Interactive Developer Playgrounds
+
+This portal includes built-in interactive tools accessible via the documentation viewer (`index.html`):
+
+1. **[Multi-Courier Shipping Rate & COD Calculator](docs/tools/rate-calculator.md)**: Real-time reactive calculator comparing net shipping charges, 1% COD fees, and delivery SLA across Steadfast, RedX, Pathao, Paperfly, Carrybee, and eCourier side-by-side.
+2. **[Phone Number Fraud Risk Inspector](docs/tools/fraud-checker.md)**: Real-time customer delivery success ratio, return rate, and fraud risk score verification sandbox (powered by Steadfast & eCourier APIs).
+3. **Global Command Palette (`Ctrl + K` / `⌘K`)**: Instant client-side full-text search indexing across 55+ chapters and 7 providers with category filters and keyboard navigation.
+
+---
+
+## 📦 Unified Multi-Courier Engine (`refatbd/bangladesh-courier`)
+
+Every Bangladeshi courier invents their own API naming conventions (grams vs kilograms, varying status codes, custom webhook signatures). The **Unified Courier Engine** normalizes all 6 major logistics services into a single PSR-4 PHP and Node.js interface:
+
+### PHP Installation
+```bash
+composer require refatbd/bangladesh-courier
+```
+
+### Standard Usage
+```php
+use Refatbd\Courier\Courier;
+use Refatbd\Courier\DTO\OrderRequest;
+
+// Factory instantiate any provider
+$courier = Courier::provider('steadfast', [
+    'api_key'    => env('STEADFAST_API_KEY'),
+    'secret_key' => env('STEADFAST_SECRET_KEY'),
+]);
+
+// Book parcel with normalized payload
+$order = $courier->createOrder(new OrderRequest([
+    'invoice_id'        => 'INV-9021',
+    'recipient_name'    => 'Refat Rahman',
+    'recipient_phone'   => '01700000000',
+    'recipient_address' => 'House 12, Road 4, Dhanmondi, Dhaka',
+    'delivery_zone'     => 'inside_dhaka',
+    'amount_to_collect' => 2500,  // COD in BDT
+    'weight_kg'         => 1.5,   // Automatically converted to 1500g for RedX/Paperfly
+]));
+
+echo $order->tracking_code; // Standardized tracking identifier
+echo $order->status;        // Canonical status: 'pending', 'in_transit', 'delivered'
+```
 
 ---
 
@@ -36,116 +84,50 @@ An open-source, production-grade API documentation repository, SDK collection, P
 
 ---
 
-## 📦 What's Inside Each API Suite?
-
-Every documented company in this repository includes:
-1. **Full API Guides & References**: Complete breakdown of all available endpoints, query parameters, JSON request payloads, and status codes.
-2. **Ready-to-Run Code Examples**: Standalone, copy-pasteable snippets in **cURL**, **PHP (Laravel)**, **JavaScript (Node.js)**, and **Python**.
-3. **Official Postman Collection**: Importable `.postman_collection.json` with preconfigured variables and test assertions.
-4. **OpenAPI 3.0 / Swagger Specifications**: Standard `.yaml` schema for automatic client SDK generation and Swagger UI visualization.
-5. **Real-World Edge Cases**: Documented quirks, character stripping rules (e.g., Steadfast's sanitization of `{ } ; < > $`), rate limits, and failure fallback semantics.
-
----
-
 ## 📂 Repository Structure
 
 ```text
 bangladesh-api-docs/
-├── README.md                          # Master Directory & Hub
+├── README.md                          # Master Directory & Developer Hub
 ├── LICENSE                            # MIT License
-├── CONTRIBUTING.md                    # Guidelines for Community Contributors
-├── index.html                         # VitePress/Supabase Grade Hub Viewer
-├── api-reference.html                 # Steadfast Scalar Interactive Reference
-├── api-reference-redx.html            # RedX Delivery Scalar Interactive Reference
-├── api-reference-pathao.html          # Pathao Courier Scalar Interactive Reference
-├── api-reference-paperfly.html        # Paperfly Courier Scalar Interactive Reference
-├── api-reference-carrybee.html        # Carrybee Courier Scalar Interactive Reference
-├── api-reference-ecourier.html        # eCourier Courier Scalar Interactive Reference
-├── api-reference-nagad.html           # Nagad Direct Gateway Scalar Interactive Reference
+├── CONTRIBUTING.md                    # Community Contribution Standards
+├── index.html                         # VitePress/Supabase Grade Hub Viewer (with Ctrl+K)
+├── .spectral.yaml                     # Spectral OpenAPI 3.0 Linting Rules
+├── .github/
+│   └── workflows/
+│       └── ci-deploy.yml              # GitHub Actions CI/CD & Pages Deploy Pipeline
+├── packages/
+│   └── unified-courier/               # refatbd/bangladesh-courier Package Suite
+│       ├── composer.json              # PSR-4 Autoloading Definition
+│       ├── package.json               # Node.js (@refatbd/bd-courier) Definition
+│       ├── index.js                   # Node.js ESM Entry Point
+│       ├── src/
+│       │   ├── Courier.php            # Unified Facade & Factory Manager
+│       │   ├── Contracts/             # CourierAdapterInterface.php
+│       │   ├── Enums/                 # CourierStatus.php (Normalized Enums)
+│       │   ├── DTO/                   # Request & Response Data Transfer Objects
+│       │   └── Adapters/              # Steadfast, RedX, Pathao, Paperfly, Carrybee, eCourier
+│       └── tests/
+│           └── test-unified.php       # Automated PHP Test Suite (11 Assertions Passed)
 ├── docs/
-│   ├── steadfast/                     # Steadfast Courier Documentation Suite (18 Endpoints)
-│   │   ├── README.md
-│   │   └── 01-getting-started.md ... 08-webhooks.md
-│   ├── redx/                          # RedX Delivery Documentation Suite (11 Endpoints)
-│   │   ├── README.md
-│   │   └── 01-getting-started.md ... 08-status-and-error-codes.md
-│   ├── pathao/                        # Pathao Courier Aladdin API v1 (10 Endpoints)
-│   │   ├── README.md
-│   │   └── 01-getting-started-and-oauth.md ... 08-status-lifecycle-and-webhooks.md
-│   ├── paperfly/                      # Paperfly Courier Developer API v2 (4 Endpoints + 14 Events)
-│   │   ├── README.md                  # Master Overview & Basic Auth Credentials
-│   │   ├── 01-getting-started.md      # Basic Auth & paperflykey Header
-│   │   ├── 02-order-creation.md       # Standard Consignment Placement
-│   │   ├── 03-exchange-orders.md      # Simultaneous Exchange Deliveries
-│   │   ├── 04-tracking-and-status.md  # Milestone Progression Status
-│   │   ├── 05-cancellation.md         # Pre-Pickup Cancellation Rules
-│   │   ├── 06-webhooks-and-events.md  # 14 Real-Time Webhook Subscriptions
-│   │   └── 07-status-reference.md     # State Machine & Tracking Key Mapping
-│   ├── carrybee/                      # Carrybee Delivery API v2.0 (14 Endpoints + 24 Events)
-│   │   ├── README.md                  # Master Overview & Triple-Header Authentication
-│   │   ├── 01-getting-started.md      # Triple-Header Auth, Sandboxes, Context Setup
-│   │   ├── 02-location-and-coverage.md# Cities, Zones, Autocomplete & Address Resolution
-│   │   ├── 03-stores-and-warehouses.md# Merchant Dispatch Locations & Store Creation
-│   │   ├── 04-orders-and-booking.md   # Single Delivery, Bulk Async (202), Tracking & Cancellation
-│   │   ├── 05-reverse-pickup-and-exchange.md # Customer Reverse Returns & Item Swap Exchanges
-│   │   ├── 06-webhooks-and-handshake.md # 202 Accepted Echo Handshake & 24 Event Handlers
-│   │   └── 07-status-reference.md     # Lifecycle State Machine, 422 Errors & Polling Fallback
-│   ├── ecourier/                      # eCourier Courier API v5.5 (21 Endpoints)
-│   │   ├── README.md                  # Master Overview & Triple-Header Authentication
-│   │   ├── 01-getting-started.md      # Triple-Header Auth, Base URLs & Connection Testing
-│   │   ├── 02-coverage-and-geography.md # Cities, Thanas, Postcodes & Hub Routing (7 APIs)
-│   │   ├── 03-package-selection.md    # Assigned Contracted Package Codes & Rate Tiers
-│   │   ├── 04-order-placement.md      # Standard Order, COD, Exchange & Hub Delivery
-│   │   ├── 05-reseller-and-child-orders.md # Child Vendor Payouts (Bank/bKash/Rocket Splitting)
-│   │   ├── 06-tracking-labels-and-finance.md # Milestone Tracking, Label PDF & Payment Status
-│   │   ├── 07-fraud-check-and-booster-sms.md # AI Fraud Return Check & Booster VAS Services
-│   │   └── 08-status-and-error-reference.md # State Machine, HTTP Codes & 400 Validation Dictionary
-│   └── nagad/                         # Nagad Direct Online Payment Gateway (API v3.3)
-│       ├── README.md                  # Master Overview, Dual RSA-2048 & 4-Stage Workflow
-│       ├── 01-getting-started.md      # Onboarding, Generating RSA 2048 Keys & Timezone
-│       ├── 02-cryptography-and-signatures.md # PKCS#1 v1.5 Encryption, SHA-256 Signatures
-│       ├── 03-checkout-initialization.md # Step 1: POST /check-out/initialize & Nonce Challenge
-│       ├── 04-checkout-complete-and-redirect.md # Step 2: POST /check-out/complete & Currency 050
-│       ├── 05-callback-and-verification.md # Step 3 & 4: Inbound Callback & GET /verify/payment
-│       └── 06-error-codes-and-status.md # Error Codes, PEM Formatting & Troubleshooting
-├── sdks-and-examples/
-│   ├── steadfast/                     # Steadfast Clients (cURL, PHP, Node, Python)
-│   ├── redx/                          # RedX Clients (cURL, PHP, Node, Python)
-│   ├── pathao/                        # Pathao Courier Clients (cURL, PHP, Node, Python)
-│   ├── paperfly/                      # Paperfly Courier Clients (cURL, PHP, Node, Python)
-│   ├── carrybee/                      # Carrybee Courier Clients (cURL, PHP, Node, Python)
-│   ├── ecourier/                      # eCourier Courier Clients (cURL, PHP, Node, Python)
-│   └── nagad/                         # Nagad Gateway Clients
-│       ├── curl/                      # Bash Scripts (generate_keys, verify_payment)
-│       ├── php/                       # NagadClient.php (PHP 8.x) & example.php
-│       ├── nodejs/                    # nagad.js (Node 18+ native crypto) & example.js
-│       └── python/                    # nagad.py (Requests + Cryptography) & example.py
-├── postman/
-│   ├── Steadfast_Courier_API_v1.postman_collection.json
-│   ├── RedX_Courier_API_v1.postman_collection.json
-│   ├── Pathao_Courier_API_v1.postman_collection.json
-│   ├── Paperfly_Courier_API_v1.postman_collection.json
-│   ├── Carrybee_Courier_API_v2.postman_collection.json
-│   ├── eCourier_Courier_API_v5.postman_collection.json
-│   └── Nagad_Payment_Gateway_API_v3.3.postman_collection.json
-└── openapi/
-    ├── steadfast-openapi.yaml
-    ├── redx-openapi.yaml
-    ├── pathao-openapi.yaml
-    ├── paperfly-openapi.yaml
-    ├── carrybee-openapi.yaml
-    ├── ecourier-openapi.yaml
-    └── nagad-openapi.yaml
+│   ├── tools/                         # Interactive Developer Playgrounds
+│   │   ├── rate-calculator.md         # Multi-Courier Shipping Rate & COD Calculator
+│   │   ├── fraud-checker.md           # Phone Number Fraud Risk Inspector
+│   │   └── unified-courier.md         # Unified Engine Architecture & Guide
+│   ├── steadfast/                     # Steadfast Courier (18 Endpoints)
+│   ├── redx/                          # RedX Delivery (11 Endpoints)
+│   ├── pathao/                        # Pathao Courier (10 Endpoints)
+│   ├── paperfly/                      # Paperfly Courier (4 Endpoints + 14 Events)
+│   ├── carrybee/                      # Carrybee Delivery (14 Endpoints + 24 Events)
+│   ├── ecourier/                      # eCourier Courier (21 Endpoints)
+│   └── nagad/                         # Nagad Direct PG (3 Endpoints, Dual RSA-2048)
+├── sdks-and-examples/                 # Standalone Clients in cURL, PHP, Node, Python
+├── postman/                           # Importable Postman Collections for all 7 Providers
+└── openapi/                           # OpenAPI 3.0 / Swagger YAML Specifications
 ```
-
----
-
-## 🤝 Contributing
-
-Contributions are warmly welcomed! If you have documentation, SDKs, or Postman collections for other Bangladeshi APIs, please read [CONTRIBUTING.md](CONTRIBUTING.md) and submit a Pull Request.
 
 ---
 
 ## 📄 License
 
-This documentation and code collection is open-sourced under the [MIT License](LICENSE) &copy; 2026 **Refat Rahman**.
+This documentation and code ecosystem is open-sourced under the [MIT License](LICENSE) &copy; 2026 **Refat Rahman**.
