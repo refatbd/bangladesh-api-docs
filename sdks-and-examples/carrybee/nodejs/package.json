@@ -1,0 +1,23 @@
+{
+  "name": "@refatbd/carrybee-sdk",
+  "version": "1.0.0",
+  "description": "Production-ready Node.js SDK for Carrybee Courier API v2.0",
+  "main": "carrybee.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node example.js"
+  },
+  "keywords": [
+    "carrybee",
+    "courier",
+    "bangladesh",
+    "delivery",
+    "logistics",
+    "api-sdk"
+  ],
+  "author": "Refat Rahman <https://refat.ovh>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

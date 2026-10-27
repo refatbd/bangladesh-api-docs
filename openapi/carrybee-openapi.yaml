@@ -1,0 +1,491 @@
+openapi: 3.0.3
+info:
+  title: Carrybee Courier Delivery API v2.0
+  version: 2.0.0
+  description: |
+    Official OpenAPI 3.0 specification for Carrybee Delivery Platform, Bangladesh.
+    Provides nationwide courier fulfillment, automated reverse pickups, replacement exchanges,
+    intelligent address resolution, and 24 real-time webhook event streams.
+
+    **Developer & Maintainer**: Refat Rahman  
+    **Website**: [refat.ovh](https://refat.ovh)  
+    **GitHub**: [@refatbd](https://github.com/refatbd)
+  contact:
+    name: Refat Rahman
+    url: https://refat.ovh
+    email: refatbd.dev@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://sandbox.carrybee.com
+    description: Sandbox Environment (Testing & Staging)
+  - url: https://developers.carrybee.com
+    description: Production Environment (Live Real-time Delivery)
+
+tags:
+  - name: Location & Coverage
+    description: City listing, zone breakdown, area autocomplete, and address parsing.
+  - name: Stores & Warehouses
+    description: Merchant dispatch locations and pickup hub management.
+  - name: Orders & Booking
+    description: Single and bulk consignment placement, tracking, and cancellation.
+  - name: Reverse & Exchange
+    description: Customer return pickups and item swap exchange consignments.
+
+components:
+  securitySchemes:
+    ClientIdAuth:
+      type: apiKey
+      in: header
+      name: Client-ID
+      description: Your Carrybee Merchant Client ID.
+    ClientSecretAuth:
+      type: apiKey
+      in: header
+      name: Client-Secret
+      description: Your Carrybee Merchant Client Secret.
+    ClientContextAuth:
+      type: apiKey
+      in: header
+      name: Client-Context
+      description: Your Carrybee Client Context token.
+
+  schemas:
+    City:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Dhaka
+        status:
+          type: string
+          example: active
+
+    Zone:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5
+        city_id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Dhanmondi
+        status:
+          type: string
+          example: active
+
+    Store:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 101
+        name:
+          type: string
+          example: Central Warehouse Banani
+        contact_name:
+          type: string
+          example: Refat Rahman
+        contact_number:
+          type: string
+          example: "01811223344"
+        address:
+          type: string
+          example: House 18, Road 11, Block D, Banani
+        city_id:
+          type: integer
+          example: 1
+        zone_id:
+          type: integer
+          example: 8
+
+    CreateOrderRequest:
+      type: object
+      required:
+        - store_id
+        - recipient_name
+        - recipient_phone
+        - recipient_address
+        - recipient_city
+        - recipient_zone
+        - delivery_type
+        - product_type
+        - item_weight
+        - collectable_amount
+      properties:
+        store_id:
+          type: integer
+          example: 101
+          description: Pickup warehouse store ID.
+        merchant_order_id:
+          type: string
+          example: INV-2026-CB-001
+          description: Unique merchant invoice/order identifier.
+        recipient_name:
+          type: string
+          example: Tanvir Ahmed
+        recipient_phone:
+          type: string
+          example: "01811223344"
+        recipient_address:
+          type: string
+          example: House 12, Road 4, Sector 7, Uttara, Dhaka
+        recipient_city:
+          type: integer
+          example: 1
+        recipient_zone:
+          type: integer
+          example: 5
+        delivery_type:
+          type: integer
+          enum: [1, 2]
+          description: "1 = Normal Delivery, 2 = Express Delivery"
+          example: 1
+        product_type:
+          type: integer
+          enum: [1, 2, 3]
+          description: "1 = Parcel, 2 = Book, 3 = Document"
+          example: 1
+        item_weight:
+          type: integer
+          description: Weight in grams (1 to 25,000 g).
+          example: 1200
+        item_description:
+          type: string
+          example: Smart Casual Denim Shirt
+        item_quantity:
+          type: integer
+          example: 1
+        collectable_amount:
+          type: number
+          format: float
+          description: Amount to collect in BDT (0 for prepaid).
+          example: 1850.00
+        special_instruction:
+          type: string
+          example: Call recipient before dispatching
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: Validation failed
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+
+security:
+  - ClientIdAuth: []
+    ClientSecretAuth: []
+    ClientContextAuth: []
+
+paths:
+  /api/v2/cities:
+    get:
+      tags:
+        - Location & Coverage
+      summary: Get All Cities
+      description: Retrieve the complete list of serviceable cities across Bangladesh.
+      responses:
+        '200':
+          description: List of cities returned successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/City'
+
+  /api/v2/zones/{city_id}:
+    get:
+      tags:
+        - Location & Coverage
+      summary: Get Zones by City ID
+      description: Fetch all operational zones and thanas for a specific city ID.
+      parameters:
+        - name: city_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: List of zones returned.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Zone'
+
+  /api/v2/area-suggestion:
+    get:
+      tags:
+        - Location & Coverage
+      summary: Area Autocomplete Suggestion
+      description: Search autocomplete suggestions for recipient address (min 3 characters).
+      parameters:
+        - name: search
+          in: query
+          required: true
+          schema:
+            type: string
+          example: Dhanmondi
+      responses:
+        '200':
+          description: Matching areas returned.
+
+  /api/v2/address-details:
+    post:
+      tags:
+        - Location & Coverage
+      summary: Resolve Address Details
+      description: Parses raw unformatted address strings into city_id and zone_id.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - address
+              properties:
+                address:
+                  type: string
+                  example: House 12, Road 4, Sector 7, Uttara, Dhaka
+      responses:
+        '200':
+          description: Address parsed successfully.
+
+  /api/v2/stores:
+    get:
+      tags:
+        - Stores & Warehouses
+      summary: List Merchant Stores
+      description: Fetch all registered warehouse pickup locations.
+      responses:
+        '200':
+          description: Stores returned.
+    post:
+      tags:
+        - Stores & Warehouses
+      summary: Create Warehouse Store
+      description: Add a new merchant dispatch location.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Store'
+      responses:
+        '201':
+          description: Store created successfully.
+
+  /api/v2/orders:
+    post:
+      tags:
+        - Orders & Booking
+      summary: Create Single Order
+      description: Book a new delivery consignment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '200':
+          description: Order created successfully.
+        '422':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/v2/orders-bulk:
+    post:
+      tags:
+        - Orders & Booking
+      summary: Create Bulk Orders (Async 202)
+      description: Queue multiple orders for batch processing.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - orders
+              properties:
+                orders:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '202':
+          description: Bulk orders accepted for processing.
+
+  /api/v2/orders/track/{consignment_id}:
+    get:
+      tags:
+        - Orders & Booking
+      summary: Track Order by Consignment ID
+      description: Get live tracking timeline and current status.
+      parameters:
+        - name: consignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: CB-982341
+      responses:
+        '200':
+          description: Real-time tracking data returned.
+
+  /api/v2/orders/cancel:
+    post:
+      tags:
+        - Orders & Booking
+      summary: Cancel Order
+      description: Cancel an uncollected or unprocessed consignment.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - consignment_id
+              properties:
+                consignment_id:
+                  type: string
+                  example: CB-982341
+                reason:
+                  type: string
+                  example: Customer changed delivery address
+      responses:
+        '200':
+          description: Order cancelled successfully.
+
+  /api/v2/orders/reverse-pickup:
+    post:
+      tags:
+        - Reverse & Exchange
+      summary: Create Reverse Pickup
+      description: Book a reverse parcel pickup from customer location to merchant warehouse.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - store_id
+                - customer_name
+                - customer_phone
+                - customer_address
+                - customer_city
+                - customer_zone
+              properties:
+                store_id:
+                  type: integer
+                  example: 101
+                customer_name:
+                  type: string
+                  example: Rafiqul Islam
+                customer_phone:
+                  type: string
+                  example: "01722334455"
+                customer_address:
+                  type: string
+                  example: House 45, Road 11, Banani, Dhaka
+                customer_city:
+                  type: integer
+                  example: 1
+                customer_zone:
+                  type: integer
+                  example: 8
+                item_weight:
+                  type: integer
+                  example: 850
+                item_description:
+                  type: string
+                  example: Size M T-Shirt Return
+                reason:
+                  type: string
+                  example: Wrong size replacement
+      responses:
+        '200':
+          description: Reverse pickup scheduled successfully.
+
+  /api/v2/orders/{consignment_id}/exchange:
+    post:
+      tags:
+        - Reverse & Exchange
+      summary: Create Exchange Order
+      description: Initiate replacement item delivery while collecting previous parcel.
+      parameters:
+        - name: consignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: CB-982341
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - store_id
+                - replacement_item_description
+                - item_weight
+              properties:
+                store_id:
+                  type: integer
+                  example: 101
+                replacement_item_description:
+                  type: string
+                  example: Size XL Blue Denim Shirt
+                item_weight:
+                  type: integer
+                  example: 1200
+                collectable_amount:
+                  type: number
+                  example: 100.00
+                exchange_reason:
+                  type: string
+                  example: Customer requested size change
+      responses:
+        '200':
+          description: Exchange order booked successfully.
