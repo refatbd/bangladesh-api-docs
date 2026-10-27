@@ -1,0 +1,13 @@
+{
+  "name": "steadfast-api-client",
+  "version": "1.0.0",
+  "description": "Production-ready Node.js SDK for Steadfast Courier API (Bangladesh)",
+  "type": "module",
+  "main": "steadfast.js",
+  "scripts": {
+    "test": "node example.js"
+  },
+  "keywords": ["steadfast", "courier", "bangladesh", "cod", "api-client", "logistics"],
+  "author": "Refat Rahman (https://refat.ovh)",
+  "license": "MIT"
+}
