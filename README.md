@@ -28,7 +28,7 @@ An open-source, production-grade API documentation repository, SDK collection, P
 | :--- | :--- | :--- | :---: | :---: | :---: | :---: |
 | **[Steadfast Courier](docs/steadfast/README.md)** | Logistics / COD | `https://portal.packzy.com/api/v1` | **18** | ✅ Included | PHP, JS, Python, cURL | 🟢 **Complete** |
 | **[RedX Delivery](docs/redx/README.md)** | Logistics / Fulfillment | `https://openapi.redx.com.bd` | **11** | ✅ Included | PHP, JS, Python, cURL | 🟢 **Complete** |
-| **Pathao Courier** *(Coming Soon)* | Logistics / On-Demand | `https://api-hermes.pathao.com` | - | Planned | - | ⏳ Queued |
+| **[Pathao Courier](docs/pathao/README.md)** | Logistics / On-Demand | `https://api-hermes.pathao.com` | **10** | ✅ Included | PHP, JS, Python, cURL | 🟢 **Complete** |
 | **bKash Tokenized** *(Coming Soon)* | MFS / Payment Gateway | `https://tokenized.pay.bka.sh/v1.2.0-beta` | - | Planned | - | ⏳ Queued |
 | **Nagad Direct** *(Coming Soon)* | MFS / Payment Gateway | `https://api.mynagad.com` | - | Planned | - | ⏳ Queued |
 
@@ -55,33 +55,40 @@ bangladesh-api-docs/
 ├── index.html                         # VitePress/Supabase Grade Hub Viewer
 ├── api-reference.html                 # Steadfast Scalar Interactive Reference
 ├── api-reference-redx.html            # RedX Delivery Scalar Interactive Reference
+├── api-reference-pathao.html          # Pathao Courier Scalar Interactive Reference
 ├── docs/
 │   ├── steadfast/                     # Steadfast Courier Documentation Suite (18 Endpoints)
 │   │   ├── README.md
 │   │   └── 01-getting-started.md ... 08-webhooks.md
-│   └── redx/                          # RedX Delivery Documentation Suite (11 Endpoints)
-│       ├── README.md                  # Master Overview & Environments
-│       ├── 01-getting-started.md      # Sandbox & Production, JWT Header
-│       ├── 02-parcels-and-orders.md   # Create, Update & Query Consignments
-│       ├── 03-tracking-and-status.md  # Tracking Milestones (EN & BN)
-│       ├── 04-areas-and-coverage.md   # 64 Districts, Postal Codes
-│       ├── 05-pickup-stores.md        # Multi-Warehouse Management
-│       ├── 06-charge-calculator.md    # Delivery & COD Fee Calculation
-│       ├── 07-webhooks-and-callbacks.md # Real-Time Push Events & Security
-│       └── 08-status-and-error-codes.md # State Transitions & HTTP Reference
+│   ├── redx/                          # RedX Delivery Documentation Suite (11 Endpoints)
+│   │   ├── README.md
+│   │   └── 01-getting-started.md ... 08-status-and-error-codes.md
+│   └── pathao/                        # Pathao Courier Aladdin API v1 (10 Endpoints)
+│       ├── README.md                  # Master Overview & OAuth Credentials
+│       ├── 01-getting-started-and-oauth.md # Password & Refresh Token Grants
+│       ├── 02-stores-and-warehouses.md # Multi-Warehouse Registration
+│       ├── 03-city-zone-area-hierarchy.md # 3-Tier Geographical Model
+│       ├── 04-creating-orders.md      # Single Consignments & COD
+│       ├── 05-bulk-orders.md          # High-Volume Batch Orders
+│       ├── 06-order-tracking-and-status.md # Tracking & Invoice Queries
+│       ├── 07-price-calculation-plan.md # Real-Time Freight & COD Rates
+│       └── 08-status-lifecycle-and-webhooks.md # State Machine & Errors
 ├── sdks-and-examples/
 │   ├── steadfast/                     # Steadfast Clients (cURL, PHP, Node, Python)
-│   └── redx/                          # RedX Delivery Clients
-│       ├── curl/                      # Bash Scripts (track, create, update, charge)
-│       ├── php/                       # RedxClient.php (PHP 8.x) & example.php
-│       ├── nodejs/                    # redx.js (Node 18+ fetch) & example.js
-│       └── python/                    # redx.py (Requests) & example.py
+│   ├── redx/                          # RedX Clients (cURL, PHP, Node, Python)
+│   └── pathao/                        # Pathao Courier Clients
+│       ├── curl/                      # Bash Scripts (issue_token, order, track, price)
+│       ├── php/                       # PathaoClient.php (PHP 8.x) & example.php
+│       ├── nodejs/                    # pathao.js (Node 18+ fetch) & example.js
+│       └── python/                    # pathao.py (Requests) & example.py
 ├── postman/
 │   ├── Steadfast_Courier_API_v1.postman_collection.json
-│   └── RedX_Courier_API_v1.postman_collection.json
+│   ├── RedX_Courier_API_v1.postman_collection.json
+│   └── Pathao_Courier_API_v1.postman_collection.json
 └── openapi/
     ├── steadfast-openapi.yaml
-    └── redx-openapi.yaml
+    ├── redx-openapi.yaml
+    └── pathao-openapi.yaml
 ```
 
 ---

@@ -1,0 +1,653 @@
+openapi: 3.0.3
+info:
+  title: Pathao Courier Aladdin API
+  version: 1.0.0
+  description: |
+    Production OpenAPI 3.0 specification for Pathao Courier Merchant API (Aladdin API v1), Bangladesh.
+    Provides nationwide logistics fulfillment, on-demand and next-day deliveries, real-time tracking,
+    OAuth 2.0 authentication, and automated Cash-on-Delivery (COD) reconciliation.
+
+    **Developer & Maintainer**: Refat Rahman  
+    **Website**: [refat.ovh](https://refat.ovh)  
+    **GitHub**: [@refatbd](https://github.com/refatbd)
+  contact:
+    name: Refat Rahman
+    url: https://refat.ovh
+    email: refatbd.dev@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://courier-api-sandbox.pathao.com
+    description: Sandbox Staging Environment (Testing)
+  - url: https://api-hermes.pathao.com
+    description: Production Live Environment (Real Dispatches)
+
+components:
+  securitySchemes:
+    PathaoBearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        OAuth 2.0 Bearer token obtained from `/aladdin/api/v1/issue-token`.
+
+  schemas:
+    IssueTokenPasswordRequest:
+      type: object
+      required:
+        - client_id
+        - client_secret
+        - grant_type
+        - username
+        - password
+      properties:
+        client_id:
+          type: string
+          example: 7N1aMJQbWm
+        client_secret:
+          type: string
+          example: wRcaibZkUdSNz2EI9ZyuXLlNrnAv0TdPUPXMnD39
+        grant_type:
+          type: string
+          enum: [password, refresh_token]
+          example: password
+        username:
+          type: string
+          example: test@pathao.com
+        password:
+          type: string
+          example: lovePathao
+        refresh_token:
+          type: string
+          description: Required when grant_type is refresh_token
+
+    TokenResponse:
+      type: object
+      properties:
+        token_type:
+          type: string
+          example: Bearer
+        expires_in:
+          type: integer
+          example: 432000
+        access_token:
+          type: string
+          example: eyJ0eXAiOiJKV1QiLCJhbGci...
+        refresh_token:
+          type: string
+          example: def5020059c47087e35b...
+
+    StoreItem:
+      type: object
+      properties:
+        store_id:
+          type: integer
+          example: 4821
+        store_name:
+          type: string
+          example: Uttara Flagship Warehouse
+        store_address:
+          type: string
+          example: House 123, Road 4, Sector 10, Uttara, Dhaka
+        is_active:
+          type: integer
+          example: 1
+        city_id:
+          type: integer
+          example: 1
+        zone_id:
+          type: integer
+          example: 1070
+        hub_id:
+          type: integer
+          example: 15
+        is_default_store:
+          type: integer
+          example: 1
+        is_default_return_store:
+          type: integer
+          example: 1
+
+    CreateStoreRequest:
+      type: object
+      required:
+        - name
+        - contact_name
+        - contact_number
+        - address
+        - city_id
+        - zone_id
+        - area_id
+      properties:
+        name:
+          type: string
+          minLength: 3
+          maxLength: 50
+          example: Demo Store
+        contact_name:
+          type: string
+          minLength: 3
+          maxLength: 50
+          example: Test Merchant
+        contact_number:
+          type: string
+          example: "01711223344"
+        secondary_contact:
+          type: string
+          example: "01511223344"
+        otp_number:
+          type: string
+          example: "01711223344"
+        address:
+          type: string
+          minLength: 15
+          maxLength: 120
+          example: House 123, Road 4, Sector 10, Uttara, Dhaka-1230
+        city_id:
+          type: integer
+          example: 1
+        zone_id:
+          type: integer
+          example: 1070
+        area_id:
+          type: integer
+          example: 37
+
+    CityItem:
+      type: object
+      properties:
+        city_id:
+          type: integer
+          example: 1
+        city_name:
+          type: string
+          example: Dhaka
+
+    ZoneItem:
+      type: object
+      properties:
+        zone_id:
+          type: integer
+          example: 1070
+        zone_name:
+          type: string
+          example: Abdullahpur Uttara
+
+    AreaItem:
+      type: object
+      properties:
+        area_id:
+          type: integer
+          example: 37
+        area_name:
+          type: string
+          example: Bonolota
+        home_delivery_available:
+          type: boolean
+          example: true
+        pickup_available:
+          type: boolean
+          example: true
+
+    CreateOrderRequest:
+      type: object
+      required:
+        - store_id
+        - recipient_name
+        - recipient_phone
+        - recipient_address
+        - delivery_type
+        - item_type
+        - item_quantity
+        - item_weight
+        - amount_to_collect
+      properties:
+        store_id:
+          type: integer
+          example: 4821
+        merchant_order_id:
+          type: string
+          example: ORD-2026-9041
+        recipient_name:
+          type: string
+          minLength: 3
+          maxLength: 100
+          example: Tariqul Islam
+        recipient_phone:
+          type: string
+          example: "01711223344"
+        recipient_secondary_phone:
+          type: string
+          example: "01511223344"
+        recipient_address:
+          type: string
+          minLength: 10
+          maxLength: 220
+          example: House 14, Road 7, Sector 3, Uttara, Dhaka-1230
+        recipient_city:
+          type: integer
+          example: 1
+        recipient_zone:
+          type: integer
+          example: 1070
+        recipient_area:
+          type: integer
+          example: 37
+        delivery_type:
+          type: integer
+          enum: [48, 12]
+          description: 48 = Normal Delivery, 12 = On-Demand Delivery
+          example: 48
+        item_type:
+          type: integer
+          enum: [1, 2]
+          description: 1 = Document, 2 = Parcel
+          example: 2
+        special_instruction:
+          type: string
+          example: Deliver before 5 PM
+        item_quantity:
+          type: integer
+          minimum: 1
+          example: 1
+        item_weight:
+          type: number
+          minimum: 0.5
+          maximum: 10.0
+          example: 0.5
+        item_description:
+          type: string
+          example: Cotton Polo T-Shirt
+        amount_to_collect:
+          type: integer
+          minimum: 0
+          description: Payable amount upon delivery (0 for prepaid)
+          example: 1200
+
+    OrderCreatedData:
+      type: object
+      properties:
+        consignment_id:
+          type: string
+          example: PT9041A4B89
+        merchant_order_id:
+          type: string
+          example: ORD-2026-9041
+        order_status:
+          type: string
+          example: Pending
+        delivery_fee:
+          type: number
+          example: 80
+
+    PricePlanRequest:
+      type: object
+      required:
+        - store_id
+        - item_type
+        - delivery_type
+        - item_weight
+        - recipient_city
+        - recipient_zone
+      properties:
+        store_id:
+          type: integer
+          example: 4821
+        item_type:
+          type: integer
+          example: 2
+        delivery_type:
+          type: integer
+          example: 48
+        item_weight:
+          type: number
+          example: 0.5
+        recipient_city:
+          type: integer
+          example: 1
+        recipient_zone:
+          type: integer
+          example: 1070
+
+    PricePlanData:
+      type: object
+      properties:
+        price:
+          type: integer
+          example: 80
+        discount:
+          type: integer
+          example: 0
+        promo_discount:
+          type: integer
+          example: 0
+        plan_id:
+          type: integer
+          example: 69
+        cod_enabled:
+          type: integer
+          example: 1
+        cod_percentage:
+          type: number
+          example: 0.01
+        additional_charge:
+          type: integer
+          example: 0
+        final_price:
+          type: number
+          example: 80
+
+paths:
+  /aladdin/api/v1/issue-token:
+    post:
+      summary: Issue Access Token (OAuth 2.0)
+      description: Issues or refreshes an OAuth 2.0 Bearer access token valid for 5 days (432,000 seconds).
+      operationId: issueToken
+      tags:
+        - Authentication
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueTokenPasswordRequest'
+      responses:
+        '200':
+          description: Token issued successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+
+  /aladdin/api/v1/stores:
+    get:
+      summary: Get Merchant Stores
+      description: Returns a paginated summary of all registered pickup stores / warehouses.
+      operationId: getStores
+      tags:
+        - Stores & Warehouses
+      security:
+        - PathaoBearerAuth: []
+      responses:
+        '200':
+          description: Stores retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Store list fetched.
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/StoreItem'
+    post:
+      summary: Create a New Store
+      description: Registers a new warehouse pickup location. Requires 1 hour for manual review.
+      operationId: createStore
+      tags:
+        - Stores & Warehouses
+      security:
+        - PathaoBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateStoreRequest'
+      responses:
+        '200':
+          description: Store created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Store created successfully, Please wait one hour for approval.
+                  type:
+                    type: string
+                    example: success
+                  code:
+                    type: integer
+                    example: 200
+
+  /aladdin/api/v1/city-list:
+    get:
+      summary: Get List of Cities
+      description: Returns available metropolitan delivery cities and divisions.
+      operationId: getCities
+      tags:
+        - Geographical Directory
+      security:
+        - PathaoBearerAuth: []
+      responses:
+        '200':
+          description: Cities array
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/CityItem'
+
+  /aladdin/api/v1/cities/{city_id}/zone-list:
+    get:
+      summary: Get Zones in City
+      description: Returns all zones inside a specific city.
+      operationId: getZones
+      tags:
+        - Geographical Directory
+      security:
+        - PathaoBearerAuth: []
+      parameters:
+        - name: city_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Zones list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/ZoneItem'
+
+  /aladdin/api/v1/zones/{zone_id}/area-list:
+    get:
+      summary: Get Areas in Zone
+      description: Returns micro delivery areas and sectors with pickup / delivery availability flags.
+      operationId: getAreas
+      tags:
+        - Geographical Directory
+      security:
+        - PathaoBearerAuth: []
+      parameters:
+        - name: zone_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1070
+      responses:
+        '200':
+          description: Areas list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/AreaItem'
+
+  /aladdin/api/v1/merchant/price-plan:
+    post:
+      summary: Calculate Price Plan
+      description: Estimates delivery charge and Cash-on-Delivery (COD) commission fee.
+      operationId: calculatePrice
+      tags:
+        - Pricing & Calculations
+      security:
+        - PathaoBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PricePlanRequest'
+      responses:
+        '200':
+          description: Price plan breakdown
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/PricePlanData'
+
+  /aladdin/api/v1/orders:
+    post:
+      summary: Create Single Order
+      description: Books a consignment for pickup and returns an alphanumeric consignment ID.
+      operationId: createOrder
+      tags:
+        - Orders & Consignments
+      security:
+        - PathaoBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '200':
+          description: Order created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/OrderCreatedData'
+
+  /aladdin/api/v1/orders/bulk:
+    post:
+      summary: Create Bulk Orders
+      description: Accepts an array of order objects for asynchronous background batch execution.
+      operationId: createBulkOrders
+      tags:
+        - Orders & Consignments
+      security:
+        - PathaoBearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - orders
+              properties:
+                orders:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/CreateOrderRequest'
+      responses:
+        '202':
+          description: Bulk creation queued in background
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Your bulk order creation request is accepted
+                  code:
+                    type: integer
+                    example: 202
+                  data:
+                    type: boolean
+                    example: true
+
+  /aladdin/api/v1/orders/{consignment_id}/info:
+    get:
+      summary: Get Order Short Info & Tracking
+      description: Fetches current status, settlement invoice ID, and status slug by consignment ID.
+      operationId: getOrderInfo
+      tags:
+        - Tracking & Status
+      security:
+        - PathaoBearerAuth: []
+      parameters:
+        - name: consignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: PT9041A4B89
+      responses:
+        '200':
+          description: Order short info record
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      consignment_id:
+                        type: string
+                        example: PT9041A4B89
+                      merchant_order_id:
+                        type: string
+                        example: ORD-2026-9041
+                      order_status:
+                        type: string
+                        example: Pending
+                      order_status_slug:
+                        type: string
+                        example: Pending
+                      updated_at:
+                        type: string
+                        example: '2026-11-20 15:11:40'
+                      invoice_id:
+                        type: string
+                        nullable: true
+                        example: null
