@@ -2,14 +2,14 @@
 <html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
-  <title>Bangladesh API Hub — Modern Developer Documentation</title>
+  <title>Bangladesh API Hub — Developer Documentation</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Production-Grade API Documentation & SDK Collection for Bangladeshi Couriers, FinTech Gateways, and Logistics Providers. Maintained by Refat Rahman.">
+  <meta name="description" content="Production-Grade API Documentation & SDK Collection for Bangladeshi Logistics and Financial Services. Maintained by Refat Rahman.">
   
   <!-- Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,16 +19,15 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'system-ui', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
           },
           colors: {
-            brand: {
-              50: '#eff6ff',
-              100: '#dbeafe',
-              500: '#3b82f6',
-              600: '#2563eb',
-              700: '#1d4ed8',
+            primary: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
             }
           }
         }
@@ -55,500 +54,445 @@
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-http.min.js"></script>
 
   <style>
-    /* Custom Scrollbars */
+    /* Clean Minimalist Typography & Layout */
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      letter-spacing: -0.01em;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Subtle custom scrollbars */
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
     }
     ::-webkit-scrollbar-track {
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: #e2e8f0;
       border-radius: 9999px;
     }
     .dark ::-webkit-scrollbar-thumb {
-      background: #334155;
+      background: #27272a;
     }
 
-    /* Markdown Render Styling */
-    .prose-custom h1 {
-      font-size: 2rem;
-      font-weight: 800;
-      letter-spacing: -0.025em;
+    /* Prose Styling (VitePress/Supabase Reference) */
+    .doc-content h1 {
+      font-size: 2.1rem;
+      font-weight: 750;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
       margin-bottom: 1.5rem;
       color: inherit;
-      border-bottom: 1px solid rgba(156, 163, 175, 0.2);
-      padding-bottom: 0.75rem;
     }
-    .prose-custom h2 {
-      font-size: 1.45rem;
-      font-weight: 750;
+    .doc-content h2 {
+      font-size: 1.375rem;
+      font-weight: 700;
       letter-spacing: -0.02em;
-      margin-top: 2.25rem;
-      margin-bottom: 1rem;
+      margin-top: 2.75rem;
+      margin-bottom: 0.875rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #f1f5f9;
       color: inherit;
     }
-    .prose-custom h3 {
-      font-size: 1.15rem;
-      font-weight: 700;
+    .dark .doc-content h2 {
+      border-top-color: #1f2022;
+    }
+    .doc-content h3 {
+      font-size: 1.1rem;
+      font-weight: 650;
+      letter-spacing: -0.015em;
       margin-top: 1.75rem;
       margin-bottom: 0.75rem;
       color: inherit;
     }
-    .prose-custom p {
-      margin-bottom: 1.15rem;
+    .doc-content p {
+      font-size: 0.9375rem;
       line-height: 1.75;
-      font-size: 0.95rem;
+      margin-bottom: 1.2rem;
+      color: #374151;
     }
-    .prose-custom ul, .prose-custom ol {
+    .dark .doc-content p {
+      color: #d1d5db;
+    }
+    .doc-content ul, .doc-content ol {
       margin-bottom: 1.25rem;
-      padding-left: 1.5rem;
+      padding-left: 1.4rem;
+      font-size: 0.9375rem;
       line-height: 1.75;
+      color: #374151;
     }
-    .prose-custom ul {
+    .dark .doc-content ul, .dark .doc-content ol {
+      color: #d1d5db;
+    }
+    .doc-content ul {
       list-style-type: disc;
     }
-    .prose-custom ol {
+    .doc-content ol {
       list-style-type: decimal;
     }
-    .prose-custom li {
+    .doc-content li {
       margin-bottom: 0.35rem;
     }
 
-    /* Tables */
-    .prose-custom table {
+    /* Structured API Parameter Tables */
+    .doc-content table {
       width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
+      border-collapse: collapse;
       margin: 1.5rem 0;
       font-size: 0.875rem;
-      border-radius: 0.65rem;
+      border-radius: 0.5rem;
       overflow: hidden;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #e5e7eb;
     }
-    .dark .prose-custom table {
+    .dark .doc-content table {
       border-color: #27272a;
     }
-    .prose-custom th {
-      background-color: #f8fafc;
-      font-weight: 700;
-      text-transform: uppercase;
+    .doc-content th {
+      background-color: #f9fafb;
+      font-weight: 600;
       font-size: 0.75rem;
+      text-transform: uppercase;
       letter-spacing: 0.05em;
+      color: #4b5563;
       padding: 0.75rem 1rem;
       text-align: left;
-      border-bottom: 1px solid #e2e8f0;
-      color: #475569;
+      border-bottom: 1px solid #e5e7eb;
     }
-    .dark .prose-custom th {
-      background-color: #18181b;
+    .dark .doc-content th {
+      background-color: #141416;
       border-color: #27272a;
-      color: #a1a1aa;
+      color: #9ca3af;
     }
-    .prose-custom td {
-      padding: 0.85rem 1rem;
-      border-bottom: 1px solid #f1f5f9;
-      color: #334155;
+    .doc-content td {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid #f3f4f6;
+      color: #374151;
+      vertical-align: top;
     }
-    .dark .prose-custom td {
-      border-color: #27272a;
-      color: #d4d4d8;
+    .dark .doc-content td {
+      border-color: #1f2022;
+      color: #d1d5db;
     }
-    .prose-custom tr:last-child td {
+    .doc-content tr:last-child td {
       border-bottom: none;
-    }
-    .prose-custom tr:hover td {
-      background-color: #f8fafc;
-    }
-    .dark .prose-custom tr:hover td {
-      background-color: rgba(255, 255, 255, 0.02);
-    }
-
-    /* Blockquotes / Alerts */
-    .prose-custom blockquote {
-      border-left: 4px solid #3b82f6;
-      background-color: #eff6ff;
-      border-radius: 0 0.5rem 0.5rem 0;
-      padding: 1rem 1.25rem;
-      margin: 1.5rem 0;
-      color: #1e3a8a;
-      font-style: normal;
-    }
-    .dark .prose-custom blockquote {
-      background-color: rgba(30, 58, 138, 0.15);
-      border-color: #3b82f6;
-      color: #93c5fd;
-    }
-    .prose-custom blockquote p {
-      margin-bottom: 0;
     }
 
     /* Inline Code */
-    .prose-custom :not(pre) > code {
+    .doc-content :not(pre) > code {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.825rem;
-      padding: 0.2rem 0.4rem;
-      border-radius: 0.35rem;
-      background-color: #f1f5f9;
+      font-size: 0.8125rem;
+      padding: 0.15rem 0.375rem;
+      border-radius: 0.375rem;
+      background-color: #f3f4f6;
       color: #0f172a;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #e5e7eb;
     }
-    .dark .prose-custom :not(pre) > code {
-      background-color: #27272a;
-      color: #f4f4f5;
-      border-color: #3f3f46;
+    .dark .doc-content :not(pre) > code {
+      background-color: #18181b;
+      color: #e4e4e7;
+      border-color: #27272a;
     }
 
-    /* Code Blocks */
-    .code-block-wrapper {
-      position: relative;
+    /* GitHub-style alerts */
+    .doc-content blockquote {
+      border-left: 3px solid #3b82f6;
+      background-color: #f8fafc;
+      padding: 0.875rem 1.25rem;
       margin: 1.5rem 0;
-      border-radius: 0.75rem;
-      overflow: hidden;
-      border: 1px solid #e2e8f0;
-      background-color: #0d1117;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-radius: 0 0.5rem 0.5rem 0;
+      color: #1e293b;
     }
-    .dark .code-block-wrapper {
+    .dark .doc-content blockquote {
+      background-color: #111215;
+      border-color: #3b82f6;
+      color: #cbd5e1;
+    }
+    .doc-content blockquote p {
+      margin-bottom: 0;
+      font-size: 0.875rem;
+    }
+
+    /* Code Block Shell (Stripe / Supabase Style) */
+    .code-box {
+      margin: 1.5rem 0;
+      border-radius: 0.625rem;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      background-color: #0d1117;
+    }
+    .dark .code-box {
       border-color: #27272a;
       background-color: #09090b;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
-    .code-header {
+    .code-box-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.6rem 1rem;
+      padding: 0.55rem 0.875rem;
       background-color: #161b22;
       border-bottom: 1px solid #21262d;
-      font-size: 0.75rem;
       font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
       color: #8b949e;
     }
-    .dark .code-header {
+    .dark .code-box-header {
       background-color: #121215;
       border-color: #27272a;
       color: #71717a;
     }
-    .code-copy-btn {
+    .copy-button {
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;
-      background-color: #21262d;
-      color: #c9d1d9;
-      border: 1px solid #30363d;
-      border-radius: 0.375rem;
-      padding: 0.25rem 0.6rem;
-      font-size: 0.72rem;
+      background-color: transparent;
+      color: #8b949e;
+      border: none;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
       cursor: pointer;
-      transition: all 0.15s ease;
+      font-size: 0.7rem;
+      transition: color 0.15s ease;
     }
-    .code-copy-btn:hover {
-      background-color: #30363d;
+    .copy-button:hover {
       color: #ffffff;
     }
     pre[class*="language-"] {
       margin: 0 !important;
-      padding: 1.25rem !important;
+      padding: 1.15rem !important;
       background: transparent !important;
-      font-size: 0.875rem !important;
-      line-height: 1.65 !important;
+      font-size: 0.85rem !important;
+      line-height: 1.6 !important;
     }
 
     /* Links */
-    .prose-custom a {
+    .doc-content a {
       color: #2563eb;
       text-decoration: underline;
       text-underline-offset: 3px;
-      font-weight: 500;
     }
-    .dark .prose-custom a {
+    .dark .doc-content a {
       color: #60a5fa;
     }
-    .prose-custom a:hover {
+    .doc-content a:hover {
       color: #1d4ed8;
     }
-    .dark .prose-custom a:hover {
+    .dark .doc-content a:hover {
       color: #93c5fd;
+    }
+
+    /* Sidebar Active Item */
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.375rem;
+      font-size: 0.8125rem;
+      color: #64748b;
+      transition: all 0.12s ease;
+    }
+    .dark .sidebar-link {
+      color: #94a3b8;
+    }
+    .sidebar-link:hover {
+      color: #0f172a;
+      background-color: #f1f5f9;
+    }
+    .dark .sidebar-link:hover {
+      color: #ffffff;
+      background-color: #18181b;
+    }
+    .sidebar-link.is-active {
+      color: #0f172a;
+      background-color: #f1f5f9;
+      font-weight: 600;
+      border-left: 2px solid #2563eb;
+      border-radius: 0 0.375rem 0.375rem 0;
+      padding-left: 0.65rem;
+    }
+    .dark .sidebar-link.is-active {
+      color: #ffffff;
+      background-color: #18181b;
+      border-left-color: #38bdf8;
     }
   </style>
 </head>
-<body class="bg-zinc-50 text-zinc-900 dark:bg-[#09090b] dark:text-zinc-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
+<body class="bg-white text-zinc-900 dark:bg-[#0c0d0e] dark:text-[#f3f4f6] min-h-screen flex flex-col font-sans transition-colors duration-150">
 
   <!-- ========================================================================= -->
-  <!-- 1. TOP STICKY NAVBAR                                                     -->
+  <!-- 1. TOP NAVBAR (Minimalist Stripe/Supabase Style)                           -->
   <!-- ========================================================================= -->
-  <header class="sticky top-0 z-40 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+  <header class="sticky top-0 z-40 w-full border-b border-zinc-200 dark:border-[#1f2022] bg-white/90 dark:bg-[#0c0d0e]/90 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
       
-      <!-- Brand & Mobile Menu Toggle -->
+      <!-- Brand Logo & Title -->
       <div class="flex items-center gap-3">
-        <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 focus:outline-none">
+        <button id="mobileToggle" class="lg:hidden p-1.5 rounded text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800">
           <i data-lucide="menu" class="w-5 h-5"></i>
         </button>
-        <a href="#/README.md" class="flex items-center gap-2.5 group">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
-            <i data-lucide="terminal" class="w-5 h-5"></i>
-          </div>
-          <div>
-            <div class="font-bold text-base tracking-tight flex items-center gap-2">
-              <span>Bangladesh API Hub</span>
-              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-brand-50 text-brand-600 dark:bg-brand-950/60 dark:text-brand-400 border border-brand-200 dark:border-brand-800">v1.0</span>
-            </div>
-            <div class="text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">By Refat Rahman</div>
-          </div>
+        <a href="#/README.md" class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-600 dark:text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+          </svg>
+          <span class="font-bold text-sm tracking-tight text-zinc-900 dark:text-white">Bangladesh API Hub</span>
+          <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700">v1.0</span>
         </a>
       </div>
 
-      <!-- Quick Search Bar Trigger -->
-      <div class="hidden md:flex items-center flex-1 max-w-md mx-8">
-        <div class="relative w-full">
-          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"></i>
-          <input id="searchInput" type="text" placeholder="Search documentation, endpoints, SDKs..." 
-            class="w-full pl-9 pr-12 py-1.5 text-xs rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/70 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white dark:focus:bg-zinc-900 transition-all">
-          <kbd class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-mono bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-700">⌘K</kbd>
-        </div>
-      </div>
-
-      <!-- Right Controls: Swagger UI, Theme Toggle, GitHub Link -->
-      <div class="flex items-center gap-2">
-        <a href="swagger.html" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition">
-          <i data-lucide="layers" class="w-3.5 h-3.5"></i>
-          <span>Swagger UI</span>
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-6 text-xs font-medium">
+        <a href="#/README.md" class="text-zinc-900 dark:text-white font-semibold">Guides</a>
+        <a href="api-reference.html" class="flex items-center gap-1.5 text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-sky-400 transition">
+          <span>Interactive API Reference</span>
+          <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">Live</span>
         </a>
+        <a href="#/docs/steadfast/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Steadfast Courier</a>
+        <a href="#/CONTRIBUTING.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Contributing</a>
+      </nav>
 
-        <!-- Dark / Light Mode Switcher -->
-        <button id="themeToggleBtn" title="Toggle Dark/Light Mode" class="p-2 rounded-lg text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 transition">
-          <i data-lucide="sun" id="sunIcon" class="w-4 h-4 hidden dark:block text-amber-400"></i>
-          <i data-lucide="moon" id="moonIcon" class="w-4 h-4 block dark:hidden text-zinc-600"></i>
+      <!-- Right Controls: Theme Toggle & GitHub -->
+      <div class="flex items-center gap-3">
+        <!-- Dark / Light Theme Toggle -->
+        <button id="themeToggle" class="p-1.5 rounded-md text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition" title="Toggle theme">
+          <i data-lucide="sun" id="sunIcon" class="w-4 h-4 hidden dark:block"></i>
+          <i data-lucide="moon" id="moonIcon" class="w-4 h-4 block dark:hidden"></i>
         </button>
 
-        <!-- GitHub Profile Link -->
+        <div class="h-4 w-[1px] bg-zinc-200 dark:bg-zinc-800"></div>
+
+        <!-- GitHub Author Badge -->
         <a href="https://github.com/refatbd" target="_blank" rel="noopener noreferrer" 
-          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 hover:opacity-90 shadow-sm transition">
+          class="flex items-center gap-1.5 text-xs text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition">
           <i data-lucide="github" class="w-4 h-4"></i>
-          <span class="hidden sm:inline">@refatbd</span>
+          <span class="font-medium">refatbd</span>
         </a>
       </div>
     </div>
   </header>
 
   <!-- ========================================================================= -->
-  <!-- 2. MAIN WORKSPACE: SIDEBAR + CONTENT + TOC                                -->
+  <!-- 2. DOCUMENTATION WORKSPACE                                                -->
   <!-- ========================================================================= -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 w-full flex">
     
     <!-- LEFT SIDEBAR -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-72 pt-20 pb-6 px-4 bg-white dark:bg-[#09090b] border-r border-zinc-200 dark:border-zinc-800 flex flex-col justify-between overflow-y-auto lg:static lg:w-64 lg:pt-8 lg:border-r lg:block -translate-x-full lg:translate-x-0 transition-transform duration-200">
-      <nav class="space-y-6">
-        
-        <!-- SECTION: HUB & GUIDELINES -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 pt-16 pb-8 px-4 bg-white dark:bg-[#0c0d0e] border-r border-zinc-200 dark:border-[#1f2022] overflow-y-auto lg:static lg:w-60 lg:pt-6 lg:block -translate-x-full lg:translate-x-0 transition-transform duration-150">
+      
+      <div class="space-y-6">
+        <!-- Group: Getting Started -->
         <div>
-          <div class="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-3 mb-2">Overview</div>
-          <ul class="space-y-1">
-            <li>
-              <a href="#/README.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="home" class="w-4 h-4 text-zinc-400"></i>
-                <span>Home Hub</span>
-              </a>
-            </li>
-            <li>
-              <a href="#/CONTRIBUTING.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="git-pull-request" class="w-4 h-4 text-zinc-400"></i>
-                <span>Contributing Guide</span>
-              </a>
-            </li>
-            <li>
-              <a href="#/LICENSE" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="scale" class="w-4 h-4 text-zinc-400"></i>
-                <span>MIT License</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <!-- SECTION: STEADFAST COURIER API -->
-        <div>
-          <div class="flex items-center justify-between px-3 mb-2">
-            <span class="text-[11px] font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Steadfast Courier</span>
-            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">18 APIs</span>
-          </div>
-          <ul class="space-y-1">
-            <li>
-              <a href="#/docs/steadfast/README.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="package" class="w-4 h-4 text-zinc-400"></i>
-                <span>Master Overview</span>
-              </a>
-            </li>
-            <li>
-              <a href="#/docs/steadfast/01-getting-started.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="key-round" class="w-4 h-4 text-zinc-400"></i>
-                <span>01. Getting Started & Auth</span>
-              </a>
-            </li>
-            <li>
-              <a href="#/docs/steadfast/02-booking-parcels.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="send" class="w-4 h-4 text-zinc-400"></i>
-                <span>02. Booking Parcels</span>
-              </a>
-            </li>
-            <li>
-              <a href="#/docs/steadfast/03-tracking-and-status.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="map-pin" class="w-4 h-4 text-zinc-400"></i>
-                <span>03. Tracking & Status</span>
-              </a>
-            </li>
-            <li>
-              <a href="#/docs/steadfast/04-pickups-and-returns.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="undo-2" class="w-4 h-4 text-zinc-400"></i>
-                <span>04. Pickups & Returns</span>
-              </a>
-            </li>
-            <li>
-              <a href="#/docs/steadfast/05-balance-and-payments.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="wallet" class="w-4 h-4 text-zinc-400"></i>
-                <span>05. Balance & Payments</span>
-              </a>
-            </li>
-            <li>
-              <a href="#/docs/steadfast/06-fraud-check-and-thanas.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="shield-alert" class="w-4 h-4 text-zinc-400"></i>
-                <span>06. Fraud Check & Thanas</span>
-              </a>
-            </li>
-            <li>
-              <a href="#/docs/steadfast/07-status-code-reference.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="file-code" class="w-4 h-4 text-zinc-400"></i>
-                <span>07. Status Codes & Errors</span>
-              </a>
-            </li>
-            <li>
-              <a href="#/docs/steadfast/08-webhooks.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="webhook" class="w-4 h-4 text-zinc-400"></i>
-                <span>08. Real-Time Webhooks</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <!-- SECTION: SDKS & CLIENTS -->
-        <div>
-          <div class="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-3 mb-2">SDKs & Tools</div>
-          <ul class="space-y-1">
-            <li>
-              <a href="swagger.html" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <span class="flex items-center gap-2.5">
-                  <i data-lucide="box" class="w-4 h-4 text-zinc-400"></i>
-                  <span>Interactive Swagger</span>
-                </span>
-                <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
-              </a>
-            </li>
-            <li>
-              <a href="#/sdks-and-examples/steadfast/php/SteadfastClient.php" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="code-2" class="w-4 h-4 text-indigo-400"></i>
-                <span>PHP Client SDK</span>
-              </a>
-            </li>
-            <li>
-              <a href="#/sdks-and-examples/steadfast/nodejs/steadfast.js" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
-                <span>Node.js Client SDK</span>
-              </a>
-            </li>
-            <li>
-              <a href="#/sdks-and-examples/steadfast/python/steadfast.py" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
-                <i data-lucide="terminal" class="w-4 h-4 text-blue-400"></i>
-                <span>Python Client SDK</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-      <!-- AUTHOR BIO CARD -->
-      <div class="mt-8 pt-4 border-t border-zinc-200 dark:border-zinc-800">
-        <div class="p-3.5 rounded-xl bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-zinc-950 border border-zinc-300/50 dark:border-zinc-800">
-          <div class="flex items-center gap-2.5">
-            <div class="w-9 h-9 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm shadow">
-              RR
-            </div>
-            <div>
-              <div class="font-bold text-xs text-zinc-900 dark:text-white">Refat Rahman</div>
-              <a href="https://refat.ovh" target="_blank" class="text-[11px] text-brand-600 dark:text-brand-400 hover:underline">refat.ovh</a>
-            </div>
-          </div>
-          <div class="mt-3 flex items-center justify-between text-zinc-500 dark:text-zinc-400 pt-2 border-t border-zinc-200 dark:border-zinc-800/80">
-            <a href="https://github.com/refatbd" target="_blank" title="GitHub" class="hover:text-zinc-900 dark:hover:text-white transition"><i data-lucide="github" class="w-4 h-4"></i></a>
-            <a href="https://www.facebook.com/rjrefat/" target="_blank" title="Facebook" class="hover:text-blue-600 transition"><i data-lucide="facebook" class="w-4 h-4"></i></a>
-            <a href="https://www.instagram.com/refat_official" target="_blank" title="Instagram" class="hover:text-pink-600 transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
-            <a href="https://t.me/refatbd" target="_blank" title="Telegram" class="hover:text-sky-500 transition"><i data-lucide="send" class="w-4 h-4"></i></a>
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-3 mb-1.5">Overview</div>
+          <div class="space-y-0.5">
+            <a href="#/README.md" class="sidebar-link">Home Hub</a>
+            <a href="#/CONTRIBUTING.md" class="sidebar-link">Contributing Guide</a>
+            <a href="#/LICENSE" class="sidebar-link">MIT License</a>
           </div>
         </div>
+
+        <!-- Group: Steadfast Courier API -->
+        <div>
+          <div class="flex items-center justify-between px-3 mb-1.5">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Steadfast Courier</span>
+            <span class="text-[9px] font-mono px-1 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-500">18 Endpoints</span>
+          </div>
+          <div class="space-y-0.5">
+            <a href="#/docs/steadfast/README.md" class="sidebar-link">Quickstart & Index</a>
+            <a href="#/docs/steadfast/01-getting-started.md" class="sidebar-link">01. Getting Started & Auth</a>
+            <a href="#/docs/steadfast/02-booking-parcels.md" class="sidebar-link">02. Booking Parcels</a>
+            <a href="#/docs/steadfast/03-tracking-and-status.md" class="sidebar-link">03. Tracking & Status</a>
+            <a href="#/docs/steadfast/04-pickups-and-returns.md" class="sidebar-link">04. Pickups & Returns</a>
+            <a href="#/docs/steadfast/05-balance-and-payments.md" class="sidebar-link">05. Balance & Payments</a>
+            <a href="#/docs/steadfast/06-fraud-check-and-thanas.md" class="sidebar-link">06. Fraud Check & Thanas</a>
+            <a href="#/docs/steadfast/07-status-code-reference.md" class="sidebar-link">07. Status Codes & Errors</a>
+            <a href="#/docs/steadfast/08-webhooks.md" class="sidebar-link">08. Real-Time Webhooks</a>
+          </div>
+        </div>
+
+        <!-- Group: SDKs & Reference -->
+        <div>
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-3 mb-1.5">API & SDK Tools</div>
+          <div class="space-y-0.5">
+            <a href="api-reference.html" class="sidebar-link flex items-center justify-between">
+              <span>Scalar API Console</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
+            </a>
+            <a href="#/sdks-and-examples/steadfast/php/SteadfastClient.php" class="sidebar-link">PHP 8.x Client</a>
+            <a href="#/sdks-and-examples/steadfast/nodejs/steadfast.js" class="sidebar-link">Node.js Client</a>
+            <a href="#/sdks-and-examples/steadfast/python/steadfast.py" class="sidebar-link">Python 3 Client</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Author Reference Footer -->
+      <div class="mt-8 pt-4 border-t border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-500 dark:text-zinc-400 px-3 space-y-1">
+        <div>Maintained by <strong class="text-zinc-800 dark:text-zinc-200">Refat Rahman</strong></div>
+        <div>Web: <a href="https://refat.ovh" target="_blank" class="hover:underline text-blue-600 dark:text-sky-400">refat.ovh</a></div>
       </div>
     </aside>
 
-    <!-- CENTER CONTENT READER -->
-    <main class="flex-1 min-w-0 py-8 lg:px-10">
-      
-      <!-- Breadcrumb Bar -->
-      <nav id="breadcrumbs" class="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 mb-6">
-        <a href="#/README.md" class="hover:underline">Docs</a>
+    <!-- CENTER DOCUMENTATION BODY -->
+    <main class="flex-1 min-w-0 py-8 lg:px-12">
+      <!-- Top Breadcrumb -->
+      <div id="breadcrumb" class="text-xs text-zinc-400 dark:text-zinc-500 mb-6 flex items-center gap-1.5 font-medium">
+        <span>Docs</span>
         <span>/</span>
-        <span id="currentSectionTitle" class="text-zinc-800 dark:text-zinc-200 font-semibold">Getting Started</span>
-      </nav>
+        <span id="breadcrumbCurrent" class="text-zinc-800 dark:text-zinc-300">Home</span>
+      </div>
 
-      <!-- Markdown Render Container -->
-      <article id="contentArea" class="prose-custom min-h-[500px]">
-        <div class="flex items-center justify-center py-20 text-zinc-400">
-          <i data-lucide="loader-2" class="w-6 h-6 animate-spin mr-2"></i>
-          <span>Loading documentation...</span>
-        </div>
+      <!-- Render Target -->
+      <article id="docBody" class="doc-content min-h-[500px]">
+        <div class="py-16 text-center text-sm text-zinc-400">Loading documentation...</div>
       </article>
 
-      <!-- Bottom Pagination Bar -->
-      <div id="paginationBar" class="mt-12 pt-6 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
-        <button id="prevBtn" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition">
+      <!-- Bottom Navigation Footer -->
+      <div class="mt-16 pt-6 border-t border-zinc-200 dark:border-[#1f2022] flex items-center justify-between text-xs">
+        <button id="prevDoc" class="hidden items-center gap-1.5 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
           <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          <span id="prevTitle">Previous Chapter</span>
+          <span id="prevDocTitle">Previous</span>
         </button>
-        <button id="nextBtn" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold bg-brand-600 text-white hover:bg-brand-700 transition">
-          <span id="nextTitle">Next Chapter</span>
+        <div></div>
+        <button id="nextDoc" class="hidden items-center gap-1.5 text-blue-600 dark:text-sky-400 font-semibold hover:underline">
+          <span id="nextDocTitle">Next</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </button>
       </div>
+
+      <!-- Author Attribution Footer -->
+      <footer class="mt-12 pt-6 border-t border-zinc-100 dark:border-[#161718] text-xs text-zinc-500 dark:text-zinc-400 flex flex-wrap justify-between items-center gap-4">
+        <div>
+          &copy; 2026 <strong>Refat Rahman</strong> (<a href="https://refat.ovh" target="_blank" class="hover:underline">refat.ovh</a>). MIT Licensed.
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="https://github.com/refatbd" target="_blank" class="hover:text-zinc-900 dark:hover:text-white transition">GitHub</a>
+          <a href="https://www.facebook.com/rjrefat/" target="_blank" class="hover:text-zinc-900 dark:hover:text-white transition">Facebook</a>
+          <a href="https://www.instagram.com/refat_official" target="_blank" class="hover:text-zinc-900 dark:hover:text-white transition">Instagram</a>
+          <a href="https://t.me/refatbd" target="_blank" class="hover:text-zinc-900 dark:hover:text-white transition">Telegram</a>
+        </div>
+      </footer>
     </main>
 
     <!-- RIGHT STICKY TOC -->
-    <aside class="hidden xl:block w-64 pt-8 pl-8 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
-      <div class="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3">On This Page</div>
-      <nav id="tableOfContents" class="space-y-1 text-xs text-zinc-500 dark:text-zinc-400">
+    <aside class="hidden xl:block w-56 pt-8 pl-8 sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto">
+      <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-2.5">On this page</div>
+      <nav id="pageToc" class="space-y-1 text-xs text-zinc-500 dark:text-zinc-400 border-l border-zinc-200 dark:border-zinc-800">
         <!-- Dynamically populated from h2/h3 -->
       </nav>
-      
-      <div class="mt-8 pt-4 border-t border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-400 space-y-2">
-        <a href="https://github.com/refatbd" target="_blank" class="flex items-center gap-1.5 hover:text-zinc-700 dark:hover:text-zinc-300 transition">
-          <i data-lucide="star" class="w-3.5 h-3.5"></i>
-          <span>Star this project on GitHub</span>
-        </a>
-        <a href="#/CONTRIBUTING.md" class="flex items-center gap-1.5 hover:text-zinc-700 dark:hover:text-zinc-300 transition">
-          <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-          <span>Suggest an edit</span>
-        </a>
-      </div>
     </aside>
 
   </div>
 
   <!-- ========================================================================= -->
-  <!-- 3. SPA ROUTER & MARKDOWN LOADER LOGIC                                     -->
+  <!-- 3. SPA ROUTER & CLIENT-SIDE RENDERER                                     -->
   <!-- ========================================================================= -->
   <script>
-    // Ordered list of docs for Prev/Next pagination
-    const DOC_PAGES = [
+    const CHAPTERS = [
       { path: 'README.md', title: 'Home Hub' },
-      { path: 'docs/steadfast/README.md', title: 'Steadfast Overview' },
+      { path: 'docs/steadfast/README.md', title: 'Steadfast Quickstart' },
       { path: 'docs/steadfast/01-getting-started.md', title: '01. Getting Started & Auth' },
       { path: 'docs/steadfast/02-booking-parcels.md', title: '02. Booking Parcels' },
       { path: 'docs/steadfast/03-tracking-and-status.md', title: '03. Tracking & Status' },
@@ -561,226 +505,213 @@
       { path: 'LICENSE', title: 'MIT License' },
     ];
 
-    // Theme Toggle Functionality
-    const themeToggleBtn = document.getElementById('themeToggleBtn');
-    function applyTheme(theme) {
-      if (theme === 'dark') {
+    // Theme Management
+    const themeToggle = document.getElementById('themeToggle');
+    function setTheme(mode) {
+      if (mode === 'dark') {
         document.documentElement.classList.add('dark');
-        localStorage.setItem('doc_theme', 'dark');
+        localStorage.setItem('theme', 'dark');
       } else {
         document.documentElement.classList.remove('dark');
-        localStorage.setItem('doc_theme', 'light');
+        localStorage.setItem('theme', 'light');
       }
       if (window.lucide) lucide.createIcons();
     }
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(currentTheme);
 
-    // Default to dark mode or user stored preference
-    const savedTheme = localStorage.getItem('doc_theme') || 'dark';
-    applyTheme(savedTheme);
-
-    themeToggleBtn.addEventListener('click', () => {
+    themeToggle.addEventListener('click', () => {
       const isDark = document.documentElement.classList.contains('dark');
-      applyTheme(isDark ? 'light' : 'dark');
+      setTheme(isDark ? 'light' : 'dark');
     });
 
-    // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    // Mobile Sidebar Toggle
+    const mobileToggle = document.getElementById('mobileToggle');
     const sidebar = document.getElementById('sidebar');
-    mobileMenuBtn.addEventListener('click', () => {
+    mobileToggle.addEventListener('click', () => {
       sidebar.classList.toggle('-translate-x-full');
     });
 
-    // Markdown Fetch & Render Router
-    async function loadDoc(routePath) {
-      const contentArea = document.getElementById('contentArea');
-      const breadcrumbTitle = document.getElementById('currentSectionTitle');
-      
-      // Clean path
-      let cleanPath = routePath.replace(/^#\/?/, '') || 'README.md';
-      if (cleanPath.startsWith('/')) cleanPath = cleanPath.slice(1);
+    // Marked Renderer Configuration
+    const renderer = new marked.Renderer();
+    renderer.code = function(codeArg, langArg) {
+      let codeStr = '';
+      let lang = 'bash';
+
+      if (typeof codeArg === 'object' && codeArg !== null) {
+        codeStr = codeArg.text || '';
+        lang = codeArg.lang || 'bash';
+      } else {
+        codeStr = String(codeArg || '');
+        lang = langArg || 'bash';
+      }
+
+      lang = (lang || 'bash').toLowerCase().trim();
+      let grammar = Prism.languages[lang];
+      if (!grammar) {
+        if (lang === 'sh' || lang === 'shell' || lang === 'curl') grammar = Prism.languages.bash;
+        else if (lang === 'js' || lang === 'node') grammar = Prism.languages.javascript;
+        else if (lang === 'py') grammar = Prism.languages.python;
+        else if (lang === 'yml') grammar = Prism.languages.yaml;
+        else grammar = Prism.languages.markup || Prism.languages.plaintext;
+      }
+
+      let highlighted = codeStr;
+      try {
+        if (grammar) {
+          highlighted = Prism.highlight(codeStr, grammar, lang);
+        }
+      } catch (e) {
+        highlighted = codeStr.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
+      return `
+        <div class="code-box">
+          <div class="code-box-header">
+            <span>${lang.toUpperCase()}</span>
+            <button class="copy-button" onclick="handleCopy(this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre class="language-${lang}"><code class="language-${lang}">${highlighted}</code></pre>
+        </div>
+      `;
+    };
+    marked.setOptions({ renderer });
+
+    // Copy Button Handler
+    window.handleCopy = function(btn) {
+      const code = btn.closest('.code-box').querySelector('code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const prev = btn.innerHTML;
+        btn.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="color: #22c55e;">Copied!</span>
+        `;
+        setTimeout(() => { btn.innerHTML = prev; }, 1800);
+      });
+    };
+
+    // Load and Render Document
+    async function renderDocument(targetPath) {
+      const docBody = document.getElementById('docBody');
+      const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+
+      let clean = targetPath.replace(/^#\/?/, '') || 'README.md';
+      if (clean.startsWith('/')) clean = clean.slice(1);
 
       try {
-        const res = await fetch(cleanPath);
-        if (!res.ok) throw new Error('File not found: ' + cleanPath);
-        let markdown = await res.text();
+        const response = await fetch(clean);
+        if (!response.ok) throw new Error('File not found: ' + clean);
+        const mdText = await response.text();
 
-        // Configure custom renderer for code blocks with copy buttons
-        const renderer = new marked.Renderer();
-        renderer.code = function(codeArg, langArg) {
-          let codeStr = '';
-          let lang = 'bash';
+        docBody.innerHTML = marked.parse(mdText);
 
-          if (typeof codeArg === 'object' && codeArg !== null) {
-            codeStr = codeArg.text || '';
-            lang = codeArg.lang || 'bash';
-          } else {
-            codeStr = String(codeArg || '');
-            lang = langArg || 'bash';
-          }
+        const firstHeading = docBody.querySelector('h1');
+        const titleText = firstHeading ? firstHeading.innerText : clean;
+        breadcrumbCurrent.innerText = titleText;
+        document.title = `${titleText} — Bangladesh API Hub`;
 
-          lang = lang.toLowerCase().trim() || 'bash';
-          let grammar = Prism.languages[lang];
-          if (!grammar) {
-            if (lang === 'sh' || lang === 'shell' || lang === 'curl') grammar = Prism.languages.bash;
-            else if (lang === 'js' || lang === 'node') grammar = Prism.languages.javascript;
-            else if (lang === 'py') grammar = Prism.languages.python;
-            else if (lang === 'yml') grammar = Prism.languages.yaml;
-            else grammar = Prism.languages.markup || Prism.languages.plaintext;
-          }
+        // Update Table of Contents
+        buildTOC();
 
-          let highlighted = codeStr;
-          try {
-            if (grammar) {
-              highlighted = Prism.highlight(codeStr, grammar, lang);
-            }
-          } catch (e) {
-            highlighted = codeStr.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-          }
+        // Update Active Sidebar Link
+        updateSidebarLinks(clean);
 
-          return `
-            <div class="code-block-wrapper">
-              <div class="code-header">
-                <span>${lang.toUpperCase()}</span>
-                <button class="code-copy-btn" onclick="copyCode(this)">
-                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-                  <span>Copy</span>
-                </button>
-              </div>
-              <pre class="language-${lang}"><code class="language-${lang}">${highlighted}</code></pre>
-            </div>
-          `;
-        };
+        // Update Prev / Next
+        updateFooterNav(clean);
 
-        marked.setOptions({ renderer });
-        contentArea.innerHTML = marked.parse(markdown);
-
-        // Update Breadcrumb & Document Title
-        const firstH1 = contentArea.querySelector('h1');
-        const pageTitle = firstH1 ? firstH1.innerText : cleanPath;
-        breadcrumbTitle.innerText = pageTitle;
-        document.title = `${pageTitle} — Bangladesh API Hub`;
-
-        // Generate On-This-Page Table of Contents
-        generateTOC();
-
-        // Update active link in sidebar
-        updateActiveSidebar(cleanPath);
-
-        // Update Prev / Next Pagination
-        updatePagination(cleanPath);
-
-        // Scroll to top
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-        // Re-render lucide icons
+        window.scrollTo({ top: 0 });
         if (window.lucide) lucide.createIcons();
       } catch (err) {
-        contentArea.innerHTML = `
-          <div class="p-8 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 text-red-800 dark:text-red-300">
-            <h2 class="text-lg font-bold mb-2">Error Loading Document</h2>
-            <p class="text-sm">${err.message}</p>
-            <a href="#/README.md" class="mt-4 inline-block text-xs font-semibold text-brand-600 hover:underline">&larr; Return to Home Hub</a>
+        docBody.innerHTML = `
+          <div style="padding: 2rem; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444;">
+            <h2 style="font-weight: 700; margin-bottom: 0.5rem;">Document Unavailable</h2>
+            <p style="font-size: 0.875rem;">${err.message}</p>
           </div>
         `;
       }
     }
 
-    // Copy to clipboard helper
-    window.copyCode = function(button) {
-      const codeWrapper = button.closest('.code-block-wrapper');
-      const code = codeWrapper.querySelector('code').innerText;
-      navigator.clipboard.writeText(code).then(() => {
-        const originalText = button.innerHTML;
-        button.innerHTML = `
-          <svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-          <span class="text-emerald-400">Copied!</span>
-        `;
-        setTimeout(() => {
-          button.innerHTML = originalText;
-        }, 2000);
-      });
-    };
-
-    // Dynamically build right-hand Table of Contents
-    function generateTOC() {
-      const tocContainer = document.getElementById('tableOfContents');
-      tocContainer.innerHTML = '';
-      const headers = document.querySelectorAll('#contentArea h2, #contentArea h3');
+    // Build Right-Hand TOC
+    function buildTOC() {
+      const pageToc = document.getElementById('pageToc');
+      pageToc.innerHTML = '';
+      const headers = document.querySelectorAll('#docBody h2, #docBody h3');
 
       if (headers.length === 0) {
-        tocContainer.innerHTML = '<span class="text-zinc-400 italic">No sub-sections</span>';
+        pageToc.innerHTML = '<span style="font-size: 11px; color: #71717a; padding-left: 0.75rem;">No sub-sections</span>';
         return;
       }
 
-      headers.forEach((h, index) => {
-        const id = 'heading-' + index;
+      headers.forEach((h, i) => {
+        const id = 'sec-' + i;
         h.id = id;
+        const link = document.createElement('a');
+        link.href = '#' + id;
+        link.innerText = h.innerText.replace(/^[0-9\.\s]+/, '');
+        link.className = h.tagName === 'H2'
+          ? 'block py-1 pl-3 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:border-l-2 hover:border-blue-600 -ml-[1px] transition truncate'
+          : 'block py-1 pl-6 text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition truncate';
 
-        const a = document.createElement('a');
-        a.href = '#' + id;
-        a.innerText = h.innerText.replace(/^[0-9\.\s]+/, ''); // Clean leading numbers
-        a.className = h.tagName === 'H2' 
-          ? 'block py-1 hover:text-brand-600 dark:hover:text-brand-400 font-medium truncate'
-          : 'block py-1 pl-3 text-zinc-400 hover:text-brand-600 dark:hover:text-brand-400 truncate';
-
-        a.addEventListener('click', (e) => {
+        link.onclick = (e) => {
           e.preventDefault();
           h.scrollIntoView({ behavior: 'smooth' });
-        });
-
-        tocContainer.appendChild(a);
+        };
+        pageToc.appendChild(link);
       });
     }
 
-    // Highlight active link in sidebar
-    function updateActiveSidebar(cleanPath) {
-      document.querySelectorAll('.nav-link').forEach(link => {
-        const href = link.getAttribute('href').replace(/^#\/?/, '');
-        if (href === cleanPath) {
-          link.classList.add('bg-brand-50', 'text-brand-600', 'dark:bg-brand-950/60', 'dark:text-brand-400', 'font-semibold');
-          link.classList.remove('text-zinc-700', 'dark:text-zinc-300');
+    // Active Sidebar State
+    function updateSidebarLinks(activePath) {
+      document.querySelectorAll('.sidebar-link').forEach(link => {
+        const href = link.getAttribute('href')?.replace(/^#\/?/, '');
+        if (href === activePath) {
+          link.classList.add('is-active');
         } else {
-          link.classList.remove('bg-brand-50', 'text-brand-600', 'dark:bg-brand-950/60', 'dark:text-brand-400', 'font-semibold');
-          link.classList.add('text-zinc-700', 'dark:text-zinc-300');
+          link.classList.remove('is-active');
         }
       });
     }
 
-    // Update Bottom Pagination
-    function updatePagination(currentPath) {
-      const currentIndex = DOC_PAGES.findIndex(p => p.path === currentPath);
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      const prevTitle = document.getElementById('prevTitle');
-      const nextTitle = document.getElementById('nextTitle');
+    // Prev / Next Buttons
+    function updateFooterNav(activePath) {
+      const idx = CHAPTERS.findIndex(c => c.path === activePath);
+      const prevDoc = document.getElementById('prevDoc');
+      const nextDoc = document.getElementById('nextDoc');
+      const prevDocTitle = document.getElementById('prevDocTitle');
+      const nextDocTitle = document.getElementById('nextDocTitle');
 
-      if (currentIndex > 0) {
-        prevBtn.style.display = 'inline-flex';
-        prevTitle.innerText = DOC_PAGES[currentIndex - 1].title;
-        prevBtn.onclick = () => window.location.hash = '#/' + DOC_PAGES[currentIndex - 1].path;
+      if (idx > 0) {
+        prevDoc.classList.remove('hidden');
+        prevDoc.classList.add('inline-flex');
+        prevDocTitle.innerText = CHAPTERS[idx - 1].title;
+        prevDoc.onclick = () => window.location.hash = '#/' + CHAPTERS[idx - 1].path;
       } else {
-        prevBtn.style.display = 'none';
+        prevDoc.classList.add('hidden');
+        prevDoc.classList.remove('inline-flex');
       }
 
-      if (currentIndex >= 0 && currentIndex < DOC_PAGES.length - 1) {
-        nextBtn.style.display = 'inline-flex';
-        nextTitle.innerText = DOC_PAGES[currentIndex + 1].title;
-        nextBtn.onclick = () => window.location.hash = '#/' + DOC_PAGES[currentIndex + 1].path;
+      if (idx >= 0 && idx < CHAPTERS.length - 1) {
+        nextDoc.classList.remove('hidden');
+        nextDoc.classList.add('inline-flex');
+        nextDocTitle.innerText = CHAPTERS[idx + 1].title;
+        nextDoc.onclick = () => window.location.hash = '#/' + CHAPTERS[idx + 1].path;
       } else {
-        nextBtn.style.display = 'none';
+        nextDoc.classList.add('hidden');
+        nextDoc.classList.remove('inline-flex');
       }
     }
 
-    // Hashchange listener
+    // Hash Navigation
     window.addEventListener('hashchange', () => {
-      loadDoc(window.location.hash);
+      renderDocument(window.location.hash);
       sidebar.classList.add('-translate-x-full');
     });
 
-    // Initial load
     window.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
-      loadDoc(window.location.hash || '#/README.md');
+      renderDocument(window.location.hash || '#/README.md');
     });
   </script>
 </body>
