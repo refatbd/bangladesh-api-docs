@@ -1,8 +1,9 @@
+import os
 from steadfast import SteadfastClient
 
 client = SteadfastClient(
-    api_key="YOUR_API_KEY",
-    secret_key="YOUR_SECRET_KEY",
+    api_key=os.getenv("STEADFAST_API_KEY", "YOUR_API_KEY"),
+    secret_key=os.getenv("STEADFAST_SECRET_KEY", "YOUR_SECRET_KEY"),
 )
 
 print("1. Gateway Ping...")

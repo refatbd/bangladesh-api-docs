@@ -6,8 +6,8 @@ use Steadfast\SteadfastClient;
 
 // Initialize client with credentials
 $client = new SteadfastClient(
-    apiKey: 'YOUR_API_KEY',
-    secretKey: 'YOUR_SECRET_KEY'
+    apiKey: getenv('STEADFAST_API_KEY') ?: 'YOUR_API_KEY',
+    secretKey: getenv('STEADFAST_SECRET_KEY') ?: 'YOUR_SECRET_KEY'
 );
 
 echo "1. Checking Gateway Health (Ping)...\n";

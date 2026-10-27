@@ -1,8 +1,8 @@
 import { SteadfastClient } from './steadfast.js';
 
 const client = new SteadfastClient({
-  apiKey: 'YOUR_API_KEY',
-  secretKey: 'YOUR_SECRET_KEY',
+  apiKey: process.env.STEADFAST_API_KEY || 'YOUR_API_KEY',
+  secretKey: process.env.STEADFAST_SECRET_KEY || 'YOUR_SECRET_KEY',
 });
 
 async function main() {
