@@ -32,8 +32,7 @@ An open-source, production-grade API documentation repository, SDK collection, P
 | **[Paperfly Courier](docs/paperfly/README.md)** | Logistics / Doorstep & Exchange | `https://api.paperfly.com.bd` | **4 + 14 Events** | ✅ Included | PHP, JS, Python, cURL | 🟢 **Complete** |
 | **[Carrybee Courier](docs/carrybee/README.md)** | Logistics / Express & Exchange | `https://developers.carrybee.com` | **14 + 24 Events** | ✅ Included | PHP, JS, Python, cURL | 🟢 **Complete** |
 | **[eCourier Courier](docs/ecourier/README.md)** | Logistics / Reseller & VAS | `https://backoffice.ecourier.com.bd/api` | **21** | ✅ Included | PHP, JS, Python, cURL | 🟢 **Complete** |
-| **bKash Tokenized** *(Coming Soon)* | MFS / Payment Gateway | `https://tokenized.pay.bka.sh/v1.2.0-beta` | - | Planned | - | ⏳ Queued |
-| **Nagad Direct** *(Coming Soon)* | MFS / Payment Gateway | `https://api.mynagad.com` | - | Planned | - | ⏳ Queued |
+| **[Nagad Direct](docs/nagad/README.md)** | MFS / Payment Gateway | `https://api.mynagad.com/api/dfs` | **3 (Dual RSA)** | ✅ Included | PHP, JS, Python, cURL | 🟢 **Complete** |
 
 ---
 
@@ -62,6 +61,7 @@ bangladesh-api-docs/
 ├── api-reference-paperfly.html        # Paperfly Courier Scalar Interactive Reference
 ├── api-reference-carrybee.html        # Carrybee Courier Scalar Interactive Reference
 ├── api-reference-ecourier.html        # eCourier Courier Scalar Interactive Reference
+├── api-reference-nagad.html           # Nagad Direct Gateway Scalar Interactive Reference
 ├── docs/
 │   ├── steadfast/                     # Steadfast Courier Documentation Suite (18 Endpoints)
 │   │   ├── README.md
@@ -90,41 +90,52 @@ bangladesh-api-docs/
 │   │   ├── 05-reverse-pickup-and-exchange.md # Customer Reverse Returns & Item Swap Exchanges
 │   │   ├── 06-webhooks-and-handshake.md # 202 Accepted Echo Handshake & 24 Event Handlers
 │   │   └── 07-status-reference.md     # Lifecycle State Machine, 422 Errors & Polling Fallback
-│   └── ecourier/                      # eCourier Courier API v5.5 (21 Endpoints)
-│       ├── README.md                  # Master Overview & Triple-Header Authentication
-│       ├── 01-getting-started.md      # Triple-Header Auth, Base URLs & Connection Testing
-│       ├── 02-coverage-and-geography.md # Cities, Thanas, Postcodes & Hub Routing (7 APIs)
-│       ├── 03-package-selection.md    # Assigned Contracted Package Codes & Rate Tiers
-│       ├── 04-order-placement.md      # Standard Order, COD, Exchange & Hub Delivery
-│       ├── 05-reseller-and-child-orders.md # Child Vendor Payouts (Bank/bKash/Rocket Splitting)
-│       ├── 06-tracking-labels-and-finance.md # Milestone Tracking, Label PDF & Payment Status
-│       ├── 07-fraud-check-and-booster-sms.md # AI Fraud Return Check & Booster VAS Services
-│       └── 08-status-and-error-reference.md # State Machine, HTTP Codes & 400 Validation Dictionary
+│   ├── ecourier/                      # eCourier Courier API v5.5 (21 Endpoints)
+│   │   ├── README.md                  # Master Overview & Triple-Header Authentication
+│   │   ├── 01-getting-started.md      # Triple-Header Auth, Base URLs & Connection Testing
+│   │   ├── 02-coverage-and-geography.md # Cities, Thanas, Postcodes & Hub Routing (7 APIs)
+│   │   ├── 03-package-selection.md    # Assigned Contracted Package Codes & Rate Tiers
+│   │   ├── 04-order-placement.md      # Standard Order, COD, Exchange & Hub Delivery
+│   │   ├── 05-reseller-and-child-orders.md # Child Vendor Payouts (Bank/bKash/Rocket Splitting)
+│   │   ├── 06-tracking-labels-and-finance.md # Milestone Tracking, Label PDF & Payment Status
+│   │   ├── 07-fraud-check-and-booster-sms.md # AI Fraud Return Check & Booster VAS Services
+│   │   └── 08-status-and-error-reference.md # State Machine, HTTP Codes & 400 Validation Dictionary
+│   └── nagad/                         # Nagad Direct Online Payment Gateway (API v3.3)
+│       ├── README.md                  # Master Overview, Dual RSA-2048 & 4-Stage Workflow
+│       ├── 01-getting-started.md      # Onboarding, Generating RSA 2048 Keys & Timezone
+│       ├── 02-cryptography-and-signatures.md # PKCS#1 v1.5 Encryption, SHA-256 Signatures
+│       ├── 03-checkout-initialization.md # Step 1: POST /check-out/initialize & Nonce Challenge
+│       ├── 04-checkout-complete-and-redirect.md # Step 2: POST /check-out/complete & Currency 050
+│       ├── 05-callback-and-verification.md # Step 3 & 4: Inbound Callback & GET /verify/payment
+│       └── 06-error-codes-and-status.md # Error Codes, PEM Formatting & Troubleshooting
 ├── sdks-and-examples/
 │   ├── steadfast/                     # Steadfast Clients (cURL, PHP, Node, Python)
 │   ├── redx/                          # RedX Clients (cURL, PHP, Node, Python)
 │   ├── pathao/                        # Pathao Courier Clients (cURL, PHP, Node, Python)
 │   ├── paperfly/                      # Paperfly Courier Clients (cURL, PHP, Node, Python)
 │   ├── carrybee/                      # Carrybee Courier Clients (cURL, PHP, Node, Python)
-│   └── ecourier/                      # eCourier Courier Clients
-│       ├── curl/                      # Bash Scripts (order, track, fraud, city, label, payment)
-│       ├── php/                       # EcourierClient.php (PHP 8.x) & example.php
-│       ├── nodejs/                    # ecourier.js (Node 18+ fetch) & example.js
-│       └── python/                    # ecourier.py (Requests) & example.py
+│   ├── ecourier/                      # eCourier Courier Clients (cURL, PHP, Node, Python)
+│   └── nagad/                         # Nagad Gateway Clients
+│       ├── curl/                      # Bash Scripts (generate_keys, verify_payment)
+│       ├── php/                       # NagadClient.php (PHP 8.x) & example.php
+│       ├── nodejs/                    # nagad.js (Node 18+ native crypto) & example.js
+│       └── python/                    # nagad.py (Requests + Cryptography) & example.py
 ├── postman/
 │   ├── Steadfast_Courier_API_v1.postman_collection.json
 │   ├── RedX_Courier_API_v1.postman_collection.json
 │   ├── Pathao_Courier_API_v1.postman_collection.json
 │   ├── Paperfly_Courier_API_v1.postman_collection.json
 │   ├── Carrybee_Courier_API_v2.postman_collection.json
-│   └── eCourier_Courier_API_v5.postman_collection.json
+│   ├── eCourier_Courier_API_v5.postman_collection.json
+│   └── Nagad_Payment_Gateway_API_v3.3.postman_collection.json
 └── openapi/
     ├── steadfast-openapi.yaml
     ├── redx-openapi.yaml
     ├── pathao-openapi.yaml
     ├── paperfly-openapi.yaml
     ├── carrybee-openapi.yaml
-    └── ecourier-openapi.yaml
+    ├── ecourier-openapi.yaml
+    └── nagad-openapi.yaml
 ```
 
 ---
