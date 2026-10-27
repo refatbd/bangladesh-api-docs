@@ -1,0 +1,187 @@
+{
+  "info": {
+    "_postman_id": "a91823f4-41b2-4cd8-b01f-paperfly-api-v1",
+    "name": "Paperfly Courier API v2",
+    "description": "Comprehensive Postman suite for Paperfly Courier Developer API v2 (Doorstep Delivery & Exchange Network).\n\nAuthor: Refat Rahman (https://refat.ovh | https://github.com/refatbd)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://api.paperfly.com.bd",
+      "type": "string"
+    },
+    {
+      "key": "username",
+      "value": "sellerone",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "YOUR_PASSWORD",
+      "type": "string"
+    },
+    {
+      "key": "paperflykey",
+      "value": "Paperfly_~La?Rj73FcLm",
+      "type": "string"
+    },
+    {
+      "key": "merchant_order_ref",
+      "value": "Test_01610",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{username}}",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "{{password}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Create Standard Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "if (json.success && json.success.tracking_number) {",
+                  "    console.log(\"Paperfly Tracking Number:\", json.success.tracking_number);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "paperflykey",
+                "value": "{{paperflykey}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"merchantOrderReference\": \"ORD-{{$timestamp}}\",\n    \"storeName\": \"Main Outlet\",\n    \"productBrief\": \"Leather Shoes\",\n    \"packagePrice\": \"2500\",\n    \"max_weight\": \"1.0\",\n    \"customerName\": \"Liton Ovi\",\n    \"customerAddress\": \"House 12, Road 4, Banani, Dhaka\",\n    \"customerPhone\": \"01610202717\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/merchant/api/service/new_order_v2.php",
+              "host": ["{{base_url}}"],
+              "path": ["merchant", "api", "service", "new_order_v2.php"]
+            }
+          }
+        },
+        {
+          "name": "Create Exchange Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "paperflykey",
+                "value": "{{paperflykey}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"merchantOrderReference\": \"EXC-{{$timestamp}}\",\n    \"storeName\": \"Main Outlet\",\n    \"productBrief\": \"Leather Shoes - Size 43\",\n    \"packagePrice\": \"0\",\n    \"max_weight\": \"1.0\",\n    \"customerName\": \"Liton Ovi\",\n    \"customerAddress\": \"House 12, Road 4, Banani, Dhaka\",\n    \"customerPhone\": \"01610202717\",\n    \"orderType\": \"Exchange\",\n    \"exchangeDescription\": \"Return Old Size 42\",\n    \"exchangePrice\": \"100\",\n    \"exchangeWeight\": \"1.0\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/merchant/api/service/new_order_v2.php",
+              "host": ["{{base_url}}"],
+              "path": ["merchant", "api", "service", "new_order_v2.php"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "paperflykey",
+                "value": "{{paperflykey}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_id\": \"{{merchant_order_ref}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/cancel-order",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "cancel-order"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tracking",
+      "item": [
+        {
+          "name": "Track Order Milestones",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "paperflykey",
+                "value": "{{paperflykey}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"ReferenceNumber\": \"{{merchant_order_ref}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/API-Order-Tracking",
+              "host": ["{{base_url}}"],
+              "path": ["API-Order-Tracking"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
