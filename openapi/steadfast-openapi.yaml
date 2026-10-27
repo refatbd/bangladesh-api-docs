@@ -1,0 +1,312 @@
+openapi: 3.0.3
+info:
+  title: Steadfast Courier API
+  description: |
+    Official Production REST API Specification for Steadfast Courier Limited (Bangladesh).
+    Maintained & documented by **Refat Rahman** ([refat.ovh](https://refat.ovh)).
+  version: 1.0.0
+  contact:
+    name: Refat Rahman
+    url: https://refat.ovh
+    email: refatbd@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://portal.packzy.com/api/v1
+    description: Production API Gateway
+
+paths:
+  /ping:
+    get:
+      summary: Service Health Check
+      description: Verifies gateway reachability without requiring API credentials.
+      responses:
+        '200':
+          description: Pong health response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: pong
+                  service:
+                    type: string
+                    example: steadfast-api
+                  version:
+                    type: string
+                    example: v1
+
+  /get_balance:
+    get:
+      summary: Get Wallet COD Balance
+      description: Returns unsettled COD balance owed to merchant.
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      responses:
+        '200':
+          description: Balance returned successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 200
+                  current_balance:
+                    type: number
+                    example: 14500.50
+
+  /create_order:
+    post:
+      summary: Book a Single Parcel
+      description: Creates an individual consignment for delivery.
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - invoice
+                - recipient_name
+                - recipient_phone
+                - recipient_address
+                - cod_amount
+              properties:
+                invoice:
+                  type: string
+                  maxLength: 100
+                  example: ORD-10231
+                recipient_name:
+                  type: string
+                  maxLength: 100
+                  example: Jahid Hasan
+                recipient_phone:
+                  type: string
+                  maxLength: 40
+                  example: "01712345678"
+                recipient_address:
+                  type: string
+                  maxLength: 490
+                  example: House 14, Road 7, Dhanmondi, Dhaka
+                cod_amount:
+                  type: number
+                  example: 1060.00
+                note:
+                  type: string
+                  maxLength: 480
+                  example: Call before delivery
+      responses:
+        '200':
+          description: Order booked successfully
+        '401':
+          description: Unauthorized
+        '422':
+          description: Validation error
+
+  /create_order/bulk-order:
+    post:
+      summary: Bulk Book Orders (Up to 500)
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    type: object
+      responses:
+        '200':
+          description: Bulk orders created
+
+  /status_by_cid/{consignment_id}:
+    get:
+      summary: Status by Consignment ID
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      parameters:
+        - name: consignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Status retrieved
+
+  /status_with_return_status_by_cid/{consignment_id}:
+    get:
+      summary: Status with Return Progress
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      parameters:
+        - name: consignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Status and return stage retrieved
+
+  /status_by_invoice/{invoice}:
+    get:
+      summary: Status by Merchant Invoice
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      parameters:
+        - name: invoice
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Status retrieved
+
+  /status_by_trackingcode/{tracking_code}:
+    get:
+      summary: Status by Tracking Code
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      parameters:
+        - name: tracking_code
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Status retrieved
+
+  /trackings_by_invoice/{invoice}:
+    get:
+      summary: Tracking Timeline History
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      parameters:
+        - name: invoice
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Timeline retrieved
+
+  /create_pickup_request:
+    post:
+      summary: Request Rider Pickup
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      responses:
+        '200':
+          description: Pickup request created
+
+  /create_return_request:
+    post:
+      summary: Request Parcel Recall/Return
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      responses:
+        '200':
+          description: Return request created
+
+  /get_return_requests:
+    get:
+      summary: List Return Requests
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      responses:
+        '200':
+          description: Return requests list
+
+  /payments:
+    get:
+      summary: List Payout Settlements
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      responses:
+        '200':
+          description: Payouts list
+
+  /payments/{payment_id}:
+    get:
+      summary: Payout Settlement Details
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      parameters:
+        - name: payment_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Payment details
+
+  /police_stations:
+    get:
+      summary: List Covered Police Stations / Thanas
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      responses:
+        '200':
+          description: Police stations directory
+
+  /fraud_check/score/{phone}:
+    get:
+      summary: Customer Delivery Risk Fraud Check
+      security:
+        - ApiKeyAuth: []
+          SecretKeyAuth: []
+      parameters:
+        - name: phone
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "01712345678"
+      responses:
+        '200':
+          description: Fraud score and delivery history returned
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Api-Key
+    SecretKeyAuth:
+      type: apiKey
+      in: header
+      name: Secret-Key
