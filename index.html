@@ -348,10 +348,11 @@
       <nav class="hidden md:flex items-center gap-6 text-xs font-medium">
         <a href="#/README.md" class="text-zinc-900 dark:text-white font-semibold">Guides</a>
         <a href="api-reference.html" class="flex items-center gap-1.5 text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-sky-400 transition">
-          <span>Interactive API Reference</span>
+          <span>Scalar Console</span>
           <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">Live</span>
         </a>
-        <a href="#/docs/steadfast/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Steadfast Courier</a>
+        <a href="#/docs/steadfast/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Steadfast</a>
+        <a href="#/docs/redx/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">RedX Delivery</a>
         <a href="#/CONTRIBUTING.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Contributing</a>
       </nav>
 
@@ -413,17 +414,40 @@
           </div>
         </div>
 
+        <!-- Group: RedX Delivery API -->
+        <div>
+          <div class="flex items-center justify-between px-3 mb-1.5">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">RedX Delivery</span>
+            <span class="text-[9px] font-mono px-1 rounded bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-400">11 Endpoints</span>
+          </div>
+          <div class="space-y-0.5">
+            <a href="#/docs/redx/README.md" class="sidebar-link">Quickstart & Index</a>
+            <a href="#/docs/redx/01-getting-started.md" class="sidebar-link">01. Getting Started & Auth</a>
+            <a href="#/docs/redx/02-parcels-and-orders.md" class="sidebar-link">02. Parcels & Orders</a>
+            <a href="#/docs/redx/03-tracking-and-status.md" class="sidebar-link">03. Tracking & Milestones</a>
+            <a href="#/docs/redx/04-areas-and-coverage.md" class="sidebar-link">04. Areas & 64 Districts</a>
+            <a href="#/docs/redx/05-pickup-stores.md" class="sidebar-link">05. Pickup Stores</a>
+            <a href="#/docs/redx/06-charge-calculator.md" class="sidebar-link">06. Charge Calculator</a>
+            <a href="#/docs/redx/07-webhooks-and-callbacks.md" class="sidebar-link">07. Real-Time Webhooks</a>
+            <a href="#/docs/redx/08-status-and-error-codes.md" class="sidebar-link">08. Status Codes & Errors</a>
+          </div>
+        </div>
+
         <!-- Group: SDKs & Reference -->
         <div>
           <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-3 mb-1.5">API & SDK Tools</div>
           <div class="space-y-0.5">
             <a href="api-reference.html" class="sidebar-link flex items-center justify-between">
-              <span>Scalar API Console</span>
+              <span>Scalar Console (Steadfast)</span>
               <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
             </a>
-            <a href="#/sdks-and-examples/steadfast/php/SteadfastClient.php" class="sidebar-link">PHP 8.x Client</a>
-            <a href="#/sdks-and-examples/steadfast/nodejs/steadfast.js" class="sidebar-link">Node.js Client</a>
-            <a href="#/sdks-and-examples/steadfast/python/steadfast.py" class="sidebar-link">Python 3 Client</a>
+            <a href="api-reference-redx.html" class="sidebar-link flex items-center justify-between">
+              <span>Scalar Console (RedX)</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
+            </a>
+            <a href="#/sdks-and-examples/redx/php/RedxClient.php" class="sidebar-link">RedX PHP Client</a>
+            <a href="#/sdks-and-examples/redx/nodejs/redx.js" class="sidebar-link">RedX Node.js Client</a>
+            <a href="#/sdks-and-examples/redx/python/redx.py" class="sidebar-link">RedX Python Client</a>
           </div>
         </div>
       </div>
@@ -493,14 +517,23 @@
     const CHAPTERS = [
       { path: 'README.md', title: 'Home Hub' },
       { path: 'docs/steadfast/README.md', title: 'Steadfast Quickstart' },
-      { path: 'docs/steadfast/01-getting-started.md', title: '01. Getting Started & Auth' },
-      { path: 'docs/steadfast/02-booking-parcels.md', title: '02. Booking Parcels' },
-      { path: 'docs/steadfast/03-tracking-and-status.md', title: '03. Tracking & Status' },
-      { path: 'docs/steadfast/04-pickups-and-returns.md', title: '04. Pickups & Returns' },
-      { path: 'docs/steadfast/05-balance-and-payments.md', title: '05. Balance & Payments' },
-      { path: 'docs/steadfast/06-fraud-check-and-thanas.md', title: '06. Fraud Check & Thanas' },
-      { path: 'docs/steadfast/07-status-code-reference.md', title: '07. Status Codes & Errors' },
-      { path: 'docs/steadfast/08-webhooks.md', title: '08. Real-Time Webhooks' },
+      { path: 'docs/steadfast/01-getting-started.md', title: 'Steadfast: 01. Getting Started & Auth' },
+      { path: 'docs/steadfast/02-booking-parcels.md', title: 'Steadfast: 02. Booking Parcels' },
+      { path: 'docs/steadfast/03-tracking-and-status.md', title: 'Steadfast: 03. Tracking & Status' },
+      { path: 'docs/steadfast/04-pickups-and-returns.md', title: 'Steadfast: 04. Pickups & Returns' },
+      { path: 'docs/steadfast/05-balance-and-payments.md', title: 'Steadfast: 05. Balance & Payments' },
+      { path: 'docs/steadfast/06-fraud-check-and-thanas.md', title: 'Steadfast: 06. Fraud Check & Thanas' },
+      { path: 'docs/steadfast/07-status-code-reference.md', title: 'Steadfast: 07. Status Codes & Errors' },
+      { path: 'docs/steadfast/08-webhooks.md', title: 'Steadfast: 08. Real-Time Webhooks' },
+      { path: 'docs/redx/README.md', title: 'RedX Quickstart' },
+      { path: 'docs/redx/01-getting-started.md', title: 'RedX: 01. Getting Started & Auth' },
+      { path: 'docs/redx/02-parcels-and-orders.md', title: 'RedX: 02. Parcels & Orders' },
+      { path: 'docs/redx/03-tracking-and-status.md', title: 'RedX: 03. Tracking & Status' },
+      { path: 'docs/redx/04-areas-and-coverage.md', title: 'RedX: 04. Areas & 64 Districts' },
+      { path: 'docs/redx/05-pickup-stores.md', title: 'RedX: 05. Pickup Stores' },
+      { path: 'docs/redx/06-charge-calculator.md', title: 'RedX: 06. Charge Calculator' },
+      { path: 'docs/redx/07-webhooks-and-callbacks.md', title: 'RedX: 07. Webhooks & Callbacks' },
+      { path: 'docs/redx/08-status-and-error-codes.md', title: 'RedX: 08. Status Codes & Errors' },
       { path: 'CONTRIBUTING.md', title: 'Contributing Guide' },
       { path: 'LICENSE', title: 'MIT License' },
     ];

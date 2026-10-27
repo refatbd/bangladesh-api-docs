@@ -1,0 +1,508 @@
+openapi: 3.0.3
+info:
+  title: RedX Delivery Developer OpenAPI
+  version: 1.0.0-beta
+  description: |
+    Production OpenAPI 3.0 specification for RedX Delivery (ShopUp Logistics), Bangladesh.
+    Provides nationwide courier fulfillment, real-time parcel tracking, automated COD settlements,
+    and webhook push notifications.
+
+    **Developer & Maintainer**: Refat Rahman  
+    **Website**: [refat.ovh](https://refat.ovh)  
+    **GitHub**: [@refatbd](https://github.com/refatbd)
+  contact:
+    name: Refat Rahman
+    url: https://refat.ovh
+    email: refatbd.dev@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://sandbox.redx.com.bd/v1.0.0-beta
+    description: Sandbox Staging Environment (Mock / Testing)
+  - url: https://openapi.redx.com.bd/v1.0.0-beta
+    description: Production Live Environment (Real Fulfillment)
+
+components:
+  securitySchemes:
+    RedxBearerAuth:
+      type: apiKey
+      in: header
+      name: API-ACCESS-TOKEN
+      description: |
+        Pass your merchant JWT Bearer token formatted as `Bearer <jwt_token>`.
+
+  schemas:
+    ParcelDetailsItem:
+      type: object
+      required:
+        - name
+        - category
+        - value
+      properties:
+        name:
+          type: string
+          example: Men Casual Polo
+        category:
+          type: string
+          example: Apparel
+        value:
+          type: integer
+          example: 1250
+
+    CreateParcelRequest:
+      type: object
+      required:
+        - customer_name
+        - customer_phone
+        - delivery_area
+        - delivery_area_id
+        - customer_address
+        - cash_collection_amount
+        - parcel_weight
+        - value
+      properties:
+        customer_name:
+          type: string
+          example: Rahim Ahmed
+        customer_phone:
+          type: string
+          example: "01711223344"
+        delivery_area:
+          type: string
+          example: Mirpur DOHS
+        delivery_area_id:
+          type: integer
+          example: 12
+        customer_address:
+          type: string
+          example: House 45, Road 7, Mirpur DOHS, Dhaka
+        merchant_invoice_id:
+          type: string
+          example: INV-2026-9011
+        cash_collection_amount:
+          type: string
+          example: "1500"
+        paid_return_charge:
+          type: number
+          example: 0
+        parcel_weight:
+          type: number
+          example: 750
+        instruction:
+          type: string
+          example: Call before delivery
+        value:
+          type: number
+          example: 1500
+        is_closed_box:
+          type: boolean
+          example: true
+        pickup_store_id:
+          type: integer
+          example: 1
+        parcel_details_json:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParcelDetailsItem'
+
+    CreateParcelResponse:
+      type: object
+      properties:
+        tracking_id:
+          type: string
+          example: 21A427TU4BN3R
+
+    TrackingEvent:
+      type: object
+      properties:
+        message_en:
+          type: string
+          example: Package is picked up
+        message_bn:
+          type: string
+          example: পার্সেল পিকাপ সম্পন্ন হয়েছে
+        time:
+          type: string
+          format: date-time
+          example: '2026-04-27T11:41:03.000Z'
+
+    TrackParcelResponse:
+      type: object
+      properties:
+        tracking:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrackingEvent'
+
+    ParcelInfo:
+      type: object
+      properties:
+        tracking_id:
+          type: string
+          example: 21A427TU4BN3R
+        customer_name:
+          type: string
+          example: Rahim Ahmed
+        customer_phone:
+          type: string
+          example: "01711223344"
+        customer_address:
+          type: string
+          example: House 45, Road 7, Mirpur DOHS, Dhaka
+        delivery_area:
+          type: string
+          example: Mirpur DOHS
+        delivery_area_id:
+          type: integer
+          example: 12
+        charge:
+          type: number
+          example: 60
+        cash_collection_amount:
+          type: number
+          example: 1500
+        parcel_weight:
+          type: number
+          example: 750
+        status:
+          type: string
+          example: pickup-pending
+        delivery_type:
+          type: string
+          example: regular
+
+    UpdateParcelRequest:
+      type: object
+      required:
+        - entity_type
+        - entity_id
+        - update_details
+      properties:
+        entity_type:
+          type: string
+          example: parcel-tracking-id
+        entity_id:
+          type: string
+          example: 21A427TU4BN3R
+        update_details:
+          type: object
+          required:
+            - property_name
+            - new_value
+          properties:
+            property_name:
+              type: string
+              example: status
+            new_value:
+              type: string
+              example: cancelled
+            reason:
+              type: string
+              example: Customer requested cancellation
+
+    AreaItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 12
+        name:
+          type: string
+          example: Mirpur DOHS
+        post_code:
+          type: integer
+          example: 1216
+        division_name:
+          type: string
+          example: Dhaka
+        zone_id:
+          type: integer
+          example: 1
+
+    PickupStore:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Dhanmondi Outlet Hub
+        address:
+          type: string
+          example: House 12, Road 4, Dhanmondi, Dhaka
+        area_name:
+          type: string
+          example: Dhanmondi
+        area_id:
+          type: integer
+          example: 2
+        phone:
+          type: string
+          example: "01898000999"
+
+security:
+  - RedxBearerAuth: []
+
+paths:
+  /parcel:
+    post:
+      summary: Create New Parcel
+      description: Books a consignment in RedX system and returns a unique tracking ID.
+      operationId: createParcel
+      tags:
+        - Parcels
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateParcelRequest'
+      responses:
+        '200':
+          description: Parcel created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateParcelResponse'
+
+  /parcels:
+    patch:
+      summary: Update Parcel (Cancel / Modify)
+      description: Update parcel properties such as status cancellation or customer delivery address.
+      operationId: updateParcel
+      tags:
+        - Parcels
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateParcelRequest'
+      responses:
+        '200':
+          description: Update request accepted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: Request Accepted
+
+  /parcel/track/{tracking_id}:
+    get:
+      summary: Track Parcel Transit Milestones
+      description: Returns the chronological event timeline of a parcel in English and Bengali.
+      operationId: trackParcel
+      tags:
+        - Tracking
+      parameters:
+        - name: tracking_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 21A427TU4BN3R
+      responses:
+        '200':
+          description: Tracking timeline retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackParcelResponse'
+
+  /parcel/info/{tracking_id}:
+    get:
+      summary: Get Parcel Details
+      description: Fetches complete parcel metadata, recipient phone, address, and current status.
+      operationId: getParcelInfo
+      tags:
+        - Parcels
+      parameters:
+        - name: tracking_id
+          in: path
+          required: true
+          schema:
+            type: string
+          example: 21A427TU4BN3R
+      responses:
+        '200':
+          description: Parcel details record
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  parcel:
+                    $ref: '#/components/schemas/ParcelInfo'
+
+  /areas:
+    get:
+      summary: Get Delivery Areas
+      description: List all coverage areas nationwide, or filter by postal code / district name.
+      operationId: getAreas
+      tags:
+        - Areas & Coverage
+      parameters:
+        - name: post_code
+          in: query
+          required: false
+          schema:
+            type: integer
+          example: 1206
+        - name: district_name
+          in: query
+          required: false
+          schema:
+            type: string
+          example: Dhaka
+      responses:
+        '200':
+          description: Delivery areas array
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  areas:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AreaItem'
+
+  /pickup/store:
+    post:
+      summary: Create Pickup Store
+      description: Register a new warehouse location for rider collections.
+      operationId: createPickupStore
+      tags:
+        - Pickup Stores
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - phone
+                - address
+                - area_id
+              properties:
+                name:
+                  type: string
+                  example: Dhanmondi Outlet Hub
+                phone:
+                  type: string
+                  example: "01898000999"
+                address:
+                  type: string
+                  example: House 12, Road 4, Dhanmondi, Dhaka
+                area_id:
+                  type: integer
+                  example: 2
+      responses:
+        '200':
+          description: Warehouse store registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PickupStore'
+
+  /pickup/stores:
+    get:
+      summary: List Registered Pickup Stores
+      description: Returns all merchant pickup locations and warehouses.
+      operationId: getPickupStores
+      tags:
+        - Pickup Stores
+      responses:
+        '200':
+          description: Pickup stores list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pickup_stores:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PickupStore'
+
+  /pickup/store/info/{pickup_store_id}:
+    get:
+      summary: Get Pickup Store Details
+      description: Fetches details for a single warehouse by ID.
+      operationId: getPickupStoreInfo
+      tags:
+        - Pickup Stores
+      parameters:
+        - name: pickup_store_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          example: 1
+      responses:
+        '200':
+          description: Pickup store details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pickup_store:
+                    $ref: '#/components/schemas/PickupStore'
+
+  /charge/charge_calculator:
+    get:
+      summary: Calculate Delivery Charge & COD Cost
+      description: Computes shipping fees based on origin, destination, weight, and collection amount.
+      operationId: calculateCharge
+      tags:
+        - Billing & Calculations
+      parameters:
+        - name: delivery_area_id
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 12
+        - name: pickup_area_id
+          in: query
+          required: true
+          schema:
+            type: integer
+          example: 1
+        - name: cash_collection_amount
+          in: query
+          required: true
+          schema:
+            type: number
+          example: 1500
+        - name: weight
+          in: query
+          required: true
+          schema:
+            type: number
+          example: 750
+      responses:
+        '200':
+          description: Delivery fee breakdown
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deliveryCharge:
+                    type: number
+                    example: 60
+                  codCharge:
+                    type: number
+                    example: 15

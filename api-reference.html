@@ -33,15 +33,32 @@
       .top-banner-hub a:hover {
         text-decoration: underline;
       }
+      .nav-pill {
+        padding: 0.2rem 0.55rem;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .nav-pill-active {
+        background-color: #2563eb;
+        color: #ffffff !important;
+      }
+      .nav-pill-inactive {
+        background-color: #1f2022;
+        color: #9ca3af !important;
+      }
     </style>
   </head>
   <body>
     <!-- Top Hub Navigation -->
     <div class="top-banner-hub">
       <div style="display: flex; align-items: center; gap: 0.75rem;">
-        <a href="index.html" style="color: #ffffff; font-weight: 700;">&larr; Bangladesh API Hub</a>
+        <a href="index.html" style="color: #ffffff; font-weight: 700;">&larr; Documentation Hub</a>
         <span style="color: #4b5563;">|</span>
-        <span style="color: #9ca3af;">Steadfast Courier (v1) Interactive Reference</span>
+        <span style="color: #9ca3af; margin-right: 0.25rem;">Switch API:</span>
+        <a href="api-reference.html" class="nav-pill nav-pill-active">Steadfast</a>
+        <a href="api-reference-redx.html" class="nav-pill nav-pill-inactive">RedX Delivery</a>
       </div>
       <div>
         <span style="color: #6b7280; margin-right: 0.75rem;">Maintained by <strong style="color: #f3f4f6;">Refat Rahman</strong></span>

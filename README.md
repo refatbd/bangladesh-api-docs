@@ -27,8 +27,8 @@ An open-source, production-grade API documentation repository, SDK collection, P
 | Provider | Category | Base URL | Endpoints | Postman | SDKs | Status |
 | :--- | :--- | :--- | :---: | :---: | :---: | :---: |
 | **[Steadfast Courier](docs/steadfast/README.md)** | Logistics / COD | `https://portal.packzy.com/api/v1` | **18** | ✅ Included | PHP, JS, Python, cURL | 🟢 **Complete** |
+| **[RedX Delivery](docs/redx/README.md)** | Logistics / Fulfillment | `https://openapi.redx.com.bd` | **11** | ✅ Included | PHP, JS, Python, cURL | 🟢 **Complete** |
 | **Pathao Courier** *(Coming Soon)* | Logistics / On-Demand | `https://api-hermes.pathao.com` | - | Planned | - | ⏳ Queued |
-| **RedX Logistics** *(Coming Soon)* | Logistics / Fulfillment | `https://openapi.redx.com.bd` | - | Planned | - | ⏳ Queued |
 | **bKash Tokenized** *(Coming Soon)* | MFS / Payment Gateway | `https://tokenized.pay.bka.sh/v1.2.0-beta` | - | Planned | - | ⏳ Queued |
 | **Nagad Direct** *(Coming Soon)* | MFS / Payment Gateway | `https://api.mynagad.com` | - | Planned | - | ⏳ Queued |
 
@@ -52,27 +52,36 @@ bangladesh-api-docs/
 ├── README.md                          # Master Directory & Hub
 ├── LICENSE                            # MIT License
 ├── CONTRIBUTING.md                    # Guidelines for Community Contributors
+├── index.html                         # VitePress/Supabase Grade Hub Viewer
+├── api-reference.html                 # Steadfast Scalar Interactive Reference
+├── api-reference-redx.html            # RedX Delivery Scalar Interactive Reference
 ├── docs/
-│   └── steadfast/                     # Steadfast Courier Documentation Suite
-│       ├── README.md                  # Master Overview & Quick Links
-│       ├── 01-getting-started.md      # Base URL, Authentication, Rate Limits
-│       ├── 02-booking-parcels.md      # Single & Bulk Parcel Creation
-│       ├── 03-tracking-and-status.md  # Tracking & Parcel Status Queries
-│       ├── 04-pickups-and-returns.md  # Rider Pickup & Return Requests
-│       ├── 05-balance-and-payments.md # Wallet Balance & COD Remittance Payouts
-│       ├── 06-fraud-check-and-thanas.md # Customer Fraud Score & Thana Directory
-│       ├── 07-status-code-reference.md # Complete State Machine & HTTP Codes
-│       └── 08-webhooks.md             # Real-Time Event Notifications
+│   ├── steadfast/                     # Steadfast Courier Documentation Suite (18 Endpoints)
+│   │   ├── README.md
+│   │   └── 01-getting-started.md ... 08-webhooks.md
+│   └── redx/                          # RedX Delivery Documentation Suite (11 Endpoints)
+│       ├── README.md                  # Master Overview & Environments
+│       ├── 01-getting-started.md      # Sandbox & Production, JWT Header
+│       ├── 02-parcels-and-orders.md   # Create, Update & Query Consignments
+│       ├── 03-tracking-and-status.md  # Tracking Milestones (EN & BN)
+│       ├── 04-areas-and-coverage.md   # 64 Districts, Postal Codes
+│       ├── 05-pickup-stores.md        # Multi-Warehouse Management
+│       ├── 06-charge-calculator.md    # Delivery & COD Fee Calculation
+│       ├── 07-webhooks-and-callbacks.md # Real-Time Push Events & Security
+│       └── 08-status-and-error-codes.md # State Transitions & HTTP Reference
 ├── sdks-and-examples/
-│   └── steadfast/                     # Production Ready Clients
-│       ├── curl/                      # Direct Bash/Shell Scripts
-│       ├── php/                       # Standalone PHP 8.x / Laravel Client
-│       ├── nodejs/                    # Modern Async/Await Node.js Client
-│       └── python/                    # Python 3 Requests Client
+│   ├── steadfast/                     # Steadfast Clients (cURL, PHP, Node, Python)
+│   └── redx/                          # RedX Delivery Clients
+│       ├── curl/                      # Bash Scripts (track, create, update, charge)
+│       ├── php/                       # RedxClient.php (PHP 8.x) & example.php
+│       ├── nodejs/                    # redx.js (Node 18+ fetch) & example.js
+│       └── python/                    # redx.py (Requests) & example.py
 ├── postman/
-│   └── Steadfast_Courier_API_v1.postman_collection.json
+│   ├── Steadfast_Courier_API_v1.postman_collection.json
+│   └── RedX_Courier_API_v1.postman_collection.json
 └── openapi/
-    └── steadfast-openapi.yaml
+    ├── steadfast-openapi.yaml
+    └── redx-openapi.yaml
 ```
 
 ---
