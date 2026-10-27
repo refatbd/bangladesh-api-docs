@@ -1,0 +1,23 @@
+{
+  "name": "@refatbd/ecourier-sdk",
+  "version": "1.0.0",
+  "description": "Production-ready Node.js SDK for eCourier Courier API v5.5",
+  "main": "ecourier.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node example.js"
+  },
+  "keywords": [
+    "ecourier",
+    "courier",
+    "bangladesh",
+    "delivery",
+    "logistics",
+    "api-sdk"
+  ],
+  "author": "Refat Rahman <https://refat.ovh>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
