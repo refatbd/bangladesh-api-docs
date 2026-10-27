@@ -1,126 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
-  <title>Bangladesh API Hub | By Refat Rahman</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="description" content="Open-Source API Documentation & SDK Collection for Bangladeshi Couriers and Payment Gateways">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>Bangladesh API Hub — Modern Developer Documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Production-Grade API Documentation & SDK Collection for Bangladeshi Couriers, FinTech Gateways, and Logistics Providers. Maintained by Refat Rahman.">
   
-  <!-- Modern Clean Theme -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <!-- Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-  <style>
-    :root {
-      --base-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      --theme-color: #2563eb;
-      --sidebar-width: 290px;
-      --sidebar-background: #0f172a;
-      --sidebar-nav-link-color: #94a3b8;
-      --sidebar-nav-link-color--active: #38bdf8;
-      --sidebar-name-color: #ffffff;
-      --sidebar-border-color: #1e293b;
-      --code-font-family: 'Fira Code', Consolas, Monaco, monospace;
-      --content-max-width: 960px;
-    }
-
-    .app-name-link {
-      font-weight: 800 !important;
-      font-size: 1.15rem !important;
-      letter-spacing: -0.02em;
-      color: #38bdf8 !important;
-    }
-
-    .sidebar {
-      color: #cbd5e1;
-    }
-
-    .author-badge-card {
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      border: 1px solid #334155;
-      border-radius: 0.75rem;
-      padding: 0.85rem;
-      margin: 1rem 0;
-      font-size: 0.8rem;
-      color: #e2e8f0;
-    }
-
-    .author-badge-card a {
-      color: #38bdf8;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    .author-badge-card a:hover {
-      text-decoration: underline;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1.5rem 0;
-    }
-
-    th {
-      background-color: #f1f5f9;
-      color: #1e293b;
-      font-weight: 700;
-      padding: 0.75rem 1rem;
-      border: 1px solid #cbd5e1;
-    }
-
-    td {
-      padding: 0.75rem 1rem;
-      border: 1px solid #e2e8f0;
-    }
-
-    .markdown-section pre {
-      border-radius: 0.65rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-  </style>
-</head>
-<body>
-  <div id="app">Loading Bangladesh API Hub...</div>
-
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    window.$docsify = {
-      name: '🇧🇩 Bangladesh API Hub',
-      repo: 'https://github.com/refatbd',
-      loadSidebar: true,
-      subMaxLevel: 3,
-      auto2top: true,
-      search: {
-        maxAge: 86400000,
-        paths: 'auto',
-        placeholder: 'Search APIs, endpoints, SDKs...',
-        noData: 'No matching documentation found!',
-        depth: 4,
-      },
-      copyCode: {
-        buttonText: 'Copy',
-        errorText: 'Error',
-        successText: 'Copied!'
-      },
-      pagination: {
-        previousText: 'Previous Chapter',
-        nextText: 'Next Chapter',
-        crossChapter: true
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          }
+        }
       }
-    };
+    }
   </script>
 
-  <!-- Docsify Core -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-  
-  <!-- Plugins -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/js/docsify-themeable.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
-  <!-- Prism Syntax Highlighting -->
+  <!-- Marked.js Markdown Parser -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- PrismJS Syntax Highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-php.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
@@ -128,5 +53,735 @@
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-http.min.js"></script>
+
+  <style>
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
+    }
+
+    /* Markdown Render Styling */
+    .prose-custom h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      margin-bottom: 1.5rem;
+      color: inherit;
+      border-bottom: 1px solid rgba(156, 163, 175, 0.2);
+      padding-bottom: 0.75rem;
+    }
+    .prose-custom h2 {
+      font-size: 1.45rem;
+      font-weight: 750;
+      letter-spacing: -0.02em;
+      margin-top: 2.25rem;
+      margin-bottom: 1rem;
+      color: inherit;
+    }
+    .prose-custom h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-top: 1.75rem;
+      margin-bottom: 0.75rem;
+      color: inherit;
+    }
+    .prose-custom p {
+      margin-bottom: 1.15rem;
+      line-height: 1.75;
+      font-size: 0.95rem;
+    }
+    .prose-custom ul, .prose-custom ol {
+      margin-bottom: 1.25rem;
+      padding-left: 1.5rem;
+      line-height: 1.75;
+    }
+    .prose-custom ul {
+      list-style-type: disc;
+    }
+    .prose-custom ol {
+      list-style-type: decimal;
+    }
+    .prose-custom li {
+      margin-bottom: 0.35rem;
+    }
+
+    /* Tables */
+    .prose-custom table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 1.5rem 0;
+      font-size: 0.875rem;
+      border-radius: 0.65rem;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+    .dark .prose-custom table {
+      border-color: #27272a;
+    }
+    .prose-custom th {
+      background-color: #f8fafc;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+      color: #475569;
+    }
+    .dark .prose-custom th {
+      background-color: #18181b;
+      border-color: #27272a;
+      color: #a1a1aa;
+    }
+    .prose-custom td {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid #f1f5f9;
+      color: #334155;
+    }
+    .dark .prose-custom td {
+      border-color: #27272a;
+      color: #d4d4d8;
+    }
+    .prose-custom tr:last-child td {
+      border-bottom: none;
+    }
+    .prose-custom tr:hover td {
+      background-color: #f8fafc;
+    }
+    .dark .prose-custom tr:hover td {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Blockquotes / Alerts */
+    .prose-custom blockquote {
+      border-left: 4px solid #3b82f6;
+      background-color: #eff6ff;
+      border-radius: 0 0.5rem 0.5rem 0;
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      color: #1e3a8a;
+      font-style: normal;
+    }
+    .dark .prose-custom blockquote {
+      background-color: rgba(30, 58, 138, 0.15);
+      border-color: #3b82f6;
+      color: #93c5fd;
+    }
+    .prose-custom blockquote p {
+      margin-bottom: 0;
+    }
+
+    /* Inline Code */
+    .prose-custom :not(pre) > code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.825rem;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.35rem;
+      background-color: #f1f5f9;
+      color: #0f172a;
+      border: 1px solid #e2e8f0;
+    }
+    .dark .prose-custom :not(pre) > code {
+      background-color: #27272a;
+      color: #f4f4f5;
+      border-color: #3f3f46;
+    }
+
+    /* Code Blocks */
+    .code-block-wrapper {
+      position: relative;
+      margin: 1.5rem 0;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      background-color: #0d1117;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    .dark .code-block-wrapper {
+      border-color: #27272a;
+      background-color: #09090b;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    .code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 1rem;
+      background-color: #161b22;
+      border-bottom: 1px solid #21262d;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #8b949e;
+    }
+    .dark .code-header {
+      background-color: #121215;
+      border-color: #27272a;
+      color: #71717a;
+    }
+    .code-copy-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background-color: #21262d;
+      color: #c9d1d9;
+      border: 1px solid #30363d;
+      border-radius: 0.375rem;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .code-copy-btn:hover {
+      background-color: #30363d;
+      color: #ffffff;
+    }
+    pre[class*="language-"] {
+      margin: 0 !important;
+      padding: 1.25rem !important;
+      background: transparent !important;
+      font-size: 0.875rem !important;
+      line-height: 1.65 !important;
+    }
+
+    /* Links */
+    .prose-custom a {
+      color: #2563eb;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 500;
+    }
+    .dark .prose-custom a {
+      color: #60a5fa;
+    }
+    .prose-custom a:hover {
+      color: #1d4ed8;
+    }
+    .dark .prose-custom a:hover {
+      color: #93c5fd;
+    }
+  </style>
+</head>
+<body class="bg-zinc-50 text-zinc-900 dark:bg-[#09090b] dark:text-zinc-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
+
+  <!-- ========================================================================= -->
+  <!-- 1. TOP STICKY NAVBAR                                                     -->
+  <!-- ========================================================================= -->
+  <header class="sticky top-0 z-40 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Mobile Menu Toggle -->
+      <div class="flex items-center gap-3">
+        <button id="mobileMenuBtn" class="lg:hidden p-2 rounded-lg text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 focus:outline-none">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <a href="#/README.md" class="flex items-center gap-2.5 group">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
+            <i data-lucide="terminal" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="font-bold text-base tracking-tight flex items-center gap-2">
+              <span>Bangladesh API Hub</span>
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-brand-50 text-brand-600 dark:bg-brand-950/60 dark:text-brand-400 border border-brand-200 dark:border-brand-800">v1.0</span>
+            </div>
+            <div class="text-[11px] text-zinc-500 dark:text-zinc-400 font-medium">By Refat Rahman</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Quick Search Bar Trigger -->
+      <div class="hidden md:flex items-center flex-1 max-w-md mx-8">
+        <div class="relative w-full">
+          <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"></i>
+          <input id="searchInput" type="text" placeholder="Search documentation, endpoints, SDKs..." 
+            class="w-full pl-9 pr-12 py-1.5 text-xs rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-100/70 dark:bg-zinc-900/70 text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white dark:focus:bg-zinc-900 transition-all">
+          <kbd class="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] font-mono bg-white dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-700">⌘K</kbd>
+        </div>
+      </div>
+
+      <!-- Right Controls: Swagger UI, Theme Toggle, GitHub Link -->
+      <div class="flex items-center gap-2">
+        <a href="swagger.html" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition">
+          <i data-lucide="layers" class="w-3.5 h-3.5"></i>
+          <span>Swagger UI</span>
+        </a>
+
+        <!-- Dark / Light Mode Switcher -->
+        <button id="themeToggleBtn" title="Toggle Dark/Light Mode" class="p-2 rounded-lg text-zinc-600 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 transition">
+          <i data-lucide="sun" id="sunIcon" class="w-4 h-4 hidden dark:block text-amber-400"></i>
+          <i data-lucide="moon" id="moonIcon" class="w-4 h-4 block dark:hidden text-zinc-600"></i>
+        </button>
+
+        <!-- GitHub Profile Link -->
+        <a href="https://github.com/refatbd" target="_blank" rel="noopener noreferrer" 
+          class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900 hover:opacity-90 shadow-sm transition">
+          <i data-lucide="github" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">@refatbd</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 2. MAIN WORKSPACE: SIDEBAR + CONTENT + TOC                                -->
+  <!-- ========================================================================= -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 w-full flex">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-72 pt-20 pb-6 px-4 bg-white dark:bg-[#09090b] border-r border-zinc-200 dark:border-zinc-800 flex flex-col justify-between overflow-y-auto lg:static lg:w-64 lg:pt-8 lg:border-r lg:block -translate-x-full lg:translate-x-0 transition-transform duration-200">
+      <nav class="space-y-6">
+        
+        <!-- SECTION: HUB & GUIDELINES -->
+        <div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-3 mb-2">Overview</div>
+          <ul class="space-y-1">
+            <li>
+              <a href="#/README.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="home" class="w-4 h-4 text-zinc-400"></i>
+                <span>Home Hub</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/CONTRIBUTING.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="git-pull-request" class="w-4 h-4 text-zinc-400"></i>
+                <span>Contributing Guide</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/LICENSE" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="scale" class="w-4 h-4 text-zinc-400"></i>
+                <span>MIT License</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- SECTION: STEADFAST COURIER API -->
+        <div>
+          <div class="flex items-center justify-between px-3 mb-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-brand-600 dark:text-brand-400">Steadfast Courier</span>
+            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">18 APIs</span>
+          </div>
+          <ul class="space-y-1">
+            <li>
+              <a href="#/docs/steadfast/README.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="package" class="w-4 h-4 text-zinc-400"></i>
+                <span>Master Overview</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/docs/steadfast/01-getting-started.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="key-round" class="w-4 h-4 text-zinc-400"></i>
+                <span>01. Getting Started & Auth</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/docs/steadfast/02-booking-parcels.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="send" class="w-4 h-4 text-zinc-400"></i>
+                <span>02. Booking Parcels</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/docs/steadfast/03-tracking-and-status.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="map-pin" class="w-4 h-4 text-zinc-400"></i>
+                <span>03. Tracking & Status</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/docs/steadfast/04-pickups-and-returns.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="undo-2" class="w-4 h-4 text-zinc-400"></i>
+                <span>04. Pickups & Returns</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/docs/steadfast/05-balance-and-payments.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="wallet" class="w-4 h-4 text-zinc-400"></i>
+                <span>05. Balance & Payments</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/docs/steadfast/06-fraud-check-and-thanas.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="shield-alert" class="w-4 h-4 text-zinc-400"></i>
+                <span>06. Fraud Check & Thanas</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/docs/steadfast/07-status-code-reference.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="file-code" class="w-4 h-4 text-zinc-400"></i>
+                <span>07. Status Codes & Errors</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/docs/steadfast/08-webhooks.md" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="webhook" class="w-4 h-4 text-zinc-400"></i>
+                <span>08. Real-Time Webhooks</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- SECTION: SDKS & CLIENTS -->
+        <div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-3 mb-2">SDKs & Tools</div>
+          <ul class="space-y-1">
+            <li>
+              <a href="swagger.html" target="_blank" class="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <span class="flex items-center gap-2.5">
+                  <i data-lucide="box" class="w-4 h-4 text-zinc-400"></i>
+                  <span>Interactive Swagger</span>
+                </span>
+                <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#/sdks-and-examples/steadfast/php/SteadfastClient.php" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="code-2" class="w-4 h-4 text-indigo-400"></i>
+                <span>PHP Client SDK</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/sdks-and-examples/steadfast/nodejs/steadfast.js" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="zap" class="w-4 h-4 text-amber-400"></i>
+                <span>Node.js Client SDK</span>
+              </a>
+            </li>
+            <li>
+              <a href="#/sdks-and-examples/steadfast/python/steadfast.py" class="nav-link flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition">
+                <i data-lucide="terminal" class="w-4 h-4 text-blue-400"></i>
+                <span>Python Client SDK</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <!-- AUTHOR BIO CARD -->
+      <div class="mt-8 pt-4 border-t border-zinc-200 dark:border-zinc-800">
+        <div class="p-3.5 rounded-xl bg-gradient-to-br from-zinc-100 to-zinc-200 dark:from-zinc-900 dark:to-zinc-950 border border-zinc-300/50 dark:border-zinc-800">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm shadow">
+              RR
+            </div>
+            <div>
+              <div class="font-bold text-xs text-zinc-900 dark:text-white">Refat Rahman</div>
+              <a href="https://refat.ovh" target="_blank" class="text-[11px] text-brand-600 dark:text-brand-400 hover:underline">refat.ovh</a>
+            </div>
+          </div>
+          <div class="mt-3 flex items-center justify-between text-zinc-500 dark:text-zinc-400 pt-2 border-t border-zinc-200 dark:border-zinc-800/80">
+            <a href="https://github.com/refatbd" target="_blank" title="GitHub" class="hover:text-zinc-900 dark:hover:text-white transition"><i data-lucide="github" class="w-4 h-4"></i></a>
+            <a href="https://www.facebook.com/rjrefat/" target="_blank" title="Facebook" class="hover:text-blue-600 transition"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+            <a href="https://www.instagram.com/refat_official" target="_blank" title="Instagram" class="hover:text-pink-600 transition"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+            <a href="https://t.me/refatbd" target="_blank" title="Telegram" class="hover:text-sky-500 transition"><i data-lucide="send" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER CONTENT READER -->
+    <main class="flex-1 min-w-0 py-8 lg:px-10">
+      
+      <!-- Breadcrumb Bar -->
+      <nav id="breadcrumbs" class="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400 mb-6">
+        <a href="#/README.md" class="hover:underline">Docs</a>
+        <span>/</span>
+        <span id="currentSectionTitle" class="text-zinc-800 dark:text-zinc-200 font-semibold">Getting Started</span>
+      </nav>
+
+      <!-- Markdown Render Container -->
+      <article id="contentArea" class="prose-custom min-h-[500px]">
+        <div class="flex items-center justify-center py-20 text-zinc-400">
+          <i data-lucide="loader-2" class="w-6 h-6 animate-spin mr-2"></i>
+          <span>Loading documentation...</span>
+        </div>
+      </article>
+
+      <!-- Bottom Pagination Bar -->
+      <div id="paginationBar" class="mt-12 pt-6 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+        <button id="prevBtn" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span id="prevTitle">Previous Chapter</span>
+        </button>
+        <button id="nextBtn" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold bg-brand-600 text-white hover:bg-brand-700 transition">
+          <span id="nextTitle">Next Chapter</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </main>
+
+    <!-- RIGHT STICKY TOC -->
+    <aside class="hidden xl:block w-64 pt-8 pl-8 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto">
+      <div class="text-[11px] font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3">On This Page</div>
+      <nav id="tableOfContents" class="space-y-1 text-xs text-zinc-500 dark:text-zinc-400">
+        <!-- Dynamically populated from h2/h3 -->
+      </nav>
+      
+      <div class="mt-8 pt-4 border-t border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-400 space-y-2">
+        <a href="https://github.com/refatbd" target="_blank" class="flex items-center gap-1.5 hover:text-zinc-700 dark:hover:text-zinc-300 transition">
+          <i data-lucide="star" class="w-3.5 h-3.5"></i>
+          <span>Star this project on GitHub</span>
+        </a>
+        <a href="#/CONTRIBUTING.md" class="flex items-center gap-1.5 hover:text-zinc-700 dark:hover:text-zinc-300 transition">
+          <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
+          <span>Suggest an edit</span>
+        </a>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 3. SPA ROUTER & MARKDOWN LOADER LOGIC                                     -->
+  <!-- ========================================================================= -->
+  <script>
+    // Ordered list of docs for Prev/Next pagination
+    const DOC_PAGES = [
+      { path: 'README.md', title: 'Home Hub' },
+      { path: 'docs/steadfast/README.md', title: 'Steadfast Overview' },
+      { path: 'docs/steadfast/01-getting-started.md', title: '01. Getting Started & Auth' },
+      { path: 'docs/steadfast/02-booking-parcels.md', title: '02. Booking Parcels' },
+      { path: 'docs/steadfast/03-tracking-and-status.md', title: '03. Tracking & Status' },
+      { path: 'docs/steadfast/04-pickups-and-returns.md', title: '04. Pickups & Returns' },
+      { path: 'docs/steadfast/05-balance-and-payments.md', title: '05. Balance & Payments' },
+      { path: 'docs/steadfast/06-fraud-check-and-thanas.md', title: '06. Fraud Check & Thanas' },
+      { path: 'docs/steadfast/07-status-code-reference.md', title: '07. Status Codes & Errors' },
+      { path: 'docs/steadfast/08-webhooks.md', title: '08. Real-Time Webhooks' },
+      { path: 'CONTRIBUTING.md', title: 'Contributing Guide' },
+      { path: 'LICENSE', title: 'MIT License' },
+    ];
+
+    // Theme Toggle Functionality
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('doc_theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('doc_theme', 'light');
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // Default to dark mode or user stored preference
+    const savedTheme = localStorage.getItem('doc_theme') || 'dark';
+    applyTheme(savedTheme);
+
+    themeToggleBtn.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      applyTheme(isDark ? 'light' : 'dark');
+    });
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+    mobileMenuBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('-translate-x-full');
+    });
+
+    // Markdown Fetch & Render Router
+    async function loadDoc(routePath) {
+      const contentArea = document.getElementById('contentArea');
+      const breadcrumbTitle = document.getElementById('currentSectionTitle');
+      
+      // Clean path
+      let cleanPath = routePath.replace(/^#\/?/, '') || 'README.md';
+      if (cleanPath.startsWith('/')) cleanPath = cleanPath.slice(1);
+
+      try {
+        const res = await fetch(cleanPath);
+        if (!res.ok) throw new Error('File not found: ' + cleanPath);
+        let markdown = await res.text();
+
+        // Configure custom renderer for code blocks with copy buttons
+        const renderer = new marked.Renderer();
+        renderer.code = function(codeArg, langArg) {
+          let codeStr = '';
+          let lang = 'bash';
+
+          if (typeof codeArg === 'object' && codeArg !== null) {
+            codeStr = codeArg.text || '';
+            lang = codeArg.lang || 'bash';
+          } else {
+            codeStr = String(codeArg || '');
+            lang = langArg || 'bash';
+          }
+
+          lang = lang.toLowerCase().trim() || 'bash';
+          let grammar = Prism.languages[lang];
+          if (!grammar) {
+            if (lang === 'sh' || lang === 'shell' || lang === 'curl') grammar = Prism.languages.bash;
+            else if (lang === 'js' || lang === 'node') grammar = Prism.languages.javascript;
+            else if (lang === 'py') grammar = Prism.languages.python;
+            else if (lang === 'yml') grammar = Prism.languages.yaml;
+            else grammar = Prism.languages.markup || Prism.languages.plaintext;
+          }
+
+          let highlighted = codeStr;
+          try {
+            if (grammar) {
+              highlighted = Prism.highlight(codeStr, grammar, lang);
+            }
+          } catch (e) {
+            highlighted = codeStr.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          }
+
+          return `
+            <div class="code-block-wrapper">
+              <div class="code-header">
+                <span>${lang.toUpperCase()}</span>
+                <button class="code-copy-btn" onclick="copyCode(this)">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+              <pre class="language-${lang}"><code class="language-${lang}">${highlighted}</code></pre>
+            </div>
+          `;
+        };
+
+        marked.setOptions({ renderer });
+        contentArea.innerHTML = marked.parse(markdown);
+
+        // Update Breadcrumb & Document Title
+        const firstH1 = contentArea.querySelector('h1');
+        const pageTitle = firstH1 ? firstH1.innerText : cleanPath;
+        breadcrumbTitle.innerText = pageTitle;
+        document.title = `${pageTitle} — Bangladesh API Hub`;
+
+        // Generate On-This-Page Table of Contents
+        generateTOC();
+
+        // Update active link in sidebar
+        updateActiveSidebar(cleanPath);
+
+        // Update Prev / Next Pagination
+        updatePagination(cleanPath);
+
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Re-render lucide icons
+        if (window.lucide) lucide.createIcons();
+      } catch (err) {
+        contentArea.innerHTML = `
+          <div class="p-8 rounded-xl bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 text-red-800 dark:text-red-300">
+            <h2 class="text-lg font-bold mb-2">Error Loading Document</h2>
+            <p class="text-sm">${err.message}</p>
+            <a href="#/README.md" class="mt-4 inline-block text-xs font-semibold text-brand-600 hover:underline">&larr; Return to Home Hub</a>
+          </div>
+        `;
+      }
+    }
+
+    // Copy to clipboard helper
+    window.copyCode = function(button) {
+      const codeWrapper = button.closest('.code-block-wrapper');
+      const code = codeWrapper.querySelector('code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const originalText = button.innerHTML;
+        button.innerHTML = `
+          <svg class="w-3.5 h-3.5 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span class="text-emerald-400">Copied!</span>
+        `;
+        setTimeout(() => {
+          button.innerHTML = originalText;
+        }, 2000);
+      });
+    };
+
+    // Dynamically build right-hand Table of Contents
+    function generateTOC() {
+      const tocContainer = document.getElementById('tableOfContents');
+      tocContainer.innerHTML = '';
+      const headers = document.querySelectorAll('#contentArea h2, #contentArea h3');
+
+      if (headers.length === 0) {
+        tocContainer.innerHTML = '<span class="text-zinc-400 italic">No sub-sections</span>';
+        return;
+      }
+
+      headers.forEach((h, index) => {
+        const id = 'heading-' + index;
+        h.id = id;
+
+        const a = document.createElement('a');
+        a.href = '#' + id;
+        a.innerText = h.innerText.replace(/^[0-9\.\s]+/, ''); // Clean leading numbers
+        a.className = h.tagName === 'H2' 
+          ? 'block py-1 hover:text-brand-600 dark:hover:text-brand-400 font-medium truncate'
+          : 'block py-1 pl-3 text-zinc-400 hover:text-brand-600 dark:hover:text-brand-400 truncate';
+
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          h.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        tocContainer.appendChild(a);
+      });
+    }
+
+    // Highlight active link in sidebar
+    function updateActiveSidebar(cleanPath) {
+      document.querySelectorAll('.nav-link').forEach(link => {
+        const href = link.getAttribute('href').replace(/^#\/?/, '');
+        if (href === cleanPath) {
+          link.classList.add('bg-brand-50', 'text-brand-600', 'dark:bg-brand-950/60', 'dark:text-brand-400', 'font-semibold');
+          link.classList.remove('text-zinc-700', 'dark:text-zinc-300');
+        } else {
+          link.classList.remove('bg-brand-50', 'text-brand-600', 'dark:bg-brand-950/60', 'dark:text-brand-400', 'font-semibold');
+          link.classList.add('text-zinc-700', 'dark:text-zinc-300');
+        }
+      });
+    }
+
+    // Update Bottom Pagination
+    function updatePagination(currentPath) {
+      const currentIndex = DOC_PAGES.findIndex(p => p.path === currentPath);
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const prevTitle = document.getElementById('prevTitle');
+      const nextTitle = document.getElementById('nextTitle');
+
+      if (currentIndex > 0) {
+        prevBtn.style.display = 'inline-flex';
+        prevTitle.innerText = DOC_PAGES[currentIndex - 1].title;
+        prevBtn.onclick = () => window.location.hash = '#/' + DOC_PAGES[currentIndex - 1].path;
+      } else {
+        prevBtn.style.display = 'none';
+      }
+
+      if (currentIndex >= 0 && currentIndex < DOC_PAGES.length - 1) {
+        nextBtn.style.display = 'inline-flex';
+        nextTitle.innerText = DOC_PAGES[currentIndex + 1].title;
+        nextBtn.onclick = () => window.location.hash = '#/' + DOC_PAGES[currentIndex + 1].path;
+      } else {
+        nextBtn.style.display = 'none';
+      }
+    }
+
+    // Hashchange listener
+    window.addEventListener('hashchange', () => {
+      loadDoc(window.location.hash);
+      sidebar.classList.add('-translate-x-full');
+    });
+
+    // Initial load
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      loadDoc(window.location.hash || '#/README.md');
+    });
+  </script>
 </body>
 </html>
