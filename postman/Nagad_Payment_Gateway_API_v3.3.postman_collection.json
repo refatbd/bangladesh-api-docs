@@ -1,0 +1,113 @@
+{
+  "info": {
+    "_postman_id": "nagad-v33-refatbd-991823",
+    "name": "Nagad Direct Payment Gateway API v3.3",
+    "description": "Production Postman Collection for Nagad Direct Online Payment Gateway (API v3.3).\nMaintained by Refat Rahman (https://refat.ovh | @refatbd).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://sandbox.mynagad.com:10080/remote-payment-gateway-1.0/api/dfs",
+      "type": "string"
+    },
+    {
+      "key": "merchant_id",
+      "value": "6800000025",
+      "type": "string"
+    },
+    {
+      "key": "order_id",
+      "value": "INV-2026-NAGAD-001",
+      "type": "string"
+    },
+    {
+      "key": "server_ip",
+      "value": "103.145.118.24",
+      "type": "string"
+    },
+    {
+      "key": "payment_ref_id",
+      "value": "MDYyODAwNTcyNTYxNi42ODMwMDIwMDcxMDQyMjUuOU5PTEFVNkVaWkdUWVRBLmJiZGMyNTE3MTVmZTNiNjIzN2Zk",
+      "type": "string"
+    },
+    {
+      "key": "callback_url",
+      "value": "https://merchant.example.com/payment/nagad/callback",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Checkout Flow",
+      "item": [
+        {
+          "name": "1. Initialize Checkout",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-KM-Api-Version", "value": "v-0.2.0" },
+              { "key": "X-KM-IP-V4", "value": "{{server_ip}}" },
+              { "key": "X-KM-Client-Type", "value": "PC_WEB" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountNumber\": \"017XXXXXXXX\",\n  \"dateTime\": \"20261027133000\",\n  \"sensitiveData\": \"BASE64_ENCRYPTED_SENSITIVE_DATA_USING_NAGAD_PUBLIC_KEY\",\n  \"signature\": \"BASE64_RSA_SHA256_SIGNATURE_USING_MERCHANT_PRIVATE_KEY\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/check-out/initialize/{{merchant_id}}/{{order_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["check-out", "initialize", "{{merchant_id}}", "{{order_id}}"]
+            }
+          }
+        },
+        {
+          "name": "2. Complete Checkout (Acquire Hosted URL)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "X-KM-Api-Version", "value": "v-0.2.0" },
+              { "key": "X-KM-IP-V4", "value": "{{server_ip}}" },
+              { "key": "X-KM-Client-Type", "value": "PC_WEB" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sensitiveData\": \"BASE64_ENCRYPTED_ORDER_PAYLOAD_WITH_CURRENCY_050\",\n  \"signature\": \"BASE64_RSA_SHA256_SIGNATURE_OF_ORDER_PAYLOAD\",\n  \"merchantCallbackURL\": \"{{callback_url}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/check-out/complete/{{payment_ref_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["check-out", "complete", "{{payment_ref_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Payment Verification",
+      "item": [
+        {
+          "name": "3. Verify Payment Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "X-KM-Api-Version", "value": "v-0.2.0" },
+              { "key": "X-KM-IP-V4", "value": "{{server_ip}}" },
+              { "key": "X-KM-Client-Type", "value": "PC_WEB" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/verify/payment/{{payment_ref_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["verify", "payment", "{{payment_ref_id}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

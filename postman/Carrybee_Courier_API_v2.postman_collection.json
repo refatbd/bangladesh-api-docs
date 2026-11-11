@@ -1,0 +1,351 @@
+{
+  "info": {
+    "_postman_id": "cbee-v2-refatbd-991823",
+    "name": "Carrybee Courier API v2.0",
+    "description": "Comprehensive Postman Collection for Carrybee Delivery API v2.0.\nMaintained by Refat Rahman (https://refat.ovh | @refatbd).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://sandbox.carrybee.com",
+      "type": "string"
+    },
+    {
+      "key": "client_id",
+      "value": "YOUR_CLIENT_ID",
+      "type": "string"
+    },
+    {
+      "key": "client_secret",
+      "value": "YOUR_CLIENT_SECRET",
+      "type": "string"
+    },
+    {
+      "key": "client_context",
+      "value": "YOUR_CLIENT_CONTEXT",
+      "type": "string"
+    },
+    {
+      "key": "consignment_id",
+      "value": "CB-982341",
+      "type": "string"
+    },
+    {
+      "key": "webhook_secret",
+      "value": "cb_wh_sec_sample_secret_token",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Location & Coverage",
+      "item": [
+        {
+          "name": "Get All Cities",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Client-ID", "value": "{{client_id}}" },
+              { "key": "Client-Secret", "value": "{{client_secret}}" },
+              { "key": "Client-Context", "value": "{{client_context}}" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/cities",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "cities"]
+            }
+          }
+        },
+        {
+          "name": "Get Zones by City ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Client-ID", "value": "{{client_id}}" },
+              { "key": "Client-Secret", "value": "{{client_secret}}" },
+              { "key": "Client-Context", "value": "{{client_context}}" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/zones/1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "zones", "1"]
+            }
+          }
+        },
+        {
+          "name": "Area Autocomplete Suggestion",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Client-ID", "value": "{{client_id}}" },
+              { "key": "Client-Secret", "value": "{{client_secret}}" },
+              { "key": "Client-Context", "value": "{{client_context}}" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/area-suggestion?search=Dhanmondi",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "area-suggestion"],
+              "query": [
+                { "key": "search", "value": "Dhanmondi" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Resolve Address Details",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Client-ID", "value": "{{client_id}}" },
+              { "key": "Client-Secret", "value": "{{client_secret}}" },
+              { "key": "Client-Context", "value": "{{client_context}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"address\": \"House 12, Road 4, Sector 7, Uttara, Dhaka\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/address-details",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "address-details"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Stores & Warehouses",
+      "item": [
+        {
+          "name": "List Merchant Stores",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Client-ID", "value": "{{client_id}}" },
+              { "key": "Client-Secret", "value": "{{client_secret}}" },
+              { "key": "Client-Context", "value": "{{client_context}}" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/stores",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "stores"]
+            }
+          }
+        },
+        {
+          "name": "Create Warehouse Store",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Client-ID", "value": "{{client_id}}" },
+              { "key": "Client-Secret", "value": "{{client_secret}}" },
+              { "key": "Client-Context", "value": "{{client_context}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Banani Central Hub\",\n  \"contact_name\": \"Refat Rahman\",\n  \"contact_number\": \"01811223344\",\n  \"address\": \"House 18, Road 11, Block D, Banani, Dhaka\",\n  \"city_id\": 1,\n  \"zone_id\": 8\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/stores",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "stores"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Orders & Booking",
+      "item": [
+        {
+          "name": "Create Single Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Client-ID", "value": "{{client_id}}" },
+              { "key": "Client-Secret", "value": "{{client_secret}}" },
+              { "key": "Client-Context", "value": "{{client_context}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"store_id\": 101,\n  \"merchant_order_id\": \"INV-2026-CB-001\",\n  \"recipient_name\": \"Tanvir Ahmed\",\n  \"recipient_phone\": \"01811223344\",\n  \"recipient_address\": \"House 12, Road 4, Sector 7, Uttara, Dhaka\",\n  \"recipient_city\": 1,\n  \"recipient_zone\": 5,\n  \"delivery_type\": 1,\n  \"product_type\": 1,\n  \"item_weight\": 1200,\n  \"item_description\": \"Smart Casual Denim Shirt - Size L\",\n  \"item_quantity\": 1,\n  \"collectable_amount\": 1850,\n  \"special_instruction\": \"Call recipient before dispatching\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/orders",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "orders"]
+            }
+          }
+        },
+        {
+          "name": "Create Bulk Orders (Async 202)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Client-ID", "value": "{{client_id}}" },
+              { "key": "Client-Secret", "value": "{{client_secret}}" },
+              { "key": "Client-Context", "value": "{{client_context}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orders\": [\n    {\n      \"store_id\": 101,\n      \"merchant_order_id\": \"BULK-001\",\n      \"recipient_name\": \"Customer A\",\n      \"recipient_phone\": \"01811223344\",\n      \"recipient_address\": \"Gulshan 1, Dhaka\",\n      \"recipient_city\": 1,\n      \"recipient_zone\": 4,\n      \"delivery_type\": 1,\n      \"product_type\": 1,\n      \"item_weight\": 500,\n      \"item_description\": \"Item 1\",\n      \"item_quantity\": 1,\n      \"collectable_amount\": 500\n    },\n    {\n      \"store_id\": 101,\n      \"merchant_order_id\": \"BULK-002\",\n      \"recipient_name\": \"Customer B\",\n      \"recipient_phone\": \"01700112233\",\n      \"recipient_address\": \"Agrabad, Chattogram\",\n      \"recipient_city\": 2,\n      \"recipient_zone\": 12,\n      \"delivery_type\": 1,\n      \"product_type\": 1,\n      \"item_weight\": 1000,\n      \"item_description\": \"Item 2\",\n      \"item_quantity\": 1,\n      \"collectable_amount\": 1200\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/orders-bulk",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "orders-bulk"]
+            }
+          }
+        },
+        {
+          "name": "Track Order by Consignment ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Client-ID", "value": "{{client_id}}" },
+              { "key": "Client-Secret", "value": "{{client_secret}}" },
+              { "key": "Client-Context", "value": "{{client_context}}" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v2/orders/track/{{consignment_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "orders", "track", "{{consignment_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Client-ID", "value": "{{client_id}}" },
+              { "key": "Client-Secret", "value": "{{client_secret}}" },
+              { "key": "Client-Context", "value": "{{client_context}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"consignment_id\": \"{{consignment_id}}\",\n  \"reason\": \"Customer requested cancellation\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/orders/cancel",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "orders", "cancel"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Reverse Pickup & Exchange",
+      "item": [
+        {
+          "name": "Create Reverse Pickup",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Client-ID", "value": "{{client_id}}" },
+              { "key": "Client-Secret", "value": "{{client_secret}}" },
+              { "key": "Client-Context", "value": "{{client_context}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"store_id\": 101,\n  \"customer_name\": \"Rafiqul Islam\",\n  \"customer_phone\": \"01722334455\",\n  \"customer_address\": \"House 45, Road 11, Banani, Dhaka\",\n  \"customer_city\": 1,\n  \"customer_zone\": 8,\n  \"item_weight\": 850,\n  \"item_description\": \"Size M T-Shirt (Wrong size return)\",\n  \"reason\": \"Customer needs size replacement\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/orders/reverse-pickup",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "orders", "reverse-pickup"]
+            }
+          }
+        },
+        {
+          "name": "Create Exchange Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Client-ID", "value": "{{client_id}}" },
+              { "key": "Client-Secret", "value": "{{client_secret}}" },
+              { "key": "Client-Context", "value": "{{client_context}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"store_id\": 101,\n  \"replacement_item_description\": \"Size XL Blue Denim Shirt\",\n  \"item_weight\": 1200,\n  \"collectable_amount\": 100,\n  \"exchange_reason\": \"Customer requested size change\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v2/orders/{{consignment_id}}/exchange",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v2", "orders", "{{consignment_id}}", "exchange"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Webhooks & Handshake",
+      "item": [
+        {
+          "name": "Simulate Webhook Handshake Verification",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "X-CB-Webhook-Integration-Header", "value": "{{webhook_secret}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"handshake\",\n  \"message\": \"Carrybee webhook verification handshake\",\n  \"timestamp\": \"2026-10-27T10:00:00.000Z\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/carrybee/webhook",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "carrybee", "webhook"]
+            }
+          }
+        },
+        {
+          "name": "Simulate Order Delivered Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "X-CB-Webhook-Integration-Header", "value": "{{webhook_secret}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"event\": \"order.delivered\",\n  \"consignment_id\": \"{{consignment_id}}\",\n  \"merchant_order_id\": \"INV-2026-9901\",\n  \"order_status\": \"delivered\",\n  \"collected_amount\": 1850.00,\n  \"delivery_fee\": 70.00,\n  \"cod_fee\": 18.50,\n  \"rider\": {\n    \"name\": \"Kamrul Hassan\",\n    \"phone\": \"01700998877\"\n  },\n  \"recipient\": {\n    \"name\": \"Tanvir Ahmed\",\n    \"phone\": \"01811223344\",\n    \"address\": \"House 12, Road 4, Sector 7, Uttara, Dhaka\"\n  },\n  \"timestamp\": \"2026-10-27T11:45:00+06:00\",\n  \"remarks\": \"Delivered successfully with OTP verification\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/carrybee/webhook",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "carrybee", "webhook"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "@refatbd/nagad-sdk",
+  "version": "1.0.0",
+  "description": "Production-grade Node.js SDK for Nagad Direct Online Payment Gateway (API v3.3)",
+  "main": "nagad.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node example.js"
+  },
+  "keywords": [
+    "nagad",
+    "mfs",
+    "bangladesh",
+    "payment-gateway",
+    "rsa2048",
+    "fintech"
+  ],
+  "author": "Refat Rahman <https://refat.ovh>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

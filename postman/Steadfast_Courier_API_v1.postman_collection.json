@@ -1,0 +1,279 @@
+{
+  "info": {
+    "name": "Steadfast Courier API (v1)",
+    "description": "Official REST API collection for Steadfast Courier Limited (Bangladesh).\n\nMaintained by Refat Rahman (https://github.com/refatbd)\nWebsite: https://refat.ovh\nFacebook: https://www.facebook.com/rjrefat/\nInstagram: https://www.instagram.com/refat_official\nTelegram: https://t.me/refatbd",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://portal.packzy.com/api/v1",
+      "type": "string"
+    },
+    {
+      "key": "apiKey",
+      "value": "YOUR_API_KEY",
+      "type": "string"
+    },
+    {
+      "key": "secretKey",
+      "value": "YOUR_SECRET_KEY",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health & Balance",
+      "item": [
+        {
+          "name": "Service Check Ping (No Auth)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/ping",
+            "description": "Verifies that the Steadfast gateway can be reached."
+          }
+        },
+        {
+          "name": "Get Current Balance",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "url": "{{baseUrl}}/get_balance",
+            "description": "Returns current unsettled merchant COD wallet balance."
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Booking Parcels",
+      "item": [
+        {
+          "name": "Create Single Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" },
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Accept", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"invoice\": \"ORD-{{$timestamp}}\",\n  \"recipient_name\": \"Jahid Hasan\",\n  \"recipient_phone\": \"01712345678\",\n  \"recipient_address\": \"House 12, Road 4, Sector 7, Uttara, Dhaka\",\n  \"cod_amount\": 1250,\n  \"note\": \"Handle with care\"\n}"
+            },
+            "url": "{{baseUrl}}/create_order"
+          }
+        },
+        {
+          "name": "Create Bulk Order (Up to 500)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": [\n    {\n      \"invoice\": \"ORD-1001\",\n      \"recipient_name\": \"Customer One\",\n      \"recipient_phone\": \"01700000001\",\n      \"recipient_address\": \"Dhanmondi, Dhaka\",\n      \"cod_amount\": 1000,\n      \"note\": \"Morning\"\n    },\n    {\n      \"invoice\": \"ORD-1002\",\n      \"recipient_name\": \"Customer Two\",\n      \"recipient_phone\": \"01700000002\",\n      \"recipient_address\": \"Chittagong\",\n      \"cod_amount\": 1500,\n      \"note\": \"Call\"\n    }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/create_order/bulk-order"
+          }
+        },
+        {
+          "name": "Create Bulk Order Extended",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": [\n    {\n      \"invoice\": \"ORD-2001\",\n      \"recipient_name\": \"Customer Extended\",\n      \"recipient_phone\": \"01700000003\",\n      \"recipient_address\": \"Sylhet\",\n      \"cod_amount\": 2500,\n      \"note\": \"Extended fields\"\n    }\n  ]\n}"
+            },
+            "url": "{{baseUrl}}/create_order/bulk-order/extended"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Tracking & Status",
+      "item": [
+        {
+          "name": "Status by Consignment ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" }
+            ],
+            "url": "{{baseUrl}}/status_by_cid/9845210"
+          }
+        },
+        {
+          "name": "Status with Return Stage",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" }
+            ],
+            "url": "{{baseUrl}}/status_with_return_status_by_cid/9845210"
+          }
+        },
+        {
+          "name": "Status by Merchant Invoice",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" }
+            ],
+            "url": "{{baseUrl}}/status_by_invoice/ORD-10231"
+          }
+        },
+        {
+          "name": "Status by Tracking Code",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" }
+            ],
+            "url": "{{baseUrl}}/status_by_trackingcode/ST-9845210"
+          }
+        },
+        {
+          "name": "Full Tracking Timeline History",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" }
+            ],
+            "url": "{{baseUrl}}/trackings_by_invoice/ORD-10231"
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Pickups & Returns",
+      "item": [
+        {
+          "name": "Create Pickup Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pickup_address\": \"House 10, Road 4, Uttara, Dhaka\",\n  \"phone\": \"01700000000\",\n  \"total_parcels\": 20,\n  \"note\": \"Ready for 3 PM pickup\"\n}"
+            },
+            "url": "{{baseUrl}}/create_pickup_request"
+          }
+        },
+        {
+          "name": "Create Return Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"consignment_id\": 9845210,\n  \"reason\": \"Cancelled by customer\"\n}"
+            },
+            "url": "{{baseUrl}}/create_return_request"
+          }
+        },
+        {
+          "name": "Get Return Requests List",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" }
+            ],
+            "url": "{{baseUrl}}/get_return_requests?page=1"
+          }
+        },
+        {
+          "name": "Get Single Return Request",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" }
+            ],
+            "url": "{{baseUrl}}/get_return_request/11520"
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Payouts & Settlements",
+      "item": [
+        {
+          "name": "Get Payouts List",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" }
+            ],
+            "url": "{{baseUrl}}/payments?page=1"
+          }
+        },
+        {
+          "name": "Get Payout Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" }
+            ],
+            "url": "{{baseUrl}}/payments/54210"
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Risk & Coverage",
+      "item": [
+        {
+          "name": "Customer Delivery Risk Fraud Check",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" }
+            ],
+            "url": "{{baseUrl}}/fraud_check/score/01712345678"
+          }
+        },
+        {
+          "name": "Police Stations / Thanas Directory",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Api-Key", "value": "{{apiKey}}" },
+              { "key": "Secret-Key", "value": "{{secretKey}}" }
+            ],
+            "url": "{{baseUrl}}/police_stations"
+          }
+        }
+      ]
+    }
+  ]
+}

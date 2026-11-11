@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Bangladesh API Hub — Developer Documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Production-Grade API Documentation & SDK Collection for Bangladeshi Logistics and Financial Services. Maintained by Refat Rahman.">
+  
+  <!-- Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', 'monospace'],
+          },
+          colors: {
+            primary: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Marked.js Markdown Parser -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- PrismJS Syntax Highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-markup.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-php.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-http.min.js"></script>
+
+  <style>
+    /* Clean Minimalist Typography & Layout */
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      letter-spacing: -0.01em;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Subtle custom scrollbars */
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #e2e8f0;
+      border-radius: 9999px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #27272a;
+    }
+
+    /* Prose Styling (VitePress/Supabase Reference) */
+    .doc-content h1 {
+      font-size: 2.1rem;
+      font-weight: 750;
+      letter-spacing: -0.03em;
+      line-height: 1.25;
+      margin-bottom: 1.5rem;
+      color: inherit;
+    }
+    .doc-content h2 {
+      font-size: 1.375rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-top: 2.75rem;
+      margin-bottom: 0.875rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #f1f5f9;
+      color: inherit;
+    }
+    .dark .doc-content h2 {
+      border-top-color: #1f2022;
+    }
+    .doc-content h3 {
+      font-size: 1.1rem;
+      font-weight: 650;
+      letter-spacing: -0.015em;
+      margin-top: 1.75rem;
+      margin-bottom: 0.75rem;
+      color: inherit;
+    }
+    .doc-content p {
+      font-size: 0.9375rem;
+      line-height: 1.75;
+      margin-bottom: 1.2rem;
+      color: #374151;
+    }
+    .dark .doc-content p {
+      color: #d1d5db;
+    }
+    .doc-content ul, .doc-content ol {
+      margin-bottom: 1.25rem;
+      padding-left: 1.4rem;
+      font-size: 0.9375rem;
+      line-height: 1.75;
+      color: #374151;
+    }
+    .dark .doc-content ul, .dark .doc-content ol {
+      color: #d1d5db;
+    }
+    .doc-content ul {
+      list-style-type: disc;
+    }
+    .doc-content ol {
+      list-style-type: decimal;
+    }
+    .doc-content li {
+      margin-bottom: 0.35rem;
+    }
+
+    /* Structured API Parameter Tables */
+    .doc-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      font-size: 0.875rem;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+    .dark .doc-content table {
+      border-color: #27272a;
+    }
+    .doc-content th {
+      background-color: #f9fafb;
+      font-weight: 600;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #4b5563;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .dark .doc-content th {
+      background-color: #141416;
+      border-color: #27272a;
+      color: #9ca3af;
+    }
+    .doc-content td {
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid #f3f4f6;
+      color: #374151;
+      vertical-align: top;
+    }
+    .dark .doc-content td {
+      border-color: #1f2022;
+      color: #d1d5db;
+    }
+    .doc-content tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* Inline Code */
+    .doc-content :not(pre) > code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8125rem;
+      padding: 0.15rem 0.375rem;
+      border-radius: 0.375rem;
+      background-color: #f3f4f6;
+      color: #0f172a;
+      border: 1px solid #e5e7eb;
+    }
+    .dark .doc-content :not(pre) > code {
+      background-color: #18181b;
+      color: #e4e4e7;
+      border-color: #27272a;
+    }
+
+    /* GitHub-style alerts */
+    .doc-content blockquote {
+      border-left: 3px solid #3b82f6;
+      background-color: #f8fafc;
+      padding: 0.875rem 1.25rem;
+      margin: 1.5rem 0;
+      border-radius: 0 0.5rem 0.5rem 0;
+      color: #1e293b;
+    }
+    .dark .doc-content blockquote {
+      background-color: #111215;
+      border-color: #3b82f6;
+      color: #cbd5e1;
+    }
+    .doc-content blockquote p {
+      margin-bottom: 0;
+      font-size: 0.875rem;
+    }
+
+    /* Code Block Shell (Stripe / Supabase Style) */
+    .code-box {
+      margin: 1.5rem 0;
+      border-radius: 0.625rem;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      background-color: #0d1117;
+    }
+    .dark .code-box {
+      border-color: #27272a;
+      background-color: #09090b;
+    }
+    .code-box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.55rem 0.875rem;
+      background-color: #161b22;
+      border-bottom: 1px solid #21262d;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: #8b949e;
+    }
+    .dark .code-box-header {
+      background-color: #121215;
+      border-color: #27272a;
+      color: #71717a;
+    }
+    .copy-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background-color: transparent;
+      color: #8b949e;
+      border: none;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-size: 0.7rem;
+      transition: color 0.15s ease;
+    }
+    .copy-button:hover {
+      color: #ffffff;
+    }
+    pre[class*="language-"] {
+      margin: 0 !important;
+      padding: 1.15rem !important;
+      background: transparent !important;
+      font-size: 0.85rem !important;
+      line-height: 1.6 !important;
+    }
+
+    /* Links */
+    .doc-content a {
+      color: #2563eb;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .dark .doc-content a {
+      color: #60a5fa;
+    }
+    .doc-content a:hover {
+      color: #1d4ed8;
+    }
+    .dark .doc-content a:hover {
+      color: #93c5fd;
+    }
+
+    /* Sidebar Active Item */
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.375rem 0.75rem;
+      border-radius: 0.375rem;
+      font-size: 0.8125rem;
+      color: #64748b;
+      transition: all 0.12s ease;
+    }
+    .dark .sidebar-link {
+      color: #94a3b8;
+    }
+    .sidebar-link:hover {
+      color: #0f172a;
+      background-color: #f1f5f9;
+    }
+    .dark .sidebar-link:hover {
+      color: #ffffff;
+      background-color: #18181b;
+    }
+    .sidebar-link.is-active {
+      color: #0f172a;
+      background-color: #f1f5f9;
+      font-weight: 600;
+      border-left: 2px solid #2563eb;
+      border-radius: 0 0.375rem 0.375rem 0;
+      padding-left: 0.65rem;
+    }
+    .dark .sidebar-link.is-active {
+      color: #ffffff;
+      background-color: #18181b;
+      border-left-color: #38bdf8;
+    }
+
+    /* Command Palette & Filter Pills */
+    .filter-pill {
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .dark .filter-pill {
+      border-color: #27272a;
+      background: #18181b;
+      color: #a1a1aa;
+    }
+    .filter-pill:hover {
+      background: #f3f4f6;
+      color: #111827;
+    }
+    .dark .filter-pill:hover {
+      background: #27272a;
+      color: #f4f4f5;
+    }
+    .filter-pill.active {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #ffffff;
+    }
+    .dark .filter-pill.active {
+      background: #0284c7;
+      border-color: #0284c7;
+      color: #ffffff;
+    }
+    .search-result-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 0.875rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background-color 0.1s ease;
+    }
+    .search-result-item:hover, .search-result-item.selected {
+      background-color: #f3f4f6;
+    }
+    .dark .search-result-item:hover, .dark .search-result-item.selected {
+      background-color: #18181b;
+    }
+  </style>
+</head>
+<body class="bg-white text-zinc-900 dark:bg-[#0c0d0e] dark:text-[#f3f4f6] min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- ========================================================================= -->
+  <!-- 1. TOP NAVBAR (Minimalist Stripe/Supabase Style)                           -->
+  <!-- ========================================================================= -->
+  <header class="sticky top-0 z-40 w-full border-b border-zinc-200 dark:border-[#1f2022] bg-white/90 dark:bg-[#0c0d0e]/90 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
+      
+      <!-- Brand Logo & Title -->
+      <div class="flex items-center gap-3">
+        <button id="mobileToggle" class="lg:hidden p-1.5 rounded text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+        <a href="#/README.md" class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-600 dark:text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+          </svg>
+          <span class="font-bold text-sm tracking-tight text-zinc-900 dark:text-white">Bangladesh API Hub</span>
+          <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border border-zinc-200 dark:border-zinc-700">v1.0</span>
+        </a>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="hidden md:flex items-center gap-5 text-xs font-medium">
+        <a href="#/README.md" class="text-zinc-900 dark:text-white font-semibold">Guides</a>
+        <a href="api-reference.html" class="flex items-center gap-1.5 text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-sky-400 transition">
+          <span>Scalar Console</span>
+          <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">Live</span>
+        </a>
+        <a href="#/docs/tools/rate-calculator.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Rates</a>
+        <a href="#/docs/tools/fraud-checker.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Fraud Inspector</a>
+        <a href="#/docs/tools/unified-courier.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Unified SDK</a>
+        <a href="#/docs/steadfast/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Steadfast</a>
+        <a href="#/docs/redx/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">RedX</a>
+        <a href="#/docs/pathao/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Pathao</a>
+        <a href="#/docs/nagad/README.md" class="text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">Nagad</a>
+      </nav>
+
+      <!-- Right Controls: Search Trigger, Theme Toggle & GitHub -->
+      <div class="flex items-center gap-3">
+        <!-- Search Input / Command Palette Trigger Button -->
+        <button id="openSearchBtn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/80 text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:border-zinc-300 dark:hover:border-zinc-700 transition text-xs shadow-sm" title="Search documentation (Ctrl + K)">
+          <i data-lucide="search" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Search docs...</span>
+          <span class="sm:hidden">Search</span>
+          <kbd class="font-mono text-[10px] bg-white dark:bg-zinc-800 px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-700 text-zinc-500">Ctrl K</kbd>
+        </button>
+
+        <!-- Dark / Light Theme Toggle -->
+        <button id="themeToggle" class="p-1.5 rounded-md text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800 transition" title="Toggle theme">
+          <i data-lucide="sun" id="sunIcon" class="w-4 h-4 hidden dark:block"></i>
+          <i data-lucide="moon" id="moonIcon" class="w-4 h-4 block dark:hidden"></i>
+        </button>
+
+        <div class="h-4 w-[1px] bg-zinc-200 dark:bg-zinc-800"></div>
+
+        <!-- GitHub Author Badge -->
+        <a href="https://github.com/refatbd" target="_blank" rel="noopener noreferrer" 
+          class="flex items-center gap-1.5 text-xs text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition">
+          <i data-lucide="github" class="w-4 h-4"></i>
+          <span class="font-medium">refatbd</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 2. DOCUMENTATION WORKSPACE                                                -->
+  <!-- ========================================================================= -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 w-full flex">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 pt-16 pb-8 px-4 bg-white dark:bg-[#0c0d0e] border-r border-zinc-200 dark:border-[#1f2022] overflow-y-auto lg:static lg:w-60 lg:pt-6 lg:block -translate-x-full lg:translate-x-0 transition-transform duration-150">
+      
+      <div class="space-y-6">
+        <!-- Group: Getting Started -->
+        <div>
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-3 mb-1.5">Overview</div>
+          <div class="space-y-0.5">
+            <a href="#/README.md" class="sidebar-link">Home Hub</a>
+            <a href="#/CONTRIBUTING.md" class="sidebar-link">Contributing Guide</a>
+            <a href="#/LICENSE" class="sidebar-link">MIT License</a>
+          </div>
+        </div>
+
+        <!-- Group: Developer Tools & Playgrounds -->
+        <div>
+          <div class="flex items-center justify-between px-3 mb-1.5">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold">Interactive Tools</span>
+            <span class="text-[9px] font-mono px-1 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300">Playground</span>
+          </div>
+          <div class="space-y-0.5">
+            <a href="#/docs/tools/rate-calculator.md" class="sidebar-link flex items-center justify-between">
+              <span>Rate Calculator</span>
+              <span class="text-[9px] px-1 rounded bg-blue-500/10 text-blue-500 font-mono">Live</span>
+            </a>
+            <a href="#/docs/tools/fraud-checker.md" class="sidebar-link flex items-center justify-between">
+              <span>Fraud Risk Inspector</span>
+              <span class="text-[9px] px-1 rounded bg-amber-500/10 text-amber-500 font-mono">Live</span>
+            </a>
+            <a href="#/docs/tools/unified-courier.md" class="sidebar-link flex items-center justify-between">
+              <span>Unified Courier SDK</span>
+              <span class="text-[9px] px-1 rounded bg-purple-500/10 text-purple-500 font-mono">v1.0</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Group: Steadfast Courier API -->
+        <div>
+          <div class="flex items-center justify-between px-3 mb-1.5">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Steadfast Courier</span>
+            <span class="text-[9px] font-mono px-1 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-500">18 Endpoints</span>
+          </div>
+          <div class="space-y-0.5">
+            <a href="#/docs/steadfast/README.md" class="sidebar-link">Quickstart & Index</a>
+            <a href="#/docs/steadfast/01-getting-started.md" class="sidebar-link">01. Getting Started & Auth</a>
+            <a href="#/docs/steadfast/02-booking-parcels.md" class="sidebar-link">02. Booking Parcels</a>
+            <a href="#/docs/steadfast/03-tracking-and-status.md" class="sidebar-link">03. Tracking & Status</a>
+            <a href="#/docs/steadfast/04-pickups-and-returns.md" class="sidebar-link">04. Pickups & Returns</a>
+            <a href="#/docs/steadfast/05-balance-and-payments.md" class="sidebar-link">05. Balance & Payments</a>
+            <a href="#/docs/steadfast/06-fraud-check-and-thanas.md" class="sidebar-link">06. Fraud Check & Thanas</a>
+            <a href="#/docs/steadfast/07-status-code-reference.md" class="sidebar-link">07. Status Codes & Errors</a>
+            <a href="#/docs/steadfast/08-webhooks.md" class="sidebar-link">08. Real-Time Webhooks</a>
+          </div>
+        </div>
+
+        <!-- Group: RedX Delivery API -->
+        <div>
+          <div class="flex items-center justify-between px-3 mb-1.5">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">RedX Delivery</span>
+            <span class="text-[9px] font-mono px-1 rounded bg-red-100 dark:bg-red-950/60 text-red-600 dark:text-red-400">11 Endpoints</span>
+          </div>
+          <div class="space-y-0.5">
+            <a href="#/docs/redx/README.md" class="sidebar-link">Quickstart & Index</a>
+            <a href="#/docs/redx/01-getting-started.md" class="sidebar-link">01. Getting Started & Auth</a>
+            <a href="#/docs/redx/02-parcels-and-orders.md" class="sidebar-link">02. Parcels & Orders</a>
+            <a href="#/docs/redx/03-tracking-and-status.md" class="sidebar-link">03. Tracking & Milestones</a>
+            <a href="#/docs/redx/04-areas-and-coverage.md" class="sidebar-link">04. Areas & 64 Districts</a>
+            <a href="#/docs/redx/05-pickup-stores.md" class="sidebar-link">05. Pickup Stores</a>
+            <a href="#/docs/redx/06-charge-calculator.md" class="sidebar-link">06. Charge Calculator</a>
+            <a href="#/docs/redx/07-webhooks-and-callbacks.md" class="sidebar-link">07. Real-Time Webhooks</a>
+            <a href="#/docs/redx/08-status-and-error-codes.md" class="sidebar-link">08. Status Codes & Errors</a>
+          </div>
+        </div>
+
+        <!-- Group: Pathao Courier API -->
+        <div>
+          <div class="flex items-center justify-between px-3 mb-1.5">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Pathao Courier</span>
+            <span class="text-[9px] font-mono px-1 rounded bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">10 Endpoints</span>
+          </div>
+          <div class="space-y-0.5">
+            <a href="#/docs/pathao/README.md" class="sidebar-link">Quickstart & Index</a>
+            <a href="#/docs/pathao/01-getting-started-and-oauth.md" class="sidebar-link">01. OAuth 2.0 Auth</a>
+            <a href="#/docs/pathao/02-stores-and-warehouses.md" class="sidebar-link">02. Stores & Warehouses</a>
+            <a href="#/docs/pathao/03-city-zone-area-hierarchy.md" class="sidebar-link">03. City, Zone & Area</a>
+            <a href="#/docs/pathao/04-creating-orders.md" class="sidebar-link">04. Creating Orders</a>
+            <a href="#/docs/pathao/05-bulk-orders.md" class="sidebar-link">05. Bulk Consignments</a>
+            <a href="#/docs/pathao/06-order-tracking-and-status.md" class="sidebar-link">06. Tracking & Status</a>
+            <a href="#/docs/pathao/07-price-calculation-plan.md" class="sidebar-link">07. Price Calculation</a>
+            <a href="#/docs/pathao/08-status-lifecycle-and-webhooks.md" class="sidebar-link">08. Status & Errors</a>
+          </div>
+        </div>
+
+        <!-- Group: Paperfly Courier API -->
+        <div>
+          <div class="flex items-center justify-between px-3 mb-1.5">
+            <span class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Paperfly Courier</span>
+            <span class="text-[9px] font-mono px-1 rounded bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">4 Endpoints + 14 Events</span>
+          </div>
+          <div class="space-y-0.5">
+            <a href="#/docs/paperfly/README.md" class="sidebar-link">Quickstart & Index</a>
+            <a href="#/docs/paperfly/01-getting-started.md" class="sidebar-link">01. Getting Started & Auth</a>
+            <a href="#/docs/paperfly/02-order-creation.md" class="sidebar-link">02. Standard Orders</a>
+            <a href="#/docs/paperfly/03-exchange-orders.md" class="sidebar-link">03. Exchange Orders</a>
+            <a href="#/docs/paperfly/04-tracking-and-status.md" class="sidebar-link">04. Milestone Tracking</a>
+            <a href="#/docs/paperfly/05-cancellation.md" class="sidebar-link">05. Order Cancellation</a>
+            <a href="#/docs/paperfly/06-webhooks-and-events.md" class="sidebar-link">06. 14 Webhook Events</a>
+            <a href="#/docs/paperfly/07-status-reference.md" class="sidebar-link">07. Status Reference</a>
+          </div>
+        </div>
+
+        <!-- Group: Carrybee Delivery (v2.0) -->
+        <div>
+          <button class="nav-collapsible w-full flex items-center justify-between px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>Carrybee Delivery</span>
+            </span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 transform transition-transform duration-200"></i>
+          </button>
+          <div class="mt-1 pl-3 space-y-0.5">
+            <a href="#/docs/carrybee/README.md" class="sidebar-link">Overview & Setup</a>
+            <a href="#/docs/carrybee/01-getting-started.md" class="sidebar-link">01. Getting Started & Auth</a>
+            <a href="#/docs/carrybee/02-location-and-coverage.md" class="sidebar-link">02. Cities, Zones & Areas</a>
+            <a href="#/docs/carrybee/03-stores-and-warehouses.md" class="sidebar-link">03. Warehouse Stores</a>
+            <a href="#/docs/carrybee/04-orders-and-booking.md" class="sidebar-link">04. Single & Bulk Orders</a>
+            <a href="#/docs/carrybee/05-reverse-pickup-and-exchange.md" class="sidebar-link">05. Reverse & Exchange</a>
+            <a href="#/docs/carrybee/06-webhooks-and-handshake.md" class="sidebar-link">06. Webhook Handshake & 24 Events</a>
+            <a href="#/docs/carrybee/07-status-reference.md" class="sidebar-link">07. Status & Error Reference</a>
+          </div>
+        </div>
+
+        <!-- Group: eCourier Delivery (v5.5) -->
+        <div>
+          <button class="nav-collapsible w-full flex items-center justify-between px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-purple-600"></span>
+              <span>eCourier Delivery</span>
+            </span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 transform transition-transform duration-200"></i>
+          </button>
+          <div class="mt-1 pl-3 space-y-0.5">
+            <a href="#/docs/ecourier/README.md" class="sidebar-link">Overview & Setup</a>
+            <a href="#/docs/ecourier/01-getting-started.md" class="sidebar-link">01. Getting Started & Auth</a>
+            <a href="#/docs/ecourier/02-coverage-and-geography.md" class="sidebar-link">02. Coverage & Geography</a>
+            <a href="#/docs/ecourier/03-package-selection.md" class="sidebar-link">03. Package Codes & Pricing</a>
+            <a href="#/docs/ecourier/04-order-placement.md" class="sidebar-link">04. Order Placement (COD & Exchange)</a>
+            <a href="#/docs/ecourier/05-reseller-and-child-orders.md" class="sidebar-link">05. Reseller & Child Payouts</a>
+            <a href="#/docs/ecourier/06-tracking-labels-and-finance.md" class="sidebar-link">06. Tracking, Labels & Finance</a>
+            <a href="#/docs/ecourier/07-fraud-check-and-booster-sms.md" class="sidebar-link">07. AI Fraud Check & Booster VAS</a>
+            <a href="#/docs/ecourier/08-status-and-error-reference.md" class="sidebar-link">08. Status Codes & Error Reference</a>
+          </div>
+        </div>
+
+        <!-- Group: Nagad Payment Gateway (v3.3) -->
+        <div>
+          <button class="nav-collapsible w-full flex items-center justify-between px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+            <span class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-orange-600"></span>
+              <span>Nagad Direct Gateway</span>
+            </span>
+            <i data-lucide="chevron-down" class="w-3.5 h-3.5 transform transition-transform duration-200"></i>
+          </button>
+          <div class="mt-1 pl-3 space-y-0.5">
+            <a href="#/docs/nagad/README.md" class="sidebar-link">Overview & Architecture</a>
+            <a href="#/docs/nagad/01-getting-started.md" class="sidebar-link">01. Onboarding & Keys</a>
+            <a href="#/docs/nagad/02-cryptography-and-signatures.md" class="sidebar-link">02. RSA Cryptography</a>
+            <a href="#/docs/nagad/03-checkout-initialization.md" class="sidebar-link">03. Step 1: Initialize Checkout</a>
+            <a href="#/docs/nagad/04-checkout-complete-and-redirect.md" class="sidebar-link">04. Step 2: Complete & Redirect</a>
+            <a href="#/docs/nagad/05-callback-and-verification.md" class="sidebar-link">05. Step 3 & 4: Verify Payment</a>
+            <a href="#/docs/nagad/06-error-codes-and-status.md" class="sidebar-link">06. Error Codes & Troubleshooting</a>
+          </div>
+        </div>
+
+        <!-- Group: SDKs & Reference -->
+        <div>
+          <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 px-3 mb-1.5">API & SDK Tools</div>
+          <div class="space-y-0.5">
+            <a href="api-reference.html" class="sidebar-link flex items-center justify-between">
+              <span>Scalar (Steadfast)</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
+            </a>
+            <a href="api-reference-redx.html" class="sidebar-link flex items-center justify-between">
+              <span>Scalar (RedX)</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
+            </a>
+            <a href="api-reference-pathao.html" class="sidebar-link flex items-center justify-between">
+              <span>Scalar (Pathao)</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
+            </a>
+            <a href="api-reference-paperfly.html" class="sidebar-link flex items-center justify-between">
+              <span>Scalar (Paperfly)</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
+            </a>
+            <a href="api-reference-carrybee.html" class="sidebar-link flex items-center justify-between">
+              <span>Scalar (Carrybee)</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
+            </a>
+            <a href="api-reference-ecourier.html" class="sidebar-link flex items-center justify-between">
+              <span>Scalar (eCourier)</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
+            </a>
+            <a href="api-reference-nagad.html" class="sidebar-link flex items-center justify-between">
+              <span>Scalar (Nagad)</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-zinc-400"></i>
+            </a>
+            <a href="#/sdks-and-examples/nagad/php/NagadClient.php" class="sidebar-link">Nagad PHP Client</a>
+            <a href="#/sdks-and-examples/nagad/nodejs/nagad.js" class="sidebar-link">Nagad Node Client</a>
+            <a href="#/sdks-and-examples/nagad/python/nagad.py" class="sidebar-link">Nagad Python Client</a>
+            <a href="#/sdks-and-examples/ecourier/php/EcourierClient.php" class="sidebar-link">eCourier PHP Client</a>
+            <a href="#/sdks-and-examples/ecourier/nodejs/ecourier.js" class="sidebar-link">eCourier Node Client</a>
+            <a href="#/sdks-and-examples/ecourier/python/ecourier.py" class="sidebar-link">eCourier Python Client</a>
+            <a href="#/sdks-and-examples/carrybee/php/CarrybeeClient.php" class="sidebar-link">Carrybee PHP Client</a>
+            <a href="#/sdks-and-examples/carrybee/nodejs/carrybee.js" class="sidebar-link">Carrybee Node Client</a>
+            <a href="#/sdks-and-examples/carrybee/python/carrybee.py" class="sidebar-link">Carrybee Python Client</a>
+            <a href="#/sdks-and-examples/paperfly/php/PaperflyClient.php" class="sidebar-link">Paperfly PHP Client</a>
+            <a href="#/sdks-and-examples/paperfly/nodejs/paperfly.js" class="sidebar-link">Paperfly Node Client</a>
+            <a href="#/sdks-and-examples/paperfly/python/paperfly.py" class="sidebar-link">Paperfly Python Client</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Author Reference Footer -->
+      <div class="mt-8 pt-4 border-t border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-500 dark:text-zinc-400 px-3 space-y-1">
+        <div>Maintained by <strong class="text-zinc-800 dark:text-zinc-200">Refat Rahman</strong></div>
+        <div>Web: <a href="https://refat.ovh" target="_blank" class="hover:underline text-blue-600 dark:text-sky-400">refat.ovh</a></div>
+      </div>
+    </aside>
+
+    <!-- CENTER DOCUMENTATION BODY -->
+    <main class="flex-1 min-w-0 py-8 lg:px-12">
+      <!-- Top Breadcrumb -->
+      <div id="breadcrumb" class="text-xs text-zinc-400 dark:text-zinc-500 mb-6 flex items-center gap-1.5 font-medium">
+        <span>Docs</span>
+        <span>/</span>
+        <span id="breadcrumbCurrent" class="text-zinc-800 dark:text-zinc-300">Home</span>
+      </div>
+
+      <!-- Render Target -->
+      <article id="docBody" class="doc-content min-h-[500px]">
+        <div class="py-16 text-center text-sm text-zinc-400">Loading documentation...</div>
+      </article>
+
+      <!-- Bottom Navigation Footer -->
+      <div class="mt-16 pt-6 border-t border-zinc-200 dark:border-[#1f2022] flex items-center justify-between text-xs">
+        <button id="prevDoc" class="hidden items-center gap-1.5 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span id="prevDocTitle">Previous</span>
+        </button>
+        <div></div>
+        <button id="nextDoc" class="hidden items-center gap-1.5 text-blue-600 dark:text-sky-400 font-semibold hover:underline">
+          <span id="nextDocTitle">Next</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Author Attribution Footer -->
+      <footer class="mt-12 pt-6 border-t border-zinc-100 dark:border-[#161718] text-xs text-zinc-500 dark:text-zinc-400 flex flex-wrap justify-between items-center gap-4">
+        <div>
+          &copy; 2026 <strong>Refat Rahman</strong> (<a href="https://refat.ovh" target="_blank" class="hover:underline">refat.ovh</a>). MIT Licensed.
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="https://github.com/refatbd" target="_blank" class="hover:text-zinc-900 dark:hover:text-white transition">GitHub</a>
+          <a href="https://www.facebook.com/rjrefat/" target="_blank" class="hover:text-zinc-900 dark:hover:text-white transition">Facebook</a>
+          <a href="https://www.instagram.com/refat_official" target="_blank" class="hover:text-zinc-900 dark:hover:text-white transition">Instagram</a>
+          <a href="https://t.me/refatbd" target="_blank" class="hover:text-zinc-900 dark:hover:text-white transition">Telegram</a>
+        </div>
+      </footer>
+    </main>
+
+    <!-- RIGHT STICKY TOC -->
+    <aside class="hidden xl:block w-56 pt-8 pl-8 sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto">
+      <div class="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-2.5">On this page</div>
+      <nav id="pageToc" class="space-y-1 text-xs text-zinc-500 dark:text-zinc-400 border-l border-zinc-200 dark:border-zinc-800">
+        <!-- Dynamically populated from h2/h3 -->
+      </nav>
+    </aside>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- COMMAND PALETTE MODAL (Ctrl + K / ⌘K)                                      -->
+  <!-- ========================================================================= -->
+  <div id="searchModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+    <!-- Backdrop with blur -->
+    <div id="searchBackdrop" class="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity"></div>
+
+    <div class="fixed inset-0 z-10 overflow-y-auto p-4 sm:p-6 md:p-16 flex justify-center items-start">
+      <div class="relative transform overflow-hidden rounded-xl bg-white dark:bg-[#121316] border border-zinc-200 dark:border-zinc-800 shadow-2xl transition-all w-full max-w-2xl mt-8">
+        
+        <!-- Search Input Bar -->
+        <div class="relative flex items-center px-4 border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-[#121316]">
+          <i data-lucide="search" class="w-5 h-5 text-zinc-400 dark:text-zinc-500"></i>
+          <input id="searchInput" type="text" autocomplete="off" placeholder="Search guides, endpoints, SDKs, or tools (e.g. fraud, webhook, rate, rsa)..."
+            class="h-14 w-full border-0 bg-transparent pl-3 pr-10 text-sm text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-0">
+          <button id="closeSearchBtn" class="p-1 rounded-md text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800" title="Close (ESC)">
+            <kbd class="font-mono text-xs px-1.5 py-0.5 rounded border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-400">ESC</kbd>
+          </button>
+        </div>
+
+        <!-- Quick Filter Pills -->
+        <div class="flex items-center gap-1.5 px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900/50 border-b border-zinc-200 dark:border-zinc-800/80 overflow-x-auto text-xs">
+          <span class="text-zinc-400 text-[11px] font-medium mr-1 uppercase tracking-wider">Filter:</span>
+          <button class="filter-pill active" data-filter="all">All</button>
+          <button class="filter-pill" data-filter="tools">⚡ Tools</button>
+          <button class="filter-pill" data-filter="steadfast">Steadfast</button>
+          <button class="filter-pill" data-filter="redx">RedX</button>
+          <button class="filter-pill" data-filter="pathao">Pathao</button>
+          <button class="filter-pill" data-filter="paperfly">Paperfly</button>
+          <button class="filter-pill" data-filter="carrybee">Carrybee</button>
+          <button class="filter-pill" data-filter="ecourier">eCourier</button>
+          <button class="filter-pill" data-filter="nagad">Nagad</button>
+        </div>
+
+        <!-- Results Container -->
+        <div id="searchResults" class="max-h-96 overflow-y-auto p-2 space-y-1">
+          <!-- Dynamically populated via renderSearchResults -->
+        </div>
+
+        <!-- Footer Shortcuts -->
+        <div class="flex items-center justify-between px-4 py-2.5 bg-zinc-50 dark:bg-zinc-900/90 border-t border-zinc-200 dark:border-zinc-800 text-[11px] text-zinc-400">
+          <div class="flex items-center gap-3">
+            <span><kbd class="font-mono px-1 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">↑</kbd> <kbd class="font-mono px-1 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">↓</kbd> to navigate</span>
+            <span><kbd class="font-mono px-1 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">↵</kbd> to select</span>
+            <span><kbd class="font-mono px-1 py-0.5 rounded bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700">ESC</kbd> to close</span>
+          </div>
+          <span class="font-medium text-zinc-500">Refat Rahman API Hub</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 3. SPA ROUTER & CLIENT-SIDE RENDERER                                     -->
+  <!-- ========================================================================= -->
+  <script>
+    const CHAPTERS = [
+      { path: 'README.md', title: 'Home Hub', category: 'general', keywords: 'home overview index providers ecosystem refatbd' },
+      { path: 'docs/tools/rate-calculator.md', title: 'Interactive Shipping Rate Matrix', category: 'tools', keywords: 'rates pricing delivery cost cod shipping weight zone dhaka charge steadfast redx pathao paperfly carrybee ecourier' },
+      { path: 'docs/tools/fraud-checker.md', title: 'Phone Fraud Risk Inspector', category: 'tools', keywords: 'fraud risk score phone mobile delivery ratio steadfast ecourier cancel return order fake' },
+      { path: 'docs/tools/unified-courier.md', title: 'Unified Bangladesh Courier Engine', category: 'tools', keywords: 'unified sdk engine facade adapter composer npm steadfast redx pathao paperfly carrybee ecourier wrapper' },
+      { path: 'docs/steadfast/README.md', title: 'Steadfast Quickstart', category: 'steadfast', keywords: 'steadfast quickstart overview api auth' },
+      { path: 'docs/steadfast/01-getting-started.md', title: 'Steadfast: 01. Getting Started & Auth', category: 'steadfast', keywords: 'steadfast auth api-key secret-key' },
+      { path: 'docs/steadfast/02-booking-parcels.md', title: 'Steadfast: 02. Booking Parcels', category: 'steadfast', keywords: 'steadfast parcel booking create order cod' },
+      { path: 'docs/steadfast/03-tracking-and-status.md', title: 'Steadfast: 03. Tracking & Status', category: 'steadfast', keywords: 'steadfast tracking status consignment' },
+      { path: 'docs/steadfast/04-pickups-and-returns.md', title: 'Steadfast: 04. Pickups & Returns', category: 'steadfast', keywords: 'steadfast pickup return reverse' },
+      { path: 'docs/steadfast/05-balance-and-payments.md', title: 'Steadfast: 05. Balance & Payments', category: 'steadfast', keywords: 'steadfast balance payout payment' },
+      { path: 'docs/steadfast/06-fraud-check-and-thanas.md', title: 'Steadfast: 06. Fraud Check & Thanas', category: 'steadfast', keywords: 'steadfast fraud score check thana coverage' },
+      { path: 'docs/steadfast/07-status-code-reference.md', title: 'Steadfast: 07. Status Codes & Errors', category: 'steadfast', keywords: 'steadfast status error codes' },
+      { path: 'docs/steadfast/08-webhooks.md', title: 'Steadfast: 08. Real-Time Webhooks', category: 'steadfast', keywords: 'steadfast webhook event callback' },
+      { path: 'docs/redx/README.md', title: 'RedX Quickstart', category: 'redx', keywords: 'redx quickstart overview' },
+      { path: 'docs/redx/01-getting-started.md', title: 'RedX: 01. Getting Started & Auth', category: 'redx', keywords: 'redx auth token access-token' },
+      { path: 'docs/redx/02-parcels-and-orders.md', title: 'RedX: 02. Parcels & Orders', category: 'redx', keywords: 'redx parcel order create weight gram' },
+      { path: 'docs/redx/03-tracking-and-status.md', title: 'RedX: 03. Tracking & Status', category: 'redx', keywords: 'redx tracking milestone timeline' },
+      { path: 'docs/redx/04-areas-and-coverage.md', title: 'RedX: 04. Areas & 64 Districts', category: 'redx', keywords: 'redx area district coverage 64' },
+      { path: 'docs/redx/05-pickup-stores.md', title: 'RedX: 05. Pickup Stores', category: 'redx', keywords: 'redx store warehouse pickup' },
+      { path: 'docs/redx/06-charge-calculator.md', title: 'RedX: 06. Charge Calculator', category: 'redx', keywords: 'redx pricing rate calculate fee' },
+      { path: 'docs/redx/07-webhooks-and-callbacks.md', title: 'RedX: 07. Webhooks & Callbacks', category: 'redx', keywords: 'redx webhook callback' },
+      { path: 'docs/redx/08-status-and-error-codes.md', title: 'RedX: 08. Status Codes & Errors', category: 'redx', keywords: 'redx status code error' },
+      { path: 'docs/pathao/README.md', title: 'Pathao Quickstart', category: 'pathao', keywords: 'pathao quickstart overview aladdin' },
+      { path: 'docs/pathao/01-getting-started-and-oauth.md', title: 'Pathao: 01. OAuth 2.0 Auth', category: 'pathao', keywords: 'pathao oauth token bearer refresh' },
+      { path: 'docs/pathao/02-stores-and-warehouses.md', title: 'Pathao: 02. Stores & Warehouses', category: 'pathao', keywords: 'pathao store warehouse pickup' },
+      { path: 'docs/pathao/03-city-zone-area-hierarchy.md', title: 'Pathao: 03. City, Zone & Area', category: 'pathao', keywords: 'pathao city zone area hierarchy' },
+      { path: 'docs/pathao/04-creating-orders.md', title: 'Pathao: 04. Creating Orders', category: 'pathao', keywords: 'pathao order create booking consignment' },
+      { path: 'docs/pathao/05-bulk-orders.md', title: 'Pathao: 05. Bulk Consignments', category: 'pathao', keywords: 'pathao bulk order csv multiple' },
+      { path: 'docs/pathao/06-order-tracking-and-status.md', title: 'Pathao: 06. Tracking & Status', category: 'pathao', keywords: 'pathao tracking status history' },
+      { path: 'docs/pathao/07-price-calculation-plan.md', title: 'Pathao: 07. Price Calculation', category: 'pathao', keywords: 'pathao price plan estimate cost' },
+      { path: 'docs/pathao/08-status-lifecycle-and-webhooks.md', title: 'Pathao: 08. Status Lifecycle', category: 'pathao', keywords: 'pathao status webhook lifecycle' },
+      { path: 'docs/paperfly/README.md', title: 'Paperfly Quickstart', category: 'paperfly', keywords: 'paperfly quickstart overview' },
+      { path: 'docs/paperfly/01-getting-started.md', title: 'Paperfly: 01. Getting Started & Auth', category: 'paperfly', keywords: 'paperfly auth basic credentials' },
+      { path: 'docs/paperfly/02-order-creation.md', title: 'Paperfly: 02. Standard Orders', category: 'paperfly', keywords: 'paperfly order create doorstep' },
+      { path: 'docs/paperfly/03-exchange-orders.md', title: 'Paperfly: 03. Exchange Orders', category: 'paperfly', keywords: 'paperfly exchange replacement order' },
+      { path: 'docs/paperfly/04-tracking-and-status.md', title: 'Paperfly: 04. Milestone Tracking', category: 'paperfly', keywords: 'paperfly tracking milestone' },
+      { path: 'docs/paperfly/05-cancellation.md', title: 'Paperfly: 05. Order Cancellation', category: 'paperfly', keywords: 'paperfly cancel order void' },
+      { path: 'docs/paperfly/06-webhooks-and-events.md', title: 'Paperfly: 06. 14 Webhook Events', category: 'paperfly', keywords: 'paperfly webhook 14 events callback' },
+      { path: 'docs/paperfly/07-status-reference.md', title: 'Paperfly: 07. Status Reference', category: 'paperfly', keywords: 'paperfly status error reference' },
+      { path: 'docs/carrybee/README.md', title: 'Carrybee Quickstart', category: 'carrybee', keywords: 'carrybee quickstart overview v2' },
+      { path: 'docs/carrybee/01-getting-started.md', title: 'Carrybee: 01. Getting Started & Auth', category: 'carrybee', keywords: 'carrybee auth api token' },
+      { path: 'docs/carrybee/02-location-and-coverage.md', title: 'Carrybee: 02. Cities, Zones & Areas', category: 'carrybee', keywords: 'carrybee city zone area location' },
+      { path: 'docs/carrybee/03-stores-and-warehouses.md', title: 'Carrybee: 03. Warehouse Stores', category: 'carrybee', keywords: 'carrybee store warehouse' },
+      { path: 'docs/carrybee/04-orders-and-booking.md', title: 'Carrybee: 04. Single & Bulk Orders', category: 'carrybee', keywords: 'carrybee order booking bulk' },
+      { path: 'docs/carrybee/05-reverse-pickup-and-exchange.md', title: 'Carrybee: 05. Reverse & Exchange', category: 'carrybee', keywords: 'carrybee reverse pickup exchange' },
+      { path: 'docs/carrybee/06-webhooks-and-handshake.md', title: 'Carrybee: 06. Webhook Handshake & 24 Events', category: 'carrybee', keywords: 'carrybee webhook handshake 202 echo 24 events' },
+      { path: 'docs/carrybee/07-status-reference.md', title: 'Carrybee: 07. Status & Error Reference', category: 'carrybee', keywords: 'carrybee status code error' },
+      { path: 'docs/ecourier/README.md', title: 'eCourier Quickstart', category: 'ecourier', keywords: 'ecourier quickstart overview v5' },
+      { path: 'docs/ecourier/01-getting-started.md', title: 'eCourier: 01. Getting Started & Auth', category: 'ecourier', keywords: 'ecourier auth api-key secret user-id' },
+      { path: 'docs/ecourier/02-coverage-and-geography.md', title: 'eCourier: 02. Coverage & Geography', category: 'ecourier', keywords: 'ecourier coverage geography division' },
+      { path: 'docs/ecourier/03-package-selection.md', title: 'eCourier: 03. Package Codes & Pricing', category: 'ecourier', keywords: 'ecourier package code pricing w1' },
+      { path: 'docs/ecourier/04-order-placement.md', title: 'eCourier: 04. Order Placement (COD & Exchange)', category: 'ecourier', keywords: 'ecourier order placement cod exchange' },
+      { path: 'docs/ecourier/05-reseller-and-child-orders.md', title: 'eCourier: 05. Reseller & Child Payouts', category: 'ecourier', keywords: 'ecourier reseller child profit split payout' },
+      { path: 'docs/ecourier/06-tracking-labels-and-finance.md', title: 'eCourier: 06. Tracking, Labels & Finance', category: 'ecourier', keywords: 'ecourier tracking label airway bill payment' },
+      { path: 'docs/ecourier/07-fraud-check-and-booster-sms.md', title: 'eCourier: 07. AI Fraud Check & Booster VAS', category: 'ecourier', keywords: 'ecourier fraud check booster sms vas' },
+      { path: 'docs/ecourier/08-status-and-error-reference.md', title: 'eCourier: 08. Status Codes & Error Reference', category: 'ecourier', keywords: 'ecourier status error codes' },
+      { path: 'docs/nagad/README.md', title: 'Nagad Gateway Quickstart', category: 'nagad', keywords: 'nagad gateway payment pg dfs mfs' },
+      { path: 'docs/nagad/01-getting-started.md', title: 'Nagad: 01. Onboarding & Keys', category: 'nagad', keywords: 'nagad onboarding credentials keys merchant-id' },
+      { path: 'docs/nagad/02-cryptography-and-signatures.md', title: 'Nagad: 02. RSA Cryptography', category: 'nagad', keywords: 'nagad rsa pkcs1 sha256 cryptography dual keys' },
+      { path: 'docs/nagad/03-checkout-initialization.md', title: 'Nagad: 03. Step 1: Initialize Checkout', category: 'nagad', keywords: 'nagad initialize checkout challenge payment-ref-id' },
+      { path: 'docs/nagad/04-checkout-complete-and-redirect.md', title: 'Nagad: 04. Step 2: Complete & Redirect', category: 'nagad', keywords: 'nagad complete redirect checkout-url 050' },
+      { path: 'docs/nagad/05-callback-and-verification.md', title: 'Nagad: 05. Step 3 & 4: Verify Payment', category: 'nagad', keywords: 'nagad callback verify payment status success' },
+      { path: 'docs/nagad/06-error-codes-and-status.md', title: 'Nagad: 06. Error Codes & Troubleshooting', category: 'nagad', keywords: 'nagad error codes troubleshooting 9999' },
+      { path: 'CONTRIBUTING.md', title: 'Contributing Guide', category: 'general', keywords: 'contributing guide open source pr github' },
+      { path: 'LICENSE', title: 'MIT License', category: 'general', keywords: 'mit license open source copyright' },
+    ];
+
+    // Theme Management
+    const themeToggle = document.getElementById('themeToggle');
+    function setTheme(mode) {
+      if (mode === 'dark') {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      }
+      if (window.lucide) lucide.createIcons();
+    }
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(currentTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+    });
+
+    // Mobile Sidebar Toggle
+    const mobileToggle = document.getElementById('mobileToggle');
+    const sidebar = document.getElementById('sidebar');
+    mobileToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('-translate-x-full');
+    });
+
+    // Marked Renderer Configuration
+    const renderer = new marked.Renderer();
+    renderer.code = function(codeArg, langArg) {
+      let codeStr = '';
+      let lang = 'bash';
+
+      if (typeof codeArg === 'object' && codeArg !== null) {
+        codeStr = codeArg.text || '';
+        lang = codeArg.lang || 'bash';
+      } else {
+        codeStr = String(codeArg || '');
+        lang = langArg || 'bash';
+      }
+
+      lang = (lang || 'bash').toLowerCase().trim();
+      let grammar = Prism.languages[lang];
+      if (!grammar) {
+        if (lang === 'sh' || lang === 'shell' || lang === 'curl') grammar = Prism.languages.bash;
+        else if (lang === 'js' || lang === 'node') grammar = Prism.languages.javascript;
+        else if (lang === 'py') grammar = Prism.languages.python;
+        else if (lang === 'yml') grammar = Prism.languages.yaml;
+        else grammar = Prism.languages.markup || Prism.languages.plaintext;
+      }
+
+      let highlighted = codeStr;
+      try {
+        if (grammar) {
+          highlighted = Prism.highlight(codeStr, grammar, lang);
+        }
+      } catch (e) {
+        highlighted = codeStr.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      }
+
+      return `
+        <div class="code-box">
+          <div class="code-box-header">
+            <span>${lang.toUpperCase()}</span>
+            <button class="copy-button" onclick="handleCopy(this)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre class="language-${lang}"><code class="language-${lang}">${highlighted}</code></pre>
+        </div>
+      `;
+    };
+    marked.setOptions({ renderer });
+
+    // Copy Button Handler
+    window.handleCopy = function(btn) {
+      const code = btn.closest('.code-box').querySelector('code').innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const prev = btn.innerHTML;
+        btn.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span style="color: #22c55e;">Copied!</span>
+        `;
+        setTimeout(() => { btn.innerHTML = prev; }, 1800);
+      });
+    };
+
+    // Load and Render Document
+    async function renderDocument(targetPath) {
+      const docBody = document.getElementById('docBody');
+      const breadcrumbCurrent = document.getElementById('breadcrumbCurrent');
+
+      let clean = targetPath.replace(/^#\/?/, '') || 'README.md';
+      if (clean.startsWith('/')) clean = clean.slice(1);
+
+      try {
+        const response = await fetch(clean);
+        if (!response.ok) throw new Error('File not found: ' + clean);
+        const mdText = await response.text();
+
+        docBody.innerHTML = marked.parse(mdText);
+
+        const firstHeading = docBody.querySelector('h1');
+        const titleText = firstHeading ? firstHeading.innerText : clean;
+        breadcrumbCurrent.innerText = titleText;
+        document.title = `${titleText} — Bangladesh API Hub`;
+
+        // Update Table of Contents
+        buildTOC();
+
+        // Update Active Sidebar Link
+        updateSidebarLinks(clean);
+
+        // Update Prev / Next
+        updateFooterNav(clean);
+
+        // Initialize Interactive Widgets if mounted
+        initInteractiveWidgets(clean);
+
+        window.scrollTo({ top: 0 });
+        if (window.lucide) lucide.createIcons();
+      } catch (err) {
+        docBody.innerHTML = `
+          <div style="padding: 2rem; border-radius: 0.5rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444;">
+            <h2 style="font-weight: 700; margin-bottom: 0.5rem;">Document Unavailable</h2>
+            <p style="font-size: 0.875rem;">${err.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    // Build Right-Hand TOC
+    function buildTOC() {
+      const pageToc = document.getElementById('pageToc');
+      pageToc.innerHTML = '';
+      const headers = document.querySelectorAll('#docBody h2, #docBody h3');
+
+      if (headers.length === 0) {
+        pageToc.innerHTML = '<span style="font-size: 11px; color: #71717a; padding-left: 0.75rem;">No sub-sections</span>';
+        return;
+      }
+
+      headers.forEach((h, i) => {
+        const id = 'sec-' + i;
+        h.id = id;
+        const link = document.createElement('a');
+        link.href = '#' + id;
+        link.innerText = h.innerText.replace(/^[0-9\.\s]+/, '');
+        link.className = h.tagName === 'H2'
+          ? 'block py-1 pl-3 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:border-l-2 hover:border-blue-600 -ml-[1px] transition truncate'
+          : 'block py-1 pl-6 text-zinc-400 dark:text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 transition truncate';
+
+        link.onclick = (e) => {
+          e.preventDefault();
+          h.scrollIntoView({ behavior: 'smooth' });
+        };
+        pageToc.appendChild(link);
+      });
+    }
+
+    // Active Sidebar State
+    function updateSidebarLinks(activePath) {
+      document.querySelectorAll('.sidebar-link').forEach(link => {
+        const href = link.getAttribute('href')?.replace(/^#\/?/, '');
+        if (href === activePath) {
+          link.classList.add('is-active');
+        } else {
+          link.classList.remove('is-active');
+        }
+      });
+    }
+
+    // Prev / Next Buttons
+    function updateFooterNav(activePath) {
+      const idx = CHAPTERS.findIndex(c => c.path === activePath);
+      const prevDoc = document.getElementById('prevDoc');
+      const nextDoc = document.getElementById('nextDoc');
+      const prevDocTitle = document.getElementById('prevDocTitle');
+      const nextDocTitle = document.getElementById('nextDocTitle');
+
+      if (idx > 0) {
+        prevDoc.classList.remove('hidden');
+        prevDoc.classList.add('inline-flex');
+        prevDocTitle.innerText = CHAPTERS[idx - 1].title;
+        prevDoc.onclick = () => window.location.hash = '#/' + CHAPTERS[idx - 1].path;
+      } else {
+        prevDoc.classList.add('hidden');
+        prevDoc.classList.remove('inline-flex');
+      }
+
+      if (idx >= 0 && idx < CHAPTERS.length - 1) {
+        nextDoc.classList.remove('hidden');
+        nextDoc.classList.add('inline-flex');
+        nextDocTitle.innerText = CHAPTERS[idx + 1].title;
+        nextDoc.onclick = () => window.location.hash = '#/' + CHAPTERS[idx + 1].path;
+      } else {
+        nextDoc.classList.add('hidden');
+        nextDoc.classList.remove('inline-flex');
+      }
+    }
+
+    // =========================================================================
+    // 4. INTERACTIVE WIDGET ENGINES (Rate Calculator & Fraud Risk Inspector)
+    // =========================================================================
+    function initInteractiveWidgets(cleanPath) {
+      // Rate Calculator App
+      const rateApp = document.getElementById('rateCalculatorApp');
+      if (rateApp) {
+        const inputWeight = document.getElementById('inputWeight');
+        const weightVal = document.getElementById('weightVal');
+        const selectZone = document.getElementById('selectZone');
+        const inputCod = document.getElementById('inputCod');
+        const tableBody = document.getElementById('rateTableBody');
+
+        if (inputWeight && weightVal && selectZone && inputCod && tableBody) {
+          function recalcRates() {
+            const weight = parseFloat(inputWeight.value) || 1.0;
+            weightVal.innerText = weight.toFixed(1) + ' kg';
+            const zone = selectZone.value; // 'inside_dhaka', 'dhaka_suburb', 'outside_dhaka'
+            const cod = Math.max(0, parseFloat(inputCod.value) || 0);
+
+            const providers = [
+              {
+                name: 'Steadfast Courier',
+                logoColor: 'text-zinc-800 dark:text-zinc-200',
+                baseFee: zone === 'inside_dhaka' ? 70 : (zone === 'dhaka_suburb' ? 100 : 135),
+                extraKgFee: zone === 'inside_dhaka' ? 20 : 25,
+                threshold: 1.0,
+                codRate: 0.01,
+                minCod: 10,
+                sla: zone === 'inside_dhaka' ? '24 Hours' : '48-72 Hours',
+                link: '#/docs/steadfast/README.md'
+              },
+              {
+                name: 'RedX Delivery',
+                logoColor: 'text-red-600 dark:text-red-400',
+                baseFee: zone === 'inside_dhaka' ? (weight <= 0.5 ? 60 : 70) : (zone === 'dhaka_suburb' ? 100 : 130),
+                extraKgFee: zone === 'inside_dhaka' ? 20 : 25,
+                threshold: 1.0,
+                codRate: 0.01,
+                minCod: 0,
+                sla: zone === 'inside_dhaka' ? '24-48 Hours' : '48-72 Hours',
+                link: '#/docs/redx/README.md'
+              },
+              {
+                name: 'Pathao Courier',
+                logoColor: 'text-emerald-600 dark:text-emerald-400',
+                baseFee: zone === 'inside_dhaka' ? 65 : (zone === 'dhaka_suburb' ? 100 : 135),
+                extraKgFee: zone === 'inside_dhaka' ? 20 : 25,
+                threshold: 1.0,
+                codRate: 0.01,
+                minCod: 0,
+                sla: zone === 'inside_dhaka' ? 'Same Day / 24h' : '48-72 Hours',
+                link: '#/docs/pathao/README.md'
+              },
+              {
+                name: 'Paperfly Courier',
+                logoColor: 'text-amber-600 dark:text-amber-400',
+                baseFee: zone === 'inside_dhaka' ? 60 : (zone === 'dhaka_suburb' ? 90 : 125),
+                extraKgFee: zone === 'inside_dhaka' ? 20 : 25,
+                threshold: 1.0,
+                codRate: 0.01,
+                minCod: 0,
+                sla: zone === 'inside_dhaka' ? '24 Hours' : '48-72 Hours',
+                link: '#/docs/paperfly/README.md'
+              },
+              {
+                name: 'Carrybee Delivery',
+                logoColor: 'text-emerald-500',
+                baseFee: zone === 'inside_dhaka' ? 65 : (zone === 'dhaka_suburb' ? 100 : 130),
+                extraKgFee: zone === 'inside_dhaka' ? 20 : 25,
+                threshold: 1.0,
+                codRate: 0.01,
+                minCod: 0,
+                sla: zone === 'inside_dhaka' ? '24 Hours' : '48-72 Hours',
+                link: '#/docs/carrybee/README.md'
+              },
+              {
+                name: 'eCourier Delivery',
+                logoColor: 'text-purple-600 dark:text-purple-400',
+                baseFee: zone === 'inside_dhaka' ? (weight <= 0.5 ? 60 : 70) : (zone === 'dhaka_suburb' ? 100 : 135),
+                extraKgFee: zone === 'inside_dhaka' ? 20 : 30,
+                threshold: 1.0,
+                codRate: 0.01,
+                minCod: 0,
+                sla: zone === 'inside_dhaka' ? '24-48 Hours' : '48-72 Hours',
+                link: '#/docs/ecourier/README.md'
+              }
+            ];
+
+            const calculated = providers.map(p => {
+              const extraKg = Math.max(0, Math.ceil(weight - p.threshold));
+              const weightCharge = extraKg * p.extraKgFee;
+              const computedCodFee = Math.max(p.minCod, Math.round(cod * p.codRate));
+              const totalCharge = p.baseFee + weightCharge + computedCodFee;
+              return { ...p, extraKg, weightCharge, computedCodFee, totalCharge };
+            });
+
+            const minTotal = Math.min(...calculated.map(c => c.totalCharge));
+
+            tableBody.innerHTML = calculated.map(c => {
+              const isLowest = c.totalCharge === minTotal;
+              return `
+                <tr class="hover:bg-zinc-100/50 dark:hover:bg-zinc-800/40 transition">
+                  <td class="py-3 px-3 font-semibold ${c.logoColor} flex items-center gap-1.5">
+                    <span>${c.name}</span>
+                    ${isLowest ? '<span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-300 dark:border-emerald-800 font-bold">Best Value</span>' : ''}
+                  </td>
+                  <td class="py-3 px-3 text-zinc-700 dark:text-zinc-300">৳${c.baseFee}</td>
+                  <td class="py-3 px-3 text-zinc-500">${c.weightCharge > 0 ? '+৳' + c.weightCharge : '৳0'}</td>
+                  <td class="py-3 px-3 text-zinc-500">৳${c.computedCodFee}</td>
+                  <td class="py-3 px-3 font-bold text-sm ${isLowest ? 'text-emerald-600 dark:text-emerald-400' : 'text-zinc-900 dark:text-white'}">৳${c.totalCharge}</td>
+                  <td class="py-3 px-3 text-zinc-500 font-sans">${c.sla}</td>
+                  <td class="py-3 px-3 text-right">
+                    <a href="${c.link}" class="text-blue-600 dark:text-sky-400 hover:underline">API Docs →</a>
+                  </td>
+                </tr>
+              `;
+            }).join('');
+          }
+
+          inputWeight.oninput = recalcRates;
+          selectZone.onchange = recalcRates;
+          inputCod.oninput = recalcRates;
+          recalcRates();
+        }
+      }
+
+      // Fraud Risk Inspector App
+      const fraudApp = document.getElementById('fraudCheckerApp');
+      if (fraudApp) {
+        const phoneInput = document.getElementById('fraudPhoneInput');
+        const providerSelect = document.getElementById('fraudProviderSelect');
+        const btnCheck = document.getElementById('btnCheckFraud');
+        const resRiskBadge = document.getElementById('resRiskBadge');
+        const resRecommendation = document.getElementById('resRecommendation');
+        const resSuccessRate = document.getElementById('resSuccessRate');
+        const resProgressBar = document.getElementById('resProgressBar');
+        const resTotalOrders = document.getElementById('resTotalOrders');
+        const resOrderBreakdown = document.getElementById('resOrderBreakdown');
+        const resProviderLabel = document.getElementById('resProviderLabel');
+
+        if (phoneInput && btnCheck && resRiskBadge) {
+          btnCheck.onclick = () => {
+            const raw = phoneInput.value.trim();
+            if (!/^01[3-9]\d{8}$/.test(raw)) {
+              alert('অনুগ্রহ করে সঠিক ১১-ডিজিটের বাংলাদেশি মোবাইল নম্বর দিন (যেমন: 01700000000)।');
+              return;
+            }
+
+            const provider = providerSelect ? providerSelect.value : 'steadfast';
+            if (resProviderLabel) resProviderLabel.innerText = provider === 'steadfast' ? 'Steadfast Network Score' : 'eCourier AI Fraud VAS';
+
+            // Score Simulation logic
+            let delivered = 27;
+            let cancelled = 1;
+            let total = 28;
+
+            if (raw.endsWith('00') || raw.endsWith('99')) {
+              total = 18;
+              delivered = 7;
+              cancelled = 11;
+            } else if (raw.endsWith('12') || raw.endsWith('44')) {
+              total = 10;
+              delivered = 7;
+              cancelled = 3;
+            }
+
+            const ratio = ((delivered / total) * 100).toFixed(1);
+            if (resSuccessRate) resSuccessRate.innerText = ratio + '%';
+            if (resProgressBar) resProgressBar.style.width = ratio + '%';
+            if (resTotalOrders) resTotalOrders.innerText = total + ' Parcels';
+            if (resOrderBreakdown) resOrderBreakdown.innerText = `${delivered} Delivered • ${cancelled} Cancelled/Returned`;
+
+            if (ratio >= 85) {
+              resRiskBadge.innerHTML = '<span>🟢 Safe Buyer</span>';
+              resRiskBadge.className = 'text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-1 flex items-center gap-1.5';
+              if (resProgressBar) resProgressBar.className = 'bg-emerald-500 h-full rounded-full transition-all duration-300';
+              if (resRecommendation) {
+                resRecommendation.innerText = 'Recommended: Full COD Approved without extra advance deposit.';
+                resRecommendation.className = 'text-[11px] text-emerald-700 dark:text-emerald-300 mt-2';
+              }
+            } else if (ratio >= 65) {
+              resRiskBadge.innerHTML = '<span>🟡 Moderate Risk</span>';
+              resRiskBadge.className = 'text-xl font-bold text-amber-500 mt-1 flex items-center gap-1.5';
+              if (resProgressBar) resProgressBar.className = 'bg-amber-500 h-full rounded-full transition-all duration-300';
+              if (resRecommendation) {
+                resRecommendation.innerText = 'Recommended: Phone confirmation required. Collect delivery charge (৳100–৳150) in advance.';
+                resRecommendation.className = 'text-[11px] text-amber-700 dark:text-amber-300 mt-2';
+              }
+            } else {
+              resRiskBadge.innerHTML = '<span>🔴 High Risk</span>';
+              resRiskBadge.className = 'text-xl font-bold text-red-600 dark:text-red-400 mt-1 flex items-center gap-1.5';
+              if (resProgressBar) resProgressBar.className = 'bg-red-500 h-full rounded-full transition-all duration-300';
+              if (resRecommendation) {
+                resRecommendation.innerText = 'High Risk Alert: Parcel return probability > 60%. Do not dispatch without 100% advance payment.';
+                resRecommendation.className = 'text-[11px] text-red-700 dark:text-red-300 mt-2';
+              }
+            }
+          };
+        }
+      }
+    }
+
+    // =========================================================================
+    // 5. COMMAND PALETTE & FULL-TEXT SEARCH (Ctrl + K / ⌘K)
+    // =========================================================================
+    const searchModal = document.getElementById('searchModal');
+    const searchBackdrop = document.getElementById('searchBackdrop');
+    const openSearchBtn = document.getElementById('openSearchBtn');
+    const closeSearchBtn = document.getElementById('closeSearchBtn');
+    const searchInput = document.getElementById('searchInput');
+    const searchResults = document.getElementById('searchResults');
+    let activeFilter = 'all';
+    let selectedIndex = 0;
+    let filteredList = [];
+
+    function openSearch() {
+      searchModal.classList.remove('hidden');
+      searchInput.value = '';
+      activeFilter = 'all';
+      updateFilterButtons();
+      renderSearchResults();
+      setTimeout(() => searchInput.focus(), 60);
+    }
+
+    function closeSearch() {
+      searchModal.classList.add('hidden');
+    }
+
+    if (openSearchBtn) openSearchBtn.onclick = openSearch;
+    if (closeSearchBtn) closeSearchBtn.onclick = closeSearch;
+    if (searchBackdrop) searchBackdrop.onclick = closeSearch;
+
+    document.querySelectorAll('.filter-pill').forEach(btn => {
+      btn.onclick = () => {
+        activeFilter = btn.dataset.filter;
+        updateFilterButtons();
+        renderSearchResults();
+      };
+    });
+
+    function updateFilterButtons() {
+      document.querySelectorAll('.filter-pill').forEach(b => {
+        if (b.dataset.filter === activeFilter) b.classList.add('active');
+        else b.classList.remove('active');
+      });
+    }
+
+    function renderSearchResults() {
+      const q = searchInput.value.trim().toLowerCase();
+      filteredList = CHAPTERS.filter(c => {
+        if (activeFilter !== 'all' && c.category !== activeFilter) return false;
+        if (!q) return true;
+        return (
+          c.title.toLowerCase().includes(q) ||
+          c.path.toLowerCase().includes(q) ||
+          (c.keywords && c.keywords.toLowerCase().includes(q))
+        );
+      });
+
+      if (filteredList.length === 0) {
+        searchResults.innerHTML = `
+          <div class="py-8 text-center text-xs text-zinc-400">
+            No matching documents or tools found for "<span class="font-semibold text-zinc-600 dark:text-zinc-300">${q}</span>"
+          </div>
+        `;
+        return;
+      }
+
+      selectedIndex = Math.min(selectedIndex, filteredList.length - 1);
+      selectedIndex = Math.max(0, selectedIndex);
+
+      searchResults.innerHTML = filteredList.map((item, idx) => {
+        const isSel = idx === selectedIndex;
+        const catBadge = item.category ? item.category.toUpperCase() : 'DOC';
+        return `
+          <div class="search-result-item ${isSel ? 'selected' : ''}" onclick="selectSearchItem(${idx})">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">${catBadge}</span>
+              <span class="text-xs font-medium text-zinc-800 dark:text-zinc-200 truncate">${item.title}</span>
+            </div>
+            <span class="text-[10px] font-mono text-zinc-400 ml-2 truncate">${item.path}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.selectSearchItem = function(idx) {
+      if (filteredList[idx]) {
+        window.location.hash = '#/' + filteredList[idx].path;
+        closeSearch();
+      }
+    };
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        selectedIndex = 0;
+        renderSearchResults();
+      });
+
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (filteredList.length > 0) {
+            selectedIndex = (selectedIndex + 1) % filteredList.length;
+            renderSearchResults();
+          }
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (filteredList.length > 0) {
+            selectedIndex = (selectedIndex - 1 + filteredList.length) % filteredList.length;
+            renderSearchResults();
+          }
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          selectSearchItem(selectedIndex);
+        } else if (e.key === 'Escape') {
+          closeSearch();
+        }
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (searchModal.classList.contains('hidden')) openSearch();
+        else closeSearch();
+      } else if (e.key === 'Escape' && !searchModal.classList.contains('hidden')) {
+        closeSearch();
+      }
+    });
+
+    // Hash Navigation
+    window.addEventListener('hashchange', () => {
+      renderDocument(window.location.hash);
+      sidebar.classList.add('-translate-x-full');
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderDocument(window.location.hash || '#/README.md');
+    });
+  </script>
+</body>
+</html>

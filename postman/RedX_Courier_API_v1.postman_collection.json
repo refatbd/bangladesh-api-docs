@@ -1,0 +1,325 @@
+{
+  "info": {
+    "_postman_id": "c1f7b8a2-9e3d-4c28-bf40-redx-api-v1",
+    "name": "RedX Delivery OpenAPI v1.0.0-beta",
+    "description": "Comprehensive Postman suite for RedX Courier API (ShopUp Logistics), Bangladesh.\n\nAuthor: Refat Rahman (https://refat.ovh | https://github.com/refatbd)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://sandbox.redx.com.bd/v1.0.0-beta",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "YOUR_JWT_TOKEN",
+      "type": "string"
+    },
+    {
+      "key": "tracking_id",
+      "value": "21A427TU4BN3R",
+      "type": "string"
+    },
+    {
+      "key": "pickup_store_id",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Parcels",
+      "item": [
+        {
+          "name": "Create Parcel",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200 or 201\", function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "if (json.tracking_id) {",
+                  "    pm.collectionVariables.set(\"tracking_id\", json.tracking_id);",
+                  "    console.log(\"Saved tracking_id:\", json.tracking_id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "API-ACCESS-TOKEN",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"customer_name\": \"Rahim Ahmed\",\n    \"customer_phone\": \"01711223344\",\n    \"delivery_area\": \"Mirpur DOHS\",\n    \"delivery_area_id\": 12,\n    \"customer_address\": \"House 45, Road 7, Avenue 3, Mirpur DOHS, Dhaka\",\n    \"merchant_invoice_id\": \"INV-{{$timestamp}}\",\n    \"cash_collection_amount\": \"1500\",\n    \"paid_return_charge\": 0,\n    \"parcel_weight\": 750,\n    \"instruction\": \"Call recipient before dispatch\",\n    \"value\": 1500,\n    \"is_closed_box\": true,\n    \"pickup_store_id\": 1,\n    \"parcel_details_json\": [\n        {\n            \"name\": \"Bluetooth Headphones\",\n            \"category\": \"Electronics\",\n            \"value\": 1500\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/parcel",
+              "host": ["{{base_url}}"],
+              "path": ["parcel"]
+            }
+          }
+        },
+        {
+          "name": "Track Parcel",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "API-ACCESS-TOKEN",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/parcel/track/{{tracking_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["parcel", "track", "{{tracking_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Get Parcel Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "API-ACCESS-TOKEN",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/parcel/info/{{tracking_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["parcel", "info", "{{tracking_id}}"]
+            }
+          }
+        },
+        {
+          "name": "Update Parcel (Cancel)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "API-ACCESS-TOKEN",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"entity_type\": \"parcel-tracking-id\",\n    \"entity_id\": \"{{tracking_id}}\",\n    \"update_details\": {\n        \"property_name\": \"status\",\n        \"new_value\": \"cancelled\",\n        \"reason\": \"Customer cancelled order\"\n    }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/parcels",
+              "host": ["{{base_url}}"],
+              "path": ["parcels"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Areas & Locations",
+      "item": [
+        {
+          "name": "Get All Areas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "API-ACCESS-TOKEN",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/areas",
+              "host": ["{{base_url}}"],
+              "path": ["areas"]
+            }
+          }
+        },
+        {
+          "name": "Get Areas by Post Code",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "API-ACCESS-TOKEN",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/areas?post_code=1206",
+              "host": ["{{base_url}}"],
+              "path": ["areas"],
+              "query": [
+                {
+                  "key": "post_code",
+                  "value": "1206"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Areas by District Name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "API-ACCESS-TOKEN",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/areas?district_name=Dhaka",
+              "host": ["{{base_url}}"],
+              "path": ["areas"],
+              "query": [
+                {
+                  "key": "district_name",
+                  "value": "Dhaka"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pickup Stores",
+      "item": [
+        {
+          "name": "Create Pickup Store",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "API-ACCESS-TOKEN",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Main Central Hub\",\n    \"phone\": \"01898000999\",\n    \"address\": \"House 12, Road 4, Dhanmondi, Dhaka\",\n    \"area_id\": 2\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/pickup/store",
+              "host": ["{{base_url}}"],
+              "path": ["pickup", "store"]
+            }
+          }
+        },
+        {
+          "name": "Get Pickup Stores",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "API-ACCESS-TOKEN",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/pickup/stores",
+              "host": ["{{base_url}}"],
+              "path": ["pickup", "stores"]
+            }
+          }
+        },
+        {
+          "name": "Get Pickup Store Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "API-ACCESS-TOKEN",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/pickup/store/info/{{pickup_store_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["pickup", "store", "info", "{{pickup_store_id}}"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Billing & Calculations",
+      "item": [
+        {
+          "name": "Calculate Parcel Charge",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "API-ACCESS-TOKEN",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/charge/charge_calculator?delivery_area_id=12&pickup_area_id=1&cash_collection_amount=1500&weight=750",
+              "host": ["{{base_url}}"],
+              "path": ["charge", "charge_calculator"],
+              "query": [
+                {
+                  "key": "delivery_area_id",
+                  "value": "12"
+                },
+                {
+                  "key": "pickup_area_id",
+                  "value": "1"
+                },
+                {
+                  "key": "cash_collection_amount",
+                  "value": "1500"
+                },
+                {
+                  "key": "weight",
+                  "value": "750"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

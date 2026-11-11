@@ -1,0 +1,375 @@
+{
+  "info": {
+    "_postman_id": "b8a91c23-5e7f-4f28-98e1-pathao-api-v1",
+    "name": "Pathao Courier Aladdin API v1",
+    "description": "Comprehensive Postman suite for Pathao Courier Merchant API (Aladdin API v1).\n\nAuthor: Refat Rahman (https://refat.ovh | https://github.com/refatbd)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://courier-api-sandbox.pathao.com",
+      "type": "string"
+    },
+    {
+      "key": "client_id",
+      "value": "7N1aMJQbWm",
+      "type": "string"
+    },
+    {
+      "key": "client_secret",
+      "value": "wRcaibZkUdSNz2EI9ZyuXLlNrnAv0TdPUPXMnD39",
+      "type": "string"
+    },
+    {
+      "key": "username",
+      "value": "test@pathao.com",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "lovePathao",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refresh_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "store_id",
+      "value": "4821",
+      "type": "string"
+    },
+    {
+      "key": "consignment_id",
+      "value": "PT9041A4B89",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication (OAuth 2.0)",
+      "item": [
+        {
+          "name": "Issue Token (Password Grant)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "if (json.access_token) {",
+                  "    pm.collectionVariables.set(\"access_token\", json.access_token);",
+                  "    console.log(\"Saved access_token:\", json.access_token);",
+                  "}",
+                  "if (json.refresh_token) {",
+                  "    pm.collectionVariables.set(\"refresh_token\", json.refresh_token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\",\n    \"grant_type\": \"password\",\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/aladdin/api/v1/issue-token",
+              "host": ["{{base_url}}"],
+              "path": ["aladdin", "api", "v1", "issue-token"]
+            }
+          }
+        },
+        {
+          "name": "Issue Token (Refresh Token Grant)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "if (json.access_token) {",
+                  "    pm.collectionVariables.set(\"access_token\", json.access_token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\",\n    \"grant_type\": \"refresh_token\",\n    \"refresh_token\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/aladdin/api/v1/issue-token",
+              "host": ["{{base_url}}"],
+              "path": ["aladdin", "api", "v1", "issue-token"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stores & Warehouses",
+      "item": [
+        {
+          "name": "Create a New Store",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Demo Outlet Store\",\n    \"contact_name\": \"Test Merchant\",\n    \"contact_number\": \"01711223344\",\n    \"secondary_contact\": \"01511223344\",\n    \"otp_number\": \"01711223344\",\n    \"address\": \"House 123, Road 4, Sector 10, Uttara, Dhaka-1230\",\n    \"city_id\": 1,\n    \"zone_id\": 1070,\n    \"area_id\": 37\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/aladdin/api/v1/stores",
+              "host": ["{{base_url}}"],
+              "path": ["aladdin", "api", "v1", "stores"]
+            }
+          }
+        },
+        {
+          "name": "Get Merchant Stores",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/aladdin/api/v1/stores",
+              "host": ["{{base_url}}"],
+              "path": ["aladdin", "api", "v1", "stores"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Geographical Directory",
+      "item": [
+        {
+          "name": "Get List of Cities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/aladdin/api/v1/city-list",
+              "host": ["{{base_url}}"],
+              "path": ["aladdin", "api", "v1", "city-list"]
+            }
+          }
+        },
+        {
+          "name": "Get Zones in City",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/aladdin/api/v1/cities/1/zone-list",
+              "host": ["{{base_url}}"],
+              "path": ["aladdin", "api", "v1", "cities", "1", "zone-list"]
+            }
+          }
+        },
+        {
+          "name": "Get Areas in Zone",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/aladdin/api/v1/zones/1070/area-list",
+              "host": ["{{base_url}}"],
+              "path": ["aladdin", "api", "v1", "zones", "1070", "area-list"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders & Tracking",
+      "item": [
+        {
+          "name": "Calculate Price Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"store_id\": {{store_id}},\n    \"item_type\": 2,\n    \"delivery_type\": 48,\n    \"item_weight\": 0.5,\n    \"recipient_city\": 1,\n    \"recipient_zone\": 1070\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/aladdin/api/v1/merchant/price-plan",
+              "host": ["{{base_url}}"],
+              "path": ["aladdin", "api", "v1", "merchant", "price-plan"]
+            }
+          }
+        },
+        {
+          "name": "Create a New Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "if (json.data && json.data.consignment_id) {",
+                  "    pm.collectionVariables.set(\"consignment_id\", json.data.consignment_id);",
+                  "    console.log(\"Saved consignment_id:\", json.data.consignment_id);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"store_id\": {{store_id}},\n    \"merchant_order_id\": \"ORD-{{$timestamp}}\",\n    \"recipient_name\": \"Demo Recipient\",\n    \"recipient_phone\": \"01711223344\",\n    \"recipient_secondary_phone\": \"01511223344\",\n    \"recipient_address\": \"House 123, Road 4, Sector 10, Uttara, Dhaka-1230\",\n    \"recipient_city\": 1,\n    \"recipient_zone\": 1070,\n    \"recipient_area\": 37,\n    \"delivery_type\": 48,\n    \"item_type\": 2,\n    \"special_instruction\": \"Call before arrival\",\n    \"item_quantity\": 1,\n    \"item_weight\": 0.5,\n    \"item_description\": \"Apparel item\",\n    \"amount_to_collect\": 1200\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/aladdin/api/v1/orders",
+              "host": ["{{base_url}}"],
+              "path": ["aladdin", "api", "v1", "orders"]
+            }
+          }
+        },
+        {
+          "name": "Create Bulk Orders",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json; charset=UTF-8",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"orders\": [\n        {\n            \"store_id\": {{store_id}},\n            \"merchant_order_id\": \"ORD-B1-{{$timestamp}}\",\n            \"recipient_name\": \"Customer One\",\n            \"recipient_phone\": \"01711223344\",\n            \"recipient_address\": \"Uttara Sector 10, Dhaka\",\n            \"delivery_type\": 48,\n            \"item_type\": 2,\n            \"item_quantity\": 1,\n            \"item_weight\": 0.5,\n            \"amount_to_collect\": 900\n        },\n        {\n            \"store_id\": {{store_id}},\n            \"merchant_order_id\": \"ORD-B2-{{$timestamp}}\",\n            \"recipient_name\": \"Customer Two\",\n            \"recipient_phone\": \"01811223344\",\n            \"recipient_address\": \"Dhanmondi Road 27, Dhaka\",\n            \"delivery_type\": 48,\n            \"item_type\": 2,\n            \"item_quantity\": 1,\n            \"item_weight\": 0.5,\n            \"amount_to_collect\": 1400\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/aladdin/api/v1/orders/bulk",
+              "host": ["{{base_url}}"],
+              "path": ["aladdin", "api", "v1", "orders", "bulk"]
+            }
+          }
+        },
+        {
+          "name": "Get Order Short Info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/aladdin/api/v1/orders/{{consignment_id}}/info",
+              "host": ["{{base_url}}"],
+              "path": ["aladdin", "api", "v1", "orders", "{{consignment_id}}", "info"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
